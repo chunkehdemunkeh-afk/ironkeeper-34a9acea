@@ -37,6 +37,12 @@ export function isOnboardingComplete(userId: string): boolean {
   return getUserPreferences(userId)?.onboardingComplete === true;
 }
 
+/** Returns true if the user chose the Goalkeeper Programme split. */
+export function isGKSplit(userId: string): boolean {
+  return getUserPreferences(userId)?.splitId === "gk";
+}
+
+
 /**
  * Given the user's schedule and their workout history (most-recent first),
  * returns the next SavedSplitDay they should do.

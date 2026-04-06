@@ -3,9 +3,12 @@ import { Flame, Target, Timer } from "lucide-react";
 import { motion } from "framer-motion";
 import { useQuery } from "@tanstack/react-query";
 import { useAuth } from "@/hooks/useAuth";
+import { getUserPreferences } from "@/lib/user-preferences";
 
 export default function StatsBar() {
   const { user } = useAuth();
+  const prefs = user ? getUserPreferences(user.id) : null;
+  const weekGoal = prefs?.daysPerWeek ?? 4;
 
   const { data: history = [] } = useQuery({
     queryKey: ["workout-history", user?.id],
@@ -68,9 +71,9 @@ export default function StatsBar() {
     },
     {
       icon: Target,
-      value: `${thisWeek}/4`,
+      value: `${thisWeek}/${weekGoal}`,
       label: "This Week",
-      color: thisWeek >= 4 ? "text-success" : "text-foreground",
+      color: thisWeek >= weekGoal ? "text-success" : "text-foreground",
     },
     {
       icon: Timer,

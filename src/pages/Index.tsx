@@ -5,6 +5,7 @@ import WeekStrip from "@/components/WeekStrip";
 import NextSessionCard from "@/components/NextSessionCard";
 import StatsBar from "@/components/StatsBar";
 import DailyStretchCard from "@/components/DailyStretchCard";
+import { isGKSplit } from "@/lib/user-preferences";
 
 import { motion } from "framer-motion";
 import { supabase } from "@/integrations/supabase/client";
@@ -12,11 +13,12 @@ import { toast } from "sonner";
 
 const Index = () => {
   const { profile, user } = useAuth();
-  const displayName = profile?.display_name?.split(" ")[0] || "Keeper";
+  const displayName = profile?.display_name?.split(" ")[0] || "Athlete";
+  const gkMode = user ? isGKSplit(user.id) : false;
 
-  // Remind user to do daily stretches if not yet completed
+  // Remind GK users to do daily stretches if not yet completed
   useEffect(() => {
-    if (!user) return;
+    if (!user || !gkMode) return;
     const todayStr = new Date().toISOString().split("T")[0];
     const reminderKey = `stretch-reminder-shown-${todayStr}`;
     if (sessionStorage.getItem(reminderKey)) return;
@@ -36,7 +38,7 @@ const Index = () => {
       }
     }, 2000);
     return () => clearTimeout(timer);
-  }, [user]);
+  }, [user, gkMode]);
 
   const today = new Date();
   const dateStr = today.toLocaleDateString("en-GB", {
@@ -74,8 +76,8 @@ const Index = () => {
         {/* Next session */}
         <NextSessionCard />
 
-        {/* Daily stretching */}
-        <DailyStretchCard />
+        {/* Daily stretching — GK users only */}
+        {gkMode && <DailyStretchCard />}
 
       </div>
     </div>

@@ -1,6 +1,6 @@
 import {
   ArrowUp, ArrowDown, Footprints, User, Dumbbell,
-  Target, Trophy, Layers, Flame, Shield, Zap, Activity
+  Target, Trophy, Layers, Flame, Shield, Zap, Activity, Wind
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 
@@ -21,6 +21,21 @@ export type TrainingSplit = {
 };
 
 export const TRAINING_SPLITS: TrainingSplit[] = [
+  // ── Goalkeeper Programme ─────────────────────────────────────────────────
+  {
+    id: "gk",
+    name: "Goalkeeper Programme",
+    recommendedDays: [3, 4],
+    description: "The original IronKeeper programme. Explosive Power, Agility, GK Strength and Reflexes — built specifically for goalkeepers.",
+    tag: "GK Specific 🧤",
+    schedule: [
+      { label: "Explosive Power", workoutId: "power",    color: "from-amber-500/20 to-orange-500/10",   icon: Zap },
+      { label: "Agility",         workoutId: "agility",  color: "from-sky-500/20 to-cyan-500/10",       icon: Wind },
+      { label: "GK Strength",     workoutId: "strength", color: "from-blue-500/20 to-indigo-500/10",    icon: Dumbbell },
+      { label: "Reflexes",        workoutId: "reflexes", color: "from-fuchsia-500/20 to-violet-500/10", icon: Shield },
+    ],
+  },
+  // ── Standard Splits ──────────────────────────────────────────────────────
   {
     id: "ppl",
     name: "Push / Pull / Legs",
@@ -28,9 +43,9 @@ export const TRAINING_SPLITS: TrainingSplit[] = [
     description: "Classic hypertrophy split. Run once for 3 days or twice a week for 6. Hits each muscle group directly 2x/week.",
     tag: "Most Popular",
     schedule: [
-      { label: "Push", workoutId: "push", color: "from-red-500/20 to-rose-500/10", icon: ArrowUp },
+      { label: "Push", workoutId: "push", color: "from-red-500/20 to-rose-500/10",    icon: ArrowUp },
       { label: "Pull", workoutId: "pull", color: "from-blue-500/20 to-indigo-500/10", icon: ArrowDown },
-      { label: "Legs", workoutId: "legs", color: "from-green-500/20 to-lime-500/10", icon: Footprints },
+      { label: "Legs", workoutId: "legs", color: "from-green-500/20 to-lime-500/10",  icon: Footprints },
     ],
   },
   {
@@ -41,7 +56,7 @@ export const TRAINING_SPLITS: TrainingSplit[] = [
     tag: "Great for Strength",
     schedule: [
       { label: "Upper", workoutId: "upper", color: "from-yellow-500/20 to-amber-500/10", icon: User },
-      { label: "Lower", workoutId: "legs", color: "from-green-500/20 to-lime-500/10", icon: Footprints },
+      { label: "Lower", workoutId: "legs",  color: "from-green-500/20 to-lime-500/10",   icon: Footprints },
     ],
   },
   {
@@ -50,9 +65,9 @@ export const TRAINING_SPLITS: TrainingSplit[] = [
     recommendedDays: [4],
     description: "PPL with an extra upper body day. High frequency on chest, back and shoulders.",
     schedule: [
-      { label: "Push", workoutId: "push", color: "from-red-500/20 to-rose-500/10", icon: ArrowUp },
-      { label: "Pull", workoutId: "pull", color: "from-blue-500/20 to-indigo-500/10", icon: ArrowDown },
-      { label: "Legs", workoutId: "legs", color: "from-green-500/20 to-lime-500/10", icon: Footprints },
+      { label: "Push",  workoutId: "push",  color: "from-red-500/20 to-rose-500/10",    icon: ArrowUp },
+      { label: "Pull",  workoutId: "pull",  color: "from-blue-500/20 to-indigo-500/10", icon: ArrowDown },
+      { label: "Legs",  workoutId: "legs",  color: "from-green-500/20 to-lime-500/10",  icon: Footprints },
       { label: "Upper", workoutId: "upper", color: "from-yellow-500/20 to-amber-500/10", icon: User },
     ],
   },
@@ -62,11 +77,11 @@ export const TRAINING_SPLITS: TrainingSplit[] = [
     recommendedDays: [5],
     description: "High frequency 5-day split. Hit everything twice a week for maximum muscle stimulus.",
     schedule: [
-      { label: "Push", workoutId: "push", color: "from-red-500/20 to-rose-500/10", icon: ArrowUp },
-      { label: "Pull", workoutId: "pull", color: "from-blue-500/20 to-indigo-500/10", icon: ArrowDown },
-      { label: "Legs", workoutId: "legs", color: "from-green-500/20 to-lime-500/10", icon: Footprints },
-      { label: "Upper", workoutId: "upper", color: "from-yellow-500/20 to-amber-500/10", icon: User },
-      { label: "Lower", workoutId: "legs", color: "from-emerald-500/20 to-teal-500/10", icon: Footprints },
+      { label: "Push",  workoutId: "push",  color: "from-red-500/20 to-rose-500/10",      icon: ArrowUp },
+      { label: "Pull",  workoutId: "pull",  color: "from-blue-500/20 to-indigo-500/10",   icon: ArrowDown },
+      { label: "Legs",  workoutId: "legs",  color: "from-green-500/20 to-lime-500/10",    icon: Footprints },
+      { label: "Upper", workoutId: "upper", color: "from-yellow-500/20 to-amber-500/10",  icon: User },
+      { label: "Lower", workoutId: "legs",  color: "from-emerald-500/20 to-teal-500/10",  icon: Footprints },
     ],
   },
   {
@@ -85,9 +100,9 @@ export const TRAINING_SPLITS: TrainingSplit[] = [
     recommendedDays: [3, 6],
     description: "Chest+Back / Shoulders+Arms / Legs. High volume, classic bodybuilder approach made famous by Arnold Schwarzenegger.",
     schedule: [
-      { label: "Chest & Back", workoutId: "chest_back", color: "from-orange-500/20 to-amber-500/10", icon: Layers },
-      { label: "Shoulders & Arms", workoutId: "shoulders_arms", color: "from-purple-500/20 to-fuchsia-500/10", icon: Shield },
-      { label: "Legs", workoutId: "legs", color: "from-green-500/20 to-lime-500/10", icon: Footprints },
+      { label: "Chest & Back",      workoutId: "chest_back",    color: "from-orange-500/20 to-amber-500/10",  icon: Layers },
+      { label: "Shoulders & Arms",  workoutId: "shoulders_arms", color: "from-purple-500/20 to-fuchsia-500/10", icon: Shield },
+      { label: "Legs",              workoutId: "legs",           color: "from-green-500/20 to-lime-500/10",    icon: Footprints },
     ],
   },
   {
@@ -96,11 +111,11 @@ export const TRAINING_SPLITS: TrainingSplit[] = [
     recommendedDays: [5],
     description: "One muscle group per day. Maximum volume on each muscle. Classic old-school bodybuilding approach.",
     schedule: [
-      { label: "Chest", workoutId: "chest", color: "from-red-500/20 to-rose-500/10", icon: ArrowUp },
-      { label: "Back", workoutId: "back", color: "from-blue-500/20 to-indigo-500/10", icon: ArrowDown },
-      { label: "Shoulders", workoutId: "shoulders", color: "from-cyan-500/20 to-sky-500/10", icon: Zap },
-      { label: "Arms", workoutId: "arms", color: "from-fuchsia-500/20 to-pink-500/10", icon: Flame },
-      { label: "Legs", workoutId: "legs", color: "from-green-500/20 to-lime-500/10", icon: Footprints },
+      { label: "Chest",     workoutId: "chest",     color: "from-red-500/20 to-rose-500/10",     icon: ArrowUp },
+      { label: "Back",      workoutId: "back",      color: "from-blue-500/20 to-indigo-500/10",  icon: ArrowDown },
+      { label: "Shoulders", workoutId: "shoulders", color: "from-cyan-500/20 to-sky-500/10",     icon: Zap },
+      { label: "Arms",      workoutId: "arms",      color: "from-fuchsia-500/20 to-pink-500/10", icon: Flame },
+      { label: "Legs",      workoutId: "legs",      color: "from-green-500/20 to-lime-500/10",   icon: Footprints },
     ],
   },
   {
@@ -110,10 +125,10 @@ export const TRAINING_SPLITS: TrainingSplit[] = [
     description: "Wendler's proven powerlifting program built around the 4 main lifts. Focuses on progressive overload and long-term strength.",
     tag: "Powerlifting",
     schedule: [
-      { label: "Squat Day", workoutId: "squat", color: "from-amber-500/20 to-yellow-500/10", icon: Trophy },
-      { label: "Bench Day", workoutId: "bench", color: "from-red-500/20 to-rose-500/10", icon: ArrowUp },
-      { label: "Deadlift Day", workoutId: "deadlift", color: "from-slate-500/20 to-zinc-500/10", icon: Activity },
-      { label: "Press Day", workoutId: "press", color: "from-cyan-500/20 to-blue-500/10", icon: Dumbbell },
+      { label: "Squat Day",    workoutId: "squat",    color: "from-amber-500/20 to-yellow-500/10", icon: Trophy },
+      { label: "Bench Day",    workoutId: "bench",    color: "from-red-500/20 to-rose-500/10",     icon: ArrowUp },
+      { label: "Deadlift Day", workoutId: "deadlift", color: "from-slate-500/20 to-zinc-500/10",   icon: Activity },
+      { label: "Press Day",    workoutId: "press",    color: "from-cyan-500/20 to-blue-500/10",    icon: Dumbbell },
     ],
   },
   {
