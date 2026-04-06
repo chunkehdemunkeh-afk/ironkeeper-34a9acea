@@ -1,7 +1,7 @@
 import { useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { ChevronRight, ChevronLeft, Check, Shuffle } from "lucide-react";
+import { ChevronRight, ChevronLeft, Check, Shuffle, Dumbbell } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 import { TRAINING_SPLITS, getSplitsForDays, type TrainingSplit, type SplitDay } from "@/lib/training-splits";
 import { saveUserPreferences } from "@/lib/user-preferences";
@@ -73,7 +73,9 @@ export default function Onboarding() {
   // ── Save & finish ────────────────────────────────────────────────────────
   const handleFinish = () => {
     if (!user || !selectedSplit || !days) return;
-    const schedule = selectedSplit.id === "custom" ? customSchedule : selectedSplit.schedule;
+    const fullSchedule = selectedSplit.id === "custom" ? customSchedule : selectedSplit.schedule;
+    // Strip non-serializable icon functions before saving
+    const schedule = fullSchedule.map(({ label, workoutId }) => ({ label, workoutId }));
     saveUserPreferences(user.id, {
       onboardingComplete: true,
       daysPerWeek: days,
@@ -122,7 +124,7 @@ export default function Onboarding() {
               daysPerWeek: 3,
               splitId: "ppl",
               splitName: "Push / Pull / Legs",
-              schedule: TRAINING_SPLITS[0].schedule,
+              schedule: TRAINING_SPLITS[0].schedule.map(({ label, workoutId }) => ({ label, workoutId })),
             });
             navigate("/", { replace: true });
           }}
@@ -416,14 +418,14 @@ function StepSummary({
         <p className="text-[11px] font-semibold uppercase tracking-widest text-muted-foreground">Your rotation</p>
         {schedule.map((day, i) => {
           const workout = WORKOUTS.find((w) => w.id === day.workoutId);
-          const Icon = day.icon;
+          const Icon = workout?.icon ?? Dumbbell;
           return (
             <motion.div
               key={i}
               initial={{ opacity: 0, x: -15 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.15 + i * 0.07 }}
-              className={`glass-card rounded-xl p-3 flex items-center gap-3 bg-gradient-to-br ${day.color}`}
+              className={`glass-card rounded-xl p-3 flex items-center gap-3 bg-gradient-to-br ${workout?.color ?? "from-primary/10 to-primary/5"}`}
             >
               <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary/15 flex-shrink-0">
                 <Icon className="h-4 w-4 text-primary" />

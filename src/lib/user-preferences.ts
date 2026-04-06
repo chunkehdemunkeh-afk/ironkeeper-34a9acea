@@ -1,11 +1,15 @@
-import type { SplitDay } from "./training-splits";
+// Serializable schedule entry — NO icon/LucideIcon functions stored here
+export type SavedSplitDay = {
+  label: string;
+  workoutId: string;
+};
 
 export type UserPreferences = {
   onboardingComplete: boolean;
   daysPerWeek: number;
   splitId: string;
   splitName: string;
-  schedule: SplitDay[];        // the ordered rotation of workouts
+  schedule: SavedSplitDay[];   // only serializable data
 };
 
 function getKey(userId: string) {
@@ -35,16 +39,14 @@ export function isOnboardingComplete(userId: string): boolean {
 
 /**
  * Given the user's schedule and their workout history (most-recent first),
- * returns the next SplitDay they should do.
+ * returns the next SavedSplitDay they should do.
  */
 export function getNextSplitDay(
-  schedule: SplitDay[],
+  schedule: SavedSplitDay[],
   recentWorkoutIds: string[]
-): { next: SplitDay; nextIndex: number } {
+): { next: SavedSplitDay; nextIndex: number } {
   if (schedule.length === 0) return { next: schedule[0], nextIndex: 0 };
 
-  // Walk backwards through history to find the most recent workout that
-  // matches one of the schedule workoutIds
   for (const workoutId of recentWorkoutIds) {
     const doneIndex = schedule.findIndex((d) => d.workoutId === workoutId);
     if (doneIndex !== -1) {

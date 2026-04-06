@@ -103,7 +103,8 @@ export default function NextSessionCard() {
       {/* Rotation pills */}
       <div className="flex gap-1.5 overflow-x-auto pb-1 scrollbar-hide mb-3">
         {prefs.schedule.map((day, i) => {
-          const DayIcon = day.icon;
+          const dayWorkout = allWorkouts.find((w) => w.id === day.workoutId);
+          const DayIcon = dayWorkout?.icon;
           const isCurrent = day.workoutId === nextWorkout?.id;
           return (
             <div
@@ -114,7 +115,7 @@ export default function NextSessionCard() {
                   : "bg-muted/50 text-muted-foreground"
               }`}
             >
-              <DayIcon className="h-2.5 w-2.5" />
+              {DayIcon && <DayIcon className="h-2.5 w-2.5" />}
               {day.label}
             </div>
           );
