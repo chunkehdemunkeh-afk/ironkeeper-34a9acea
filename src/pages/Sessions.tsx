@@ -1,13 +1,125 @@
 import { WORKOUTS } from "@/lib/workout-data";
 import { getAllCustomWorkouts } from "@/pages/WorkoutBuilder";
 import { useNavigate } from "react-router-dom";
-import { ChevronRight, Plus, Shield, Zap, Wind, Crosshair } from "lucide-react";
+import { ChevronRight, Plus, Dumbbell, Zap, Wind, Shield, Crosshair, ArrowUp, ArrowDown, Footprints, Layers, Flame, Trophy, Activity, Target } from "lucide-react";
 import { motion } from "framer-motion";
+import { useAuth } from "@/hooks/useAuth";
+import { getUserPreferences } from "@/lib/user-preferences";
+import type { LucideIcon } from "lucide-react";
+
+type ProgrammePoint = { icon: LucideIcon; title: string; desc: string };
+
+const PROGRAMME_INFO: Record<string, { title: string; points: ProgrammePoint[] }> = {
+  gk: {
+    title: "Goalkeeper Programme",
+    points: [
+      { icon: Shield,    title: "Goalkeeper-First",    desc: "Every exercise directly improves diving, jumping, catching, and throwing — the core skills of a goalkeeper." },
+      { icon: Zap,       title: "Explosive Power",     desc: "Box jumps, depth jumps, and plyometrics to develop the fast-twitch muscles needed for shot-stopping." },
+      { icon: Wind,      title: "Agility & Reaction",  desc: "Lateral drills, T-drills, and reaction work to sharpen footwork and reflexes in the goal." },
+      { icon: Crosshair, title: "Injury Prevention",   desc: "Nordic curls, Copenhagen adductors, and dead bugs to bulletproof knees, groin, and core." },
+    ],
+  },
+  ppl: {
+    title: "Push / Pull / Legs",
+    points: [
+      { icon: ArrowUp,   title: "Train to Failure",    desc: "Every working set pushed to 0–1 RIR. Maximal mechanical tension drives the most muscle growth." },
+      { icon: ArrowDown, title: "Frequency First",     desc: "Run once for 3 days or twice a week for 6. Hitting each muscle 2× weekly outperforms once-a-week splits." },
+      { icon: Footprints,title: "Balanced Development",desc: "No muscle left behind — pressing, rowing, and leg work all hit twice per week in a single rotation." },
+      { icon: Flame,     title: "Progressive Overload", desc: "Log every session and add weight or reps each week. That's the entire game." },
+    ],
+  },
+  upper_lower: {
+    title: "Upper / Lower",
+    points: [
+      { icon: ArrowUp,   title: "Twice a Week",        desc: "Upper and lower body each trained twice. Optimal balance of frequency, volume, and recovery." },
+      { icon: ArrowDown, title: "Strength Foundation", desc: "Built around compound movements: bench, row, squat, Romanian deadlift. Add isolation work on top." },
+      { icon: Shield,    title: "Injury Resilience",   desc: "Lower frequency per session means better form, heavier weights, and lower injury risk." },
+      { icon: Zap,       title: "Flexible Rest Days",  desc: "Works with any 4-day schedule. Train Mon/Tue/Thu/Fri or any split that fits your week." },
+    ],
+  },
+  pplu: {
+    title: "Push / Pull / Legs / Upper",
+    points: [
+      { icon: ArrowUp,   title: "Upper Body Priority", desc: "An extra upper day on top of PPL gives more frequency on chest, back, and shoulders." },
+      { icon: ArrowDown, title: "High Intensity",      desc: "Train at RIR 0–2. Push close to failure every set for maximum stimulus." },
+      { icon: Footprints,title: "Leg Volume Managed",  desc: "Legs get one dedicated session — plenty of volume without overtraining the hardest muscle group." },
+      { icon: Flame,     title: "4-Day Sweet Spot",    desc: "Four days hits the optimal frequency:recovery ratio for most intermediate lifters." },
+    ],
+  },
+  pplul: {
+    title: "Push / Pull / Legs / Upper / Lower",
+    points: [
+      { icon: Zap,       title: "Maximum Frequency",   desc: "5 days, every muscle group hit 2×/week. The highest stimulus you can sustain without overreaching." },
+      { icon: ArrowUp,   title: "Train to Failure",    desc: "0–1 RIR on all working sets. High intensity meets high frequency." },
+      { icon: Shield,    title: "Structured Recovery", desc: "Alternating push/pull/legs/upper/lower means no two back-to-back sessions hammer the same muscles." },
+      { icon: Flame,     title: "Advanced Athletes",   desc: "Best suited to lifters with 2+ years of consistent training who can manage 5 sessions a week." },
+    ],
+  },
+  fullbody: {
+    title: "Full Body",
+    points: [
+      { icon: Target,    title: "Whole Body Each Time",desc: "Train every major muscle group every session. Maximum frequency, minimum sessions." },
+      { icon: Shield,    title: "Great for Beginners", desc: "Allows the nervous system to practice every movement pattern more often, speeding up skill acquisition." },
+      { icon: Zap,       title: "Busy Schedule",       desc: "2–3 sessions a week is all it takes. Fits around work, family, and everything else in your life." },
+      { icon: Flame,     title: "Compound-Led",        desc: "Squat, hinge, push, pull — big movements first. Isolation work added to taste." },
+    ],
+  },
+  arnold: {
+    title: "Arnold Split",
+    points: [
+      { icon: Layers,    title: "Chest & Back Together", desc: "Pairing antagonist muscles in one session allows more volume through natural supersets." },
+      { icon: ArrowUp,   title: "Shoulders & Arms",   desc: "Dedicated arm day maximises pump and volume on smaller muscle groups that get left behind in PPL." },
+      { icon: Footprints,title: "Legs Complete It",   desc: "Quad, hamstring, and calf volume rounded out on leg day. Classic bodybuilding structure." },
+      { icon: Flame,     title: "6-Day High Volume",  desc: "Run the 3-day rotation twice per week for maximum bodybuilder-style volume. Arnold's original method." },
+    ],
+  },
+  bro: {
+    title: "Bro Split",
+    points: [
+      { icon: ArrowUp,   title: "One Muscle, Max Volume", desc: "Dedicate an entire session to one muscle. 15–25 sets in a single workout for maximum pump and soreness." },
+      { icon: Flame,     title: "Slow Eccentrics",    desc: "Control the negative — 3–4 seconds down. More time under tension = more growth." },
+      { icon: Shield,    title: "Full Recovery",      desc: "6 days between sessions on the same muscle. Hit it hard and let it fully recover before the next round." },
+      { icon: Zap,       title: "Old-School Proven",  desc: "The split that built the physiques of the 70s and 80s greats. Volume and isolation work." },
+    ],
+  },
+  "531": {
+    title: "5/3/1 Strength",
+    points: [
+      { icon: Trophy,    title: "AMRAP is Everything", desc: "Your last set each week is all-out. These reps are your progress marker and training max calculator." },
+      { icon: Activity,  title: "Training Max",        desc: "Start at 90% of your actual 1RM. Progresses slowly but consistently — the safest way to add strength." },
+      { icon: Dumbbell,  title: "The Big 4",           desc: "Squat, bench, deadlift, and overhead press. Everything else is accessory work. Simple and effective." },
+      { icon: Flame,     title: "Long-Term Thinking",  desc: "5/3/1 is built for a decade, not a month. Slow progress that actually sticks." },
+    ],
+  },
+  custom: {
+    title: "Custom Split",
+    points: [
+      { icon: Zap,       title: "Built by You",        desc: "You chose the exercises, the order, and the days. This programme is entirely yours." },
+      { icon: Shield,    title: "Flexible",             desc: "Change any day at any time via the workout builder. Adapt as your goals evolve." },
+      { icon: Flame,     title: "Track Everything",    desc: "All your sets, reps, and weights are logged just like any preset programme." },
+      { icon: Target,    title: "No Rules",             desc: "Train for strength, size, endurance, or all three. Your stats, your way." },
+    ],
+  },
+};
+
+const DEFAULT_PROGRAMME: { title: string; points: ProgrammePoint[] } = {
+  title: "Your Programme",
+  points: [
+    { icon: Zap,    title: "Train Hard",       desc: "Every session logged brings you one step closer to your goal." },
+    { icon: Flame,  title: "Stay Consistent",  desc: "Consistency beats intensity over the long run. Show up." },
+    { icon: Shield, title: "Recover Well",     desc: "Sleep, eat enough protein, and rest between sessions." },
+    { icon: Target, title: "Track Progress",   desc: "Log your sets and weights to know when to add load." },
+  ],
+};
 
 export default function Sessions() {
   const navigate = useNavigate();
+  const { user } = useAuth();
+  const prefs = user ? getUserPreferences(user.id) : null;
   const customWorkouts = getAllCustomWorkouts();
   const allWorkouts = [...WORKOUTS, ...customWorkouts];
+
+  const progInfo = prefs ? (PROGRAMME_INFO[prefs.splitId] ?? DEFAULT_PROGRAMME) : DEFAULT_PROGRAMME;
 
   return (
     <div className="min-h-screen bg-background safe-bottom">
@@ -73,18 +185,13 @@ export default function Sessions() {
           })}
         </div>
 
-        {/* Programme info */}
+        {/* Programme info — dynamic per user's split */}
         <div className="glass-card rounded-2xl p-5 space-y-4">
           <h2 className="font-display text-lg font-bold flex items-center gap-2">
-            <Shield className="h-5 w-5 text-primary" />
+            <Dumbbell className="h-5 w-5 text-primary" />
             About This Programme
           </h2>
-          {[
-            { icon: Shield, title: "Goalkeeper-First", desc: "Every exercise directly improves diving, jumping, catching, and throwing — the core skills of a goalkeeper." },
-            { icon: Zap, title: "Explosive Power", desc: "Box jumps, depth jumps, and plyometrics to develop the fast-twitch muscles needed for shot-stopping." },
-            { icon: Wind, title: "Agility & Reaction", desc: "Lateral drills, T-drills, and reaction work to sharpen footwork and reflexes in the goal." },
-            { icon: Crosshair, title: "Injury Prevention", desc: "Nordic curls, Copenhagen adductors, and dead bugs to bulletproof knees, groin, and core." },
-          ].map((item) => {
+          {progInfo.points.map((item) => {
             const ItemIcon = item.icon;
             return (
               <div key={item.title} className="flex gap-3">
