@@ -1,0 +1,215 @@
+// Mapping of exercise IDs to specific YouTube Shorts URLs
+export const EXERCISE_VIDEOS: Record<string, string> = {
+  // Power day
+  pw1: "https://www.youtube.com/shorts/qgaEIQVyrf4", // Box Jumps
+  pw2: "https://www.youtube.com/shorts/F7aUrzFurgI", // Depth Jumps
+  pw3: "https://www.youtube.com/shorts/uuIJroNfvdQ", // Med Ball Slam
+  pw4: "https://www.youtube.com/shorts/U1F5uebdUcw", // Single-Leg Broad Jump
+  pw5: "https://www.youtube.com/shorts/2gXtvqLa_T8", // Kettlebell Swing
+  pw7: "https://www.youtube.com/shorts/pTm9T-5f7go", // Lateral Bounds (power session)
+  pw6: "https://www.youtube.com/shorts/QcAAKuEgYjw", // Plyo Push-Up
+
+  // Agility day
+  ag1: "https://www.youtube.com/shorts/mziPKITnPeQ", // Lateral Shuffle (using full video as short fallback)
+  ag2: "https://www.youtube.com/shorts/cq4IKjEDo-I", // T-Drill
+  ag3: "https://www.youtube.com/shorts/dUyeXRGqheU", // Ladder Drills
+  ag4: "https://www.youtube.com/shorts/pTm9T-5f7go", // Lateral Bound
+  ag5: "https://www.youtube.com/shorts/CxXGQm2iPzE", // Reactive Ball Drop
+  ag6: "https://www.youtube.com/shorts/574s1aI8UYA", // Carioca / Grapevine
+
+  // Strength day
+  st1: "https://www.youtube.com/shorts/eLX_dyvooKQ", // Goblet Squat
+  st2: "https://www.youtube.com/shorts/5rIqP63yWFg", // Romanian Deadlift (DB)
+  st3: "https://www.youtube.com/shorts/lG3MsPmEQQk", // Bulgarian Split Squat
+  st4: "https://www.youtube.com/shorts/PM23l_EVxYc", // Nordic Hamstring Curl
+  st5: "https://www.youtube.com/shorts/tgK5r1no_BU", // Copenhagen Adductor
+  st6: "https://www.youtube.com/shorts/EuGET6mZNQc", // Dead Bug
+
+  // Reflexes day
+  rf1: "https://www.youtube.com/shorts/PhxzbdElDnM", // Med Ball Chest Pass
+  rf2: "https://www.youtube.com/shorts/i81dMdueu9k", // Face Pulls
+  rf3: "https://www.youtube.com/shorts/1uOs1hP3u4A", // Farmer's Walk
+  rf4: "https://www.youtube.com/shorts/q6pcmxeWELc", // Wrist Curls (DB)
+  rf5: "https://www.youtube.com/shorts/OLePvpxQEGk", // Overhead DB Press
+  rf6: "https://www.youtube.com/shorts/Ki-H6D3gvco", // Plank Shoulder Taps
+
+  // Push day
+  pu1: "https://www.youtube.com/shorts/PiJQPOiMua4", // 45° Incline Dumbbell Bench Press (65K views)
+  pu2: "https://www.youtube.com/shorts/OLePvpxQEGk", // Dumbbell Lateral Raises (Davis Diley 4M views)
+  pu3: "https://www.youtube.com/shorts/ou6s32mJgjU", // 15° Incline Dumbbell Bench Press
+  pu4: "https://www.youtube.com/shorts/atcyT99YDeI", // Flat Dumbbell Flies (Mind Pump 518K views)
+  pu5: "https://www.youtube.com/shorts/aHfbuBf1TJk", // X-Over Cable Tricep Extensions
+  pu6: "https://www.youtube.com/shorts/NTk0Igxqcsk", // Single Arm Overhead Cable Tricep Extensions (DeltaBolic 3.4M views)
+
+  // Pull day
+  pl1: "https://www.youtube.com/shorts/7PE3MlvGAts", // Seated Row Machine
+  pl2: "https://www.youtube.com/shorts/DgyslsszCQ0", // T-Bar Row
+  pl3: "https://www.youtube.com/shorts/z-lxcsIN4T4", // Lat Pull Down - Pronated Grip (Davis Diley 2.7M views)
+  pl4: "https://www.youtube.com/shorts/c44hwGS-peY", // Single Arm Cross Body Reverse Fly (DeltaBolic 177K views)
+  pl5: "https://www.youtube.com/shorts/0y4tdUNPdlE", // Dumbbell Preacher Curls
+  pl6: "https://www.youtube.com/shorts/NyW2fT2gQhM", // Dumbbell Preacher Hammer Curls
+
+  // Legs day
+  lg1: "https://www.youtube.com/shorts/d6sg829PgNs", // Laying Hamstring Curl (KevTheTrainer 66K views)
+  lg2: "https://www.youtube.com/shorts/OVd1pq1cAvE", // Barbell RDL
+  lg3: "https://www.youtube.com/shorts/uODWo4YqbT8", // Dumbbell Split Squat (Davis Diley 5.7M views)
+  lg4: "https://www.youtube.com/shorts/lRYBbchqxtI", // Goblet Squat (SquatCouple 2.8M views)
+  lg5: "https://www.youtube.com/shorts/Tae3aeJe5Ks", // Leg Extension (DeltaBolic 309K views)
+  lg6: "https://www.youtube.com/shorts/baEXLy09Ncc", // Seated Calf Raise (Jeff Nippard 8.8M views)
+
+  // Upper day
+  up1: "https://www.youtube.com/shorts/7PE3MlvGAts", // Seated Cable Row - V Bar
+  up2: "https://www.youtube.com/shorts/z-lxcsIN4T4", // Lat Pull Down - V Bar
+  up3: "https://www.youtube.com/shorts/SidmT09GXz8", // Flat Dumbbell Bench Press
+  up4: "https://www.youtube.com/shorts/dTe9CB9Zous", // Cable Flies To Thighs
+  up5: "https://www.youtube.com/shorts/6v4nrRVySj0", // Converging Shoulder Press Machine (DeltaBolic 3.2M views)
+  up6: "https://www.youtube.com/shorts/0y4tdUNPdlE", // Dumbbell Preacher Curls
+  up7: "https://www.youtube.com/shorts/NyW2fT2gQhM", // Dumbbell Preacher Hammer Curls
+  up8: "https://www.youtube.com/shorts/aHfbuBf1TJk", // Tricep Push Down - Rope
+
+  // ── Substitute exercises ──
+
+  // Power subs
+  "sub-pw1a": "https://www.youtube.com/shorts/EY3bzgv2SYo", // Squat Jumps
+  "sub-pw1b": "https://www.youtube.com/shorts/8hAAvGLLMcs", // Tuck Jumps
+  "sub-pw2a": "https://www.youtube.com/shorts/F7aUrzFurgI", // Drop Jumps
+  "sub-pw2b": "https://www.youtube.com/shorts/UO2GnmaJK10", // Hurdle Hops
+  "sub-pw3a": "https://www.youtube.com/shorts/tieSjR7OkIg", // Med Ball Overhead Throw
+  "sub-pw3b": "https://www.youtube.com/shorts/hbnfwP0Zr7U", // Battle Rope Slams
+  "sub-pw4a": "https://www.youtube.com/shorts/EY3bzgv2SYo", // Single-Leg Box Jump
+  "sub-pw4b": "https://www.youtube.com/shorts/UO2GnmaJK10", // Bounding
+  "sub-pw7a": "https://www.youtube.com/shorts/IASI5JQsH6E", // Skater Jumps
+  "sub-pw7b": "https://www.youtube.com/shorts/UO2GnmaJK10", // Lateral Hurdle Hops
+  "sub-pw5a": "https://www.youtube.com/shorts/2gXtvqLa_T8", // Dumbbell Swing
+  "sub-pw5b": "https://www.youtube.com/shorts/xW3FwDQ59ms", // Kettlebell Clean
+  "sub-pw6a": "https://www.youtube.com/shorts/QcAAKuEgYjw", // Clap Push-Up
+  "sub-pw6b": "https://www.youtube.com/shorts/QcAAKuEgYjw", // Med Ball Push-Up
+
+  // Agility subs
+  "sub-ag1a": "https://www.youtube.com/shorts/mziPKITnPeQ", // Defensive Slide
+  "sub-ag1b": "https://www.youtube.com/shorts/6h3TVFPTSQo", // Lateral Band Walk
+  "sub-ag2a": "https://www.youtube.com/shorts/cq4IKjEDo-I", // 5-10-5 Pro Agility
+  "sub-ag2b": "https://www.youtube.com/shorts/cq4IKjEDo-I", // L-Drill
+  "sub-ag3a": "https://www.youtube.com/shorts/Aw7F4FlDXek", // Quick Feet Taps
+  "sub-ag3b": "https://www.youtube.com/shorts/dUyeXRGqheU", // Dot Drill
+  "sub-ag4a": "https://www.youtube.com/shorts/IASI5JQsH6E", // Skater Jumps
+  "sub-ag4b": "https://www.youtube.com/shorts/pTm9T-5f7go", // Single-Leg Lateral Hop
+  "sub-ag5a": "https://www.youtube.com/shorts/CxXGQm2iPzE", // Reaction Light Drill
+  "sub-ag5b": "https://www.youtube.com/shorts/CxXGQm2iPzE", // Mirror Drill
+  "sub-ag6a": "https://www.youtube.com/shorts/574s1aI8UYA", // Side Shuffle with Cross-Over
+  "sub-ag6b": "https://www.youtube.com/shorts/_Pe-FXjAc-s", // Hip Circle Walk
+
+  // Strength subs
+  "sub-st1a": "https://www.youtube.com/shorts/4n9HM7VabC0", // Dumbbell Front Squat
+  "sub-st1b": "https://www.youtube.com/shorts/eLX_dyvooKQ", // Kettlebell Goblet Squat
+  "sub-st2a": "https://www.youtube.com/shorts/MeV_WFmvBCU", // Single-Leg Dumbbell RDL
+  "sub-st2b": "https://www.youtube.com/shorts/2VDjb79F1G4", // Dumbbell Stiff-Leg Deadlift
+  "sub-st3a": "https://www.youtube.com/shorts/ljZA17b52FE", // Reverse Lunge (DB)
+  "sub-st3b": "https://www.youtube.com/shorts/5ksu8nrdVIE", // Step-Up (DB)
+  "sub-st4a": "https://www.youtube.com/shorts/wWBxI_lxeS0", // Slider Leg Curl
+  "sub-st4b": "https://www.youtube.com/shorts/Lh3iMIcbkBQ", // Swiss Ball Hamstring Curl
+  "sub-st5a": "https://www.youtube.com/shorts/Am2z100dcSA", // Side-Lying Adductor Raise
+  "sub-st5b": "https://www.youtube.com/shorts/vzGnKI2PI78", // Cable Hip Adduction
+  "sub-st6a": "https://www.youtube.com/shorts/wh2spJeDDQs", // Bird Dog
+  "sub-st6b": "https://www.youtube.com/shorts/dHxa57kBAmc", // Pallof Press
+
+  // Reflexes subs
+  "sub-rf1a": "https://www.youtube.com/shorts/tieSjR7OkIg", // Med Ball Rotational Throw
+  "sub-rf1b": "https://www.youtube.com/shorts/PhxzbdElDnM", // Med Ball Push Pass
+  "sub-rf2a": "https://www.youtube.com/shorts/MpyEGXCLS8M", // Band Pull-Apart
+  "sub-rf2b": "https://www.youtube.com/shorts/5TBjG5xuPa4", // Prone Y-Raise
+  "sub-rf3a": "https://www.youtube.com/shorts/dOCQjaasbGs", // Dead Hang
+  "sub-rf3b": "https://www.youtube.com/shorts/1uOs1hP3u4A", // Plate Pinch Walk
+  "sub-rf4a": "https://www.youtube.com/shorts/shqAI51IP74", // Reverse Wrist Curls (DB)
+  "sub-rf4b": "https://www.youtube.com/shorts/VWhOEXw-BM4", // Wrist Roller
+  "sub-rf5a": "https://www.youtube.com/shorts/k6tzKisR3NY", // Arnold Press
+  "sub-rf5b": "https://www.youtube.com/shorts/k6tzKisR3NY", // Seated Dumbbell Press
+  "sub-rf6a": "https://www.youtube.com/shorts/fgSyNdEsqlM", // Renegade Row
+  "sub-rf6b": "https://www.youtube.com/shorts/Ki-H6D3gvco", // Bear Crawl
+
+  // Push subs
+  "sub-pu1a": "https://www.youtube.com/shorts/98HWfiRonkE", // Incline Barbell Bench Press
+  "sub-pu1b": "https://www.youtube.com/shorts/98HWfiRonkE", // Incline Smith Machine Press
+  "sub-pu2a": "https://www.youtube.com/shorts/f_OGBg2KxgY", // Cable Lateral Raise
+  "sub-pu2b": "https://www.youtube.com/shorts/dybxZJaWxCY", // Machine Lateral Raise
+  "sub-pu3a": "https://www.youtube.com/shorts/98HWfiRonkE", // Low Incline Barbell Bench Press
+  "sub-pu3b": "https://www.youtube.com/shorts/8fXfwG4ftaQ", // Incline Dumbbell Squeeze Press
+  "sub-pu4a": "https://www.youtube.com/shorts/I-Ue34qLxc4", // Cable Crossover Flies
+  "sub-pu4b": "https://www.youtube.com/shorts/a9vQ_hwIksU", // Pec Deck Machine
+  "sub-pu5a": "https://www.youtube.com/shorts/7OF77JMEXhM", // Tricep Rope Pushdown
+  "sub-pu5b": "https://www.youtube.com/shorts/bQuF1xOTIr0", // Straight Bar Pushdown
+  "sub-pu6a": "https://www.youtube.com/shorts/b_r_LW4HEcM", // Overhead Dumbbell Tricep Extension
+  "sub-pu6b": "https://www.youtube.com/shorts/sah-sHCZDS0", // Cable Kickback
+
+  // Pull subs
+  "sub-pl1a": "https://www.youtube.com/shorts/7PE3MlvGAts", // Cable Seated Row - Wide Grip
+  "sub-pl1b": "https://www.youtube.com/shorts/7PE3MlvGAts", // Chest-Supported Row Machine
+  "sub-pl2a": "https://www.youtube.com/shorts/Nqh7q3zDCoQ", // Barbell Bent-Over Row
+  "sub-pl2b": "https://www.youtube.com/shorts/DgyslsszCQ0", // Meadows Row
+  "sub-pl3a": "https://www.youtube.com/shorts/z-lxcsIN4T4", // Lat Pull Down - Supinated Grip
+  "sub-pl3b": "https://www.youtube.com/shorts/AMR2l17Sm6M", // Straight-Arm Pulldown
+  "sub-pl4a": "https://www.youtube.com/shorts/QfDqL93fr3A", // Cable Reverse Fly
+  "sub-pl4b": "https://www.youtube.com/shorts/JeSlI2s4XfM", // Bent-Over Dumbbell Reverse Fly
+  "sub-pl5a": "https://www.youtube.com/shorts/0y4tdUNPdlE", // EZ Bar Preacher Curl
+  "sub-pl5b": "https://www.youtube.com/shorts/0y4tdUNPdlE", // Machine Preacher Curl
+  "sub-pl6a": "https://www.youtube.com/shorts/NyW2fT2gQhM", // Cross-Body Hammer Curl
+  "sub-pl6b": "https://www.youtube.com/shorts/NyW2fT2gQhM", // Rope Hammer Curl (Cable)
+
+  // Legs subs
+  "sub-lg1a": "https://www.youtube.com/shorts/pasQYajR_eI", // Seated Hamstring Curl
+  "sub-lg1b": "https://www.youtube.com/shorts/d6sg829PgNs", // Single-Leg Lying Curl
+  "sub-lg2a": "https://www.youtube.com/shorts/5rIqP63yWFg", // Dumbbell RDL
+  "sub-lg2b": "https://www.youtube.com/shorts/OVd1pq1cAvE", // Trap Bar RDL
+  "sub-lg3a": "https://www.youtube.com/shorts/_lSFEA3uYYo", // Walking Lunges (DB)
+  "sub-lg3b": "https://www.youtube.com/shorts/ljZA17b52FE", // Reverse Lunge (DB)
+  "sub-lg4a": "https://www.youtube.com/shorts/lRYBbchqxtI", // Box Squat (DB/KB)
+  "sub-lg4b": "https://www.youtube.com/shorts/nDh_BlnLCGc", // Leg Press (Narrow Stance)
+  "sub-lg5a": "https://www.youtube.com/shorts/2SZfFBglqT0", // Sissy Squat
+  "sub-lg5b": "https://www.youtube.com/shorts/Tae3aeJe5Ks", // Single-Leg Extension
+  "sub-lg6a": "https://www.youtube.com/shorts/yQZDGjL-xT4", // Standing Calf Raise
+  "sub-lg6b": "https://www.youtube.com/shorts/baEXLy09Ncc", // Single-Leg Calf Raise (DB)
+
+  // Upper subs
+  "sub-up1a": "https://www.youtube.com/shorts/7PE3MlvGAts", // Seated Cable Row - Wide Grip
+  "sub-up1b": "https://www.youtube.com/shorts/7PE3MlvGAts", // Chest-Supported Dumbbell Row
+  "sub-up2a": "https://www.youtube.com/shorts/z-lxcsIN4T4", // Close-Grip Lat Pulldown
+  "sub-up2b": "https://www.youtube.com/shorts/eKJUJ2eFPUY", // Single-Arm Cable Pulldown
+  "sub-up3a": "https://www.youtube.com/shorts/hWbUlkb5Ms4", // Flat Barbell Bench Press
+  "sub-up3b": "https://www.youtube.com/shorts/UBmpZ7l5Nlk", // Dumbbell Floor Press
+  "sub-up4a": "https://www.youtube.com/shorts/atcyT99YDeI", // Decline Dumbbell Flies
+  "sub-up4b": "https://www.youtube.com/shorts/dTe9CB9Zous", // Dip Machine (Chest Focus)
+  "sub-up5a": "https://www.youtube.com/shorts/k6tzKisR3NY", // Dumbbell Shoulder Press
+  "sub-up5b": "https://www.youtube.com/shorts/6v4nrRVySj0", // Smith Machine Shoulder Press
+  "sub-up6a": "https://www.youtube.com/shorts/0y4tdUNPdlE", // EZ Bar Preacher Curl
+  "sub-up6b": "https://www.youtube.com/shorts/0y4tdUNPdlE", // Machine Preacher Curl
+  "sub-up7a": "https://www.youtube.com/shorts/NyW2fT2gQhM", // Cross-Body Hammer Curl
+  "sub-up7b": "https://www.youtube.com/shorts/NyW2fT2gQhM", // Rope Hammer Curl (Cable)
+  "sub-up8a": "https://www.youtube.com/shorts/mMVRVk0aPt4", // Tricep Push Down - V Bar
+  "sub-up8b": "https://www.youtube.com/shorts/b_r_LW4HEcM", // Dumbbell Skull Crusher
+
+  // Accessory — Abs
+  "acc-abs1": "https://www.youtube.com/shorts/AV5PmrSBbUY", // Cable Crunches
+  "acc-abs2": "https://www.youtube.com/shorts/7R5IJUbEKs0", // Russian Twists
+  "sub-abs1a": "https://www.youtube.com/shorts/bP4PGEkuaYc", // Hanging Knee Raises
+  "sub-abs1b": "https://www.youtube.com/shorts/rqiTPl09RoE", // Ab Wheel Rollouts
+  "sub-abs2a": "https://www.youtube.com/shorts/9FGilxCbdz8", // Bicycle Crunches
+  "sub-abs2b": "https://www.youtube.com/shorts/V4jedisxPRA", // Woodchoppers
+
+  // Accessory — Grip
+  "acc-grip1": "https://www.youtube.com/shorts/bfWzFmhB4BA", // Pinch Grip Plate Holds
+  "acc-grip2": "https://www.youtube.com/shorts/2gXtvqLa_T8", // Farmer's Walk
+  "sub-grip1a": "https://www.youtube.com/shorts/Uj1PxFfOfCA", // Towel Hang
+  "sub-grip1b": "https://www.youtube.com/shorts/bfWzFmhB4BA", // Fat Gripz Holds
+  "sub-grip2a": "https://www.youtube.com/shorts/dOCQjaasbGs", // Dead Hang
+  "sub-grip2b": "https://www.youtube.com/shorts/AGx-t3wqmo8", // Plate Curls
+};
+
+// Get YouTube Short URL for an exercise, with fallback to search
+export function getExerciseVideoUrl(exerciseId: string, exerciseName: string): string {
+  if (EXERCISE_VIDEOS[exerciseId]) {
+    return EXERCISE_VIDEOS[exerciseId];
+  }
+  // Fallback for custom exercises: YouTube search
+  const query = encodeURIComponent(`${exerciseName} exercise form tutorial short`);
+  return `https://www.youtube.com/results?search_query=${query}&sp=EgIYAQ%253D%253D`;
+}

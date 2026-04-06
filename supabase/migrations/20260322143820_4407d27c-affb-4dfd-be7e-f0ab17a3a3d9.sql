@@ -1,0 +1,1 @@
+CREATE POLICY "Users can delete their own sets" ON public.workout_sets FOR DELETE TO public USING (auth.uid() = user_id);

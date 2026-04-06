@@ -1,0 +1,1 @@
+UPDATE public.profiles SET display_name = 'Jonathan Jeremiah' WHERE user_id = '343564b2-7cce-4f0c-bd78-649d2676d6b0';
