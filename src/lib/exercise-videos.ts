@@ -290,6 +290,161 @@ export const EXERCISE_VIDEOS: Record<string, string> = {
   am4: "https://www.youtube.com/shorts/4yKLxOsrGfg", // Close-Grip Bench Press
   am5: "https://www.youtube.com/shorts/NyW2fT2gQhM", // Dumbbell Preacher Hammer Curls (reuse pl6)
   am6: "https://www.youtube.com/shorts/aHfbuBf1TJk", // Tricep Push Down - Rope (reuse up8)
+
+  // ── New substitute videos ─────────────────────────────────────────────────
+  // Full Body subs
+  "sub-fb1a": "https://www.youtube.com/shorts/eLX_dyvooKQ", // Goblet Squat (reuse st1)
+  "sub-fb1b": "https://www.youtube.com/shorts/nDh_BlnLCGc", // Leg Press (reuse sub-lg4b)
+  "sub-fb2a": "https://www.youtube.com/shorts/MeV_WFmvBCU", // Single-Leg DB RDL (reuse sub-st2a)
+  "sub-fb2b": "https://www.youtube.com/shorts/2VDjb79F1G4", // Good Morning (reuse sub-st2b style)
+  "sub-fb3a": "https://www.youtube.com/shorts/SidmT09GXz8", // Flat DB Bench Press (reuse up3)
+  "sub-fb3b": "https://www.youtube.com/shorts/QcAAKuEgYjw", // Push-Ups (reuse pw6)
+  "sub-fb4a": "https://www.youtube.com/shorts/i9BJwVCK5VQ", // Single Arm DB Row
+  "sub-fb4b": "https://www.youtube.com/shorts/7PE3MlvGAts", // Seated Cable Row V Bar (reuse pl1)
+  "sub-fb5a": "https://www.youtube.com/shorts/k6tzKisR3NY", // DB Shoulder Press (reuse sub-rf5b)
+  "sub-fb5b": "https://www.youtube.com/shorts/6K_N9AGhItQ", // Arnold Press
+  "sub-fb6a": "https://www.youtube.com/shorts/f_OGBg2KxgY", // Cable Lateral Raise (reuse sub-pu2a)
+  "sub-fb6b": "https://www.youtube.com/shorts/dybxZJaWxCY", // Machine Lateral Raise (reuse sub-pu2b)
+
+  // Squat Day subs
+  "sub-sq1a": "https://www.youtube.com/shorts/_qv0m3tPd3s", // Front Squat
+  "sub-sq1b": "https://www.youtube.com/shorts/eLX_dyvooKQ", // Goblet Squat (reuse st1)
+  "sub-sq2a": "https://www.youtube.com/shorts/PPmvh7gBTi0", // Barbell Back Squat (Jeff Nippard)
+  "sub-sq2b": "https://www.youtube.com/shorts/2SZfFBglqT0", // Hack Squat (reuse sub-lg5a)
+  "sub-sq3a": "https://www.youtube.com/shorts/eLX_dyvooKQ", // Goblet Squat (reuse st1)
+  "sub-sq3b": "https://www.youtube.com/shorts/lG3MsPmEQQk", // Bulgarian Split Squat (reuse st3)
+  "sub-sq4a": "https://www.youtube.com/shorts/2SZfFBglqT0", // Sissy Squat (reuse sub-lg5a)
+  "sub-sq4b": "https://www.youtube.com/shorts/Tae3aeJe5Ks", // Single-Leg Extension (reuse lg5)
+  "sub-sq5a": "https://www.youtube.com/shorts/ljZA17b52FE", // Reverse Lunge DB (reuse sub-st3a)
+  "sub-sq5b": "https://www.youtube.com/shorts/lG3MsPmEQQk", // Bulgarian Split Squat (reuse st3)
+  "sub-sq6a": "https://www.youtube.com/shorts/d6sg829PgNs", // Lying Hamstring Curl (reuse lg1)
+  "sub-sq6b": "https://www.youtube.com/shorts/PM23l_EVxYc", // Nordic Hamstring Curl (reuse st4)
+
+  // Bench Day subs
+  "sub-bn1a": "https://www.youtube.com/shorts/SidmT09GXz8", // Flat DB Bench Press (reuse up3)
+  "sub-bn1b": "https://www.youtube.com/shorts/hWbUlkb5Ms4", // Smith Machine Bench Press (reuse sub-up3a)
+  "sub-bn2a": "https://www.youtube.com/shorts/PiJQPOiMua4", // 45° Incline DB Bench (reuse pu1)
+  "sub-bn2b": "https://www.youtube.com/shorts/98HWfiRonkE", // Incline Smith Machine (reuse sub-pu1b)
+  "sub-bn3a": "https://www.youtube.com/shorts/98HWfiRonkE", // Incline Barbell (reuse sub-pu1a)
+  "sub-bn3b": "https://www.youtube.com/shorts/I-Ue34qLxc4", // Incline Cable Press (reuse sub-pu4a)
+  "sub-bn4a": "https://www.youtube.com/shorts/atcyT99YDeI", // Flat DB Flies (reuse pu4)
+  "sub-bn4b": "https://www.youtube.com/shorts/a9vQ_hwIksU", // Pec Deck (reuse sub-pu4b)
+  "sub-bn5a": "https://www.youtube.com/shorts/b_r_LW4HEcM", // Overhead DB Extension (reuse sub-pu6a)
+  "sub-bn5b": "https://www.youtube.com/shorts/4yKLxOsrGfg", // Close-Grip Bench Press
+  "sub-bn6a": "https://www.youtube.com/shorts/7OF77JMEXhM", // Tricep Rope Pushdown (reuse sub-pu5a)
+  "sub-bn6b": "https://www.youtube.com/shorts/sah-sHCZDS0", // Cable Kickback (reuse sub-pu6b)
+
+  // Deadlift Day subs
+  "sub-dl1a": "https://www.youtube.com/shorts/5rIqP63yWFg", // Romanian Deadlift (reuse st2)
+  "sub-dl1b": "https://www.youtube.com/shorts/OVd1pq1cAvE", // Trap Bar Deadlift (reuse lg2)
+  "sub-dl2a": "https://www.youtube.com/shorts/MlqHEfydPpE", // Barbell Shrugs
+  "sub-dl2b": "https://www.youtube.com/shorts/ZhHw9HZGezY", // Deficit Deadlift (same as rack pull video)
+  "sub-dl3a": "https://www.youtube.com/shorts/i9BJwVCK5VQ", // Single Arm DB Row
+  "sub-dl3b": "https://www.youtube.com/shorts/DgyslsszCQ0", // T-Bar Row (reuse pl2)
+  "sub-dl4a": "https://www.youtube.com/shorts/z-lxcsIN4T4", // Supinated Grip Pulldown (reuse pl3)
+  "sub-dl4b": "https://www.youtube.com/shorts/AMR2l17Sm6M", // Straight-Arm Pulldown (reuse sub-pl3b)
+  "sub-dl5a": "https://www.youtube.com/shorts/DgyslsszCQ0", // T-Bar Row (reuse pl2)
+  "sub-dl5b": "https://www.youtube.com/shorts/7PE3MlvGAts", // Seated Cable Row V Bar (reuse pl1)
+  "sub-dl6a": "https://www.youtube.com/shorts/MpyEGXCLS8M", // Band Pull-Apart (reuse sub-rf2a)
+  "sub-dl6b": "https://www.youtube.com/shorts/JeSlI2s4XfM", // Bent-Over DB Reverse Fly (reuse sub-pl4b)
+
+  // Press Day subs
+  "sub-pr1a": "https://www.youtube.com/shorts/k6tzKisR3NY", // DB Shoulder Press (reuse sub-rf5b)
+  "sub-pr1b": "https://www.youtube.com/shorts/6K_N9AGhItQ", // Arnold Press
+  "sub-pr2a": "https://www.youtube.com/shorts/k6tzKisR3NY", // DB Overhead Press (reuse sub-rf5b)
+  "sub-pr2b": "https://www.youtube.com/shorts/6v4nrRVySj0", // Shoulder Press Machine (reuse up5)
+  "sub-pr3a": "https://www.youtube.com/shorts/f_OGBg2KxgY", // Cable Lateral Raise (reuse sub-pu2a)
+  "sub-pr3b": "https://www.youtube.com/shorts/dybxZJaWxCY", // Machine Lateral Raise (reuse sub-pu2b)
+  "sub-pr4a": "https://www.youtube.com/shorts/h9xfpTrAvkE", // Cable Front Raise (reuse pr4 video - close)
+  "sub-pr4b": "https://www.youtube.com/shorts/AWsGWt-VMl8", // Barbell Front Raise (same as upright row channel)
+  "sub-pr5a": "https://www.youtube.com/shorts/MpyEGXCLS8M", // Band Pull-Apart (reuse sub-rf2a)
+  "sub-pr5b": "https://www.youtube.com/shorts/5TBjG5xuPa4", // Prone Y-Raise (reuse sub-rf2b)
+  "sub-pr6a": "https://www.youtube.com/shorts/AWsGWt-VMl8", // Cable Upright Row (reuse pr6)
+  "sub-pr6b": "https://www.youtube.com/shorts/OLePvpxQEGk", // Lateral Raises (reuse pu2)
+
+  // Arnold Split — Chest & Back subs
+  "sub-cb1a": "https://www.youtube.com/shorts/SidmT09GXz8", // Flat DB Bench (reuse up3)
+  "sub-cb1b": "https://www.youtube.com/shorts/QcAAKuEgYjw", // Push-Ups (reuse pw6)
+  "sub-cb2a": "https://www.youtube.com/shorts/DgyslsszCQ0", // T-Bar Row (reuse pl2)
+  "sub-cb2b": "https://www.youtube.com/shorts/7PE3MlvGAts", // Chest-Supported Row (reuse pl1 - close)
+  "sub-cb3a": "https://www.youtube.com/shorts/98HWfiRonkE", // Incline Barbell (reuse sub-pu1a)
+  "sub-cb3b": "https://www.youtube.com/shorts/I-Ue34qLxc4", // Incline Cable Press (reuse sub-pu4a)
+  "sub-cb4a": "https://www.youtube.com/shorts/z-lxcsIN4T4", // Supinated Grip Pulldown (reuse pl3)
+  "sub-cb4b": "https://www.youtube.com/shorts/z-lxcsIN4T4", // Pull-Up (reuse lat pulldown - close)
+  "sub-cb5a": "https://www.youtube.com/shorts/atcyT99YDeI", // Flat DB Flies (reuse pu4)
+  "sub-cb5b": "https://www.youtube.com/shorts/a9vQ_hwIksU", // Pec Deck (reuse sub-pu4b)
+  "sub-cb6a": "https://www.youtube.com/shorts/i9BJwVCK5VQ", // Single Arm DB Row
+  "sub-cb6b": "https://www.youtube.com/shorts/7PE3MlvGAts", // Machine Row (reuse pl1)
+
+  // Arnold Split — Shoulders & Arms subs
+  "sub-sa1a": "https://www.youtube.com/shorts/k6tzKisR3NY", // DB Overhead Press (reuse sub-rf5b)
+  "sub-sa1b": "https://www.youtube.com/shorts/6v4nrRVySj0", // Shoulder Press Machine (reuse up5)
+  "sub-sa2a": "https://www.youtube.com/shorts/f_OGBg2KxgY", // Cable Lateral Raise (reuse sub-pu2a)
+  "sub-sa2b": "https://www.youtube.com/shorts/dybxZJaWxCY", // Machine Lateral Raise (reuse sub-pu2b)
+  "sub-sa3a": "https://www.youtube.com/shorts/0y4tdUNPdlE", // EZ Bar Curl (reuse pl5)
+  "sub-sa3b": "https://www.youtube.com/shorts/0y4tdUNPdlE", // DB Preacher Curl (reuse pl5)
+  "sub-sa4a": "https://www.youtube.com/shorts/b_r_LW4HEcM", // Overhead DB Extension (reuse sub-pu6a)
+  "sub-sa4b": "https://www.youtube.com/shorts/4yKLxOsrGfg", // Close-Grip Bench
+  "sub-sa5a": "https://www.youtube.com/shorts/NyW2fT2gQhM", // Cross-Body Hammer Curl (reuse pl6)
+  "sub-sa5b": "https://www.youtube.com/shorts/NyW2fT2gQhM", // Rope Hammer Curl (reuse pl6)
+  "sub-sa6a": "https://www.youtube.com/shorts/mMVRVk0aPt4", // V-Bar Pushdown (reuse sub-up8a)
+  "sub-sa6b": "https://www.youtube.com/shorts/nVo7WCDSNqQ", // Skull Crushers
+
+  // Bro Split — Chest Day subs
+  "sub-ch1a": "https://www.youtube.com/shorts/SidmT09GXz8", // Flat DB Bench (reuse up3)
+  "sub-ch1b": "https://www.youtube.com/shorts/hWbUlkb5Ms4", // Smith Machine Bench (reuse sub-up3a)
+  "sub-ch2a": "https://www.youtube.com/shorts/PiJQPOiMua4", // Incline DB Press (reuse pu1)
+  "sub-ch2b": "https://www.youtube.com/shorts/98HWfiRonkE", // Incline Smith Machine (reuse sub-pu1a)
+  "sub-ch3a": "https://www.youtube.com/shorts/98HWfiRonkE", // Incline Barbell (reuse sub-pu1a)
+  "sub-ch3b": "https://www.youtube.com/shorts/I-Ue34qLxc4", // Incline Cable Fly (reuse sub-pu4a)
+  "sub-ch4a": "https://www.youtube.com/shorts/I-Ue34qLxc4", // Cable Crossover (reuse sub-pu4a)
+  "sub-ch4b": "https://www.youtube.com/shorts/a9vQ_hwIksU", // Pec Deck (reuse sub-pu4b)
+  "sub-ch5a": "https://www.youtube.com/shorts/atcyT99YDeI", // Flat DB Flies (reuse pu4)
+  "sub-ch5b": "https://www.youtube.com/shorts/a9vQ_hwIksU", // Pec Deck (reuse sub-pu4b)
+  "sub-ch6a": "https://www.youtube.com/shorts/ZDOrGNvRdM0", // Machine Dip (same as weighted dips video)
+  "sub-ch6b": "https://www.youtube.com/shorts/QcAAKuEgYjw", // Decline Push-Ups (reuse pw6)
+
+  // Bro Split — Back Day subs
+  "sub-bk1a": "https://www.youtube.com/shorts/5rIqP63yWFg", // Romanian Deadlift (reuse st2)
+  "sub-bk1b": "https://www.youtube.com/shorts/OVd1pq1cAvE", // Trap Bar Deadlift (reuse lg2)
+  "sub-bk2a": "https://www.youtube.com/shorts/i9BJwVCK5VQ", // Single Arm DB Row
+  "sub-bk2b": "https://www.youtube.com/shorts/DgyslsszCQ0", // T-Bar Row (reuse pl2)
+  "sub-bk3a": "https://www.youtube.com/shorts/z-lxcsIN4T4", // Supinated Pulldown (reuse pl3)
+  "sub-bk3b": "https://www.youtube.com/shorts/z-lxcsIN4T4", // Pull-Up (reuse lat pulldown)
+  "sub-bk4a": "https://www.youtube.com/shorts/7PE3MlvGAts", // Wide Grip Row (reuse pl1)
+  "sub-bk4b": "https://www.youtube.com/shorts/7PE3MlvGAts", // Chest-Supported DB Row (reuse pl1)
+  "sub-bk5a": "https://www.youtube.com/shorts/DgyslsszCQ0", // T-Bar Row (reuse pl2)
+  "sub-bk5b": "https://www.youtube.com/shorts/7PE3MlvGAts", // Seated Cable Row V Bar (reuse pl1)
+  "sub-bk6a": "https://www.youtube.com/shorts/MpyEGXCLS8M", // Band Pull-Apart (reuse sub-rf2a)
+  "sub-bk6b": "https://www.youtube.com/shorts/JeSlI2s4XfM", // Bent-Over DB Reverse Fly (reuse sub-pl4b)
+
+  // Bro Split — Shoulders Day subs
+  "sub-sh1a": "https://www.youtube.com/shorts/k6tzKisR3NY", // DB Shoulder Press (reuse sub-rf5b)
+  "sub-sh1b": "https://www.youtube.com/shorts/6K_N9AGhItQ", // Arnold Press
+  "sub-sh2a": "https://www.youtube.com/shorts/k6tzKisR3NY", // DB Overhead Press (reuse sub-rf5b)
+  "sub-sh2b": "https://www.youtube.com/shorts/6v4nrRVySj0", // Shoulder Press Machine (reuse up5)
+  "sub-sh3a": "https://www.youtube.com/shorts/f_OGBg2KxgY", // Cable Lateral Raise (reuse sub-pu2a)
+  "sub-sh3b": "https://www.youtube.com/shorts/dybxZJaWxCY", // Machine Lateral Raise (reuse sub-pu2b)
+  "sub-sh4a": "https://www.youtube.com/shorts/h9xfpTrAvkE", // Cable Front Raise
+  "sub-sh4b": "https://www.youtube.com/shorts/AWsGWt-VMl8", // Barbell Front Raise (reuse pr6)
+  "sub-sh5a": "https://www.youtube.com/shorts/JeSlI2s4XfM", // Bent-Over DB Reverse Fly (reuse sub-pl4b)
+  "sub-sh5b": "https://www.youtube.com/shorts/QfDqL93fr3A", // Cable Reverse Fly (reuse sub-pl4a)
+  "sub-sh6a": "https://www.youtube.com/shorts/MlqHEfydPpE", // DB Shrugs (reuse sh6 barbell shrug video)
+  "sub-sh6b": "https://www.youtube.com/shorts/MlqHEfydPpE", // Cable Shrug (reuse sh6)
+
+  // Bro Split — Arms Day subs
+  "sub-am1a": "https://www.youtube.com/shorts/0y4tdUNPdlE", // EZ Bar Curl (reuse pl5)
+  "sub-am1b": "https://www.youtube.com/shorts/0y4tdUNPdlE", // DB Preacher Curl (reuse pl5)
+  "sub-am2a": "https://www.youtube.com/shorts/b_r_LW4HEcM", // Overhead DB Extension (reuse sub-pu6a)
+  "sub-am2b": "https://www.youtube.com/shorts/4yKLxOsrGfg", // Close-Grip Bench
+  "sub-am3a": "https://www.youtube.com/shorts/0y4tdUNPdlE", // Spider Curl (reuse preacher curl - similar)
+  "sub-am3b": "https://www.youtube.com/shorts/0y4tdUNPdlE", // Cable Curl (reuse pl5)
+  "sub-am4a": "https://www.youtube.com/shorts/ci5tcFgIntI", // Tricep Dips (reuse ch6 weighted dips)
+  "sub-am4b": "https://www.youtube.com/shorts/b_r_LW4HEcM", // Overhead Cable Extension (reuse sub-pu6a)
+  "sub-am5a": "https://www.youtube.com/shorts/NyW2fT2gQhM", // Cross-Body Hammer Curl (reuse pl6)
+  "sub-am5b": "https://www.youtube.com/shorts/NyW2fT2gQhM", // Rope Hammer Curl (reuse pl6)
+  "sub-am6a": "https://www.youtube.com/shorts/mMVRVk0aPt4", // V-Bar Pushdown (reuse sub-up8a)
+  "sub-am6b": "https://www.youtube.com/shorts/nVo7WCDSNqQ", // Skull Crushers
 };
 
 // Get YouTube Short URL for an exercise, with fallback to search

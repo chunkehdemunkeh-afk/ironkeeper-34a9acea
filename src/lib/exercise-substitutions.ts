@@ -232,4 +232,290 @@ export const EXERCISE_SUBSTITUTIONS: Record<string, SubstituteExercise[]> = {
     { id: "sub-up8a", name: "Tricep Push Down - V Bar", targetMuscle: "Triceps", notes: "V-bar attachment, lock elbows, squeeze at bottom", description: "V-bar cable tricep pushdown" },
     { id: "sub-up8b", name: "Dumbbell Skull Crusher", targetMuscle: "Triceps", notes: "Lie flat, lower dumbbells to forehead, extend", description: "Lying dumbbell skull crushers" },
   ],
+
+  // ── Full Body ─────────────────────────────────────────────────────────────
+  fb1: [ // Barbell Back Squat
+    { id: "sub-fb1a", name: "Goblet Squat", targetMuscle: "Quads/Glutes", notes: "Dumbbell or kettlebell at chest, squat deep — great if no barbell available", description: "Front-loaded goblet squat" },
+    { id: "sub-fb1b", name: "Leg Press", targetMuscle: "Quads/Glutes", notes: "Medium foot placement, full range of motion, don't lock knees", description: "Leg press machine" },
+  ],
+  fb2: [ // Romanian Deadlift
+    { id: "sub-fb2a", name: "Single-Leg Dumbbell RDL", targetMuscle: "Hamstrings/Glutes", notes: "Same hinge pattern, one leg — great for balance and unilateral strength", description: "Unilateral dumbbell Romanian deadlift" },
+    { id: "sub-fb2b", name: "Good Morning", targetMuscle: "Hamstrings/Glutes", notes: "Barbell on back, hinge at hips until bar feels heavy — keep spine neutral", description: "Barbell good morning" },
+  ],
+  fb3: [ // Flat Barbell Bench Press
+    { id: "sub-fb3a", name: "Flat Dumbbell Bench Press", targetMuscle: "Chest", notes: "Dumbbells allow more range of motion at the bottom — great if no barbell", description: "Flat bench dumbbell press" },
+    { id: "sub-fb3b", name: "Push-Ups", targetMuscle: "Chest", notes: "Bodyweight variation — add weight vest or elevate feet to increase difficulty", trackWeight: false, repLabel: "Reps", description: "Weighted or bodyweight push-ups" },
+  ],
+  fb4: [ // Barbell Row
+    { id: "sub-fb4a", name: "Single Arm Dumbbell Row", targetMuscle: "Back", notes: "Brace on bench, pull dumbbell to hip — great unilateral alternative", description: "Single-arm dumbbell row" },
+    { id: "sub-fb4b", name: "Seated Cable Row - V Bar", targetMuscle: "Back", notes: "Cable row with V-bar, pull to lower chest, squeeze shoulder blades", description: "Cable seated row with V-bar" },
+  ],
+  fb5: [ // Overhead Press
+    { id: "sub-fb5a", name: "Dumbbell Shoulder Press", targetMuscle: "Shoulders", notes: "Seated or standing, press to full lockout — easier to balance than barbell", description: "Dumbbell overhead shoulder press" },
+    { id: "sub-fb5b", name: "Arnold Press", targetMuscle: "Shoulders", notes: "Rotating press from neutral to pronated — hits all three delt heads", description: "Arnold rotating dumbbell press" },
+  ],
+  fb6: [ // Dumbbell Lateral Raises
+    { id: "sub-fb6a", name: "Cable Lateral Raise", targetMuscle: "Side Delts", notes: "Single arm, low pulley — constant tension throughout the movement", description: "Single-arm cable lateral raise" },
+    { id: "sub-fb6b", name: "Machine Lateral Raise", targetMuscle: "Side Delts", notes: "Machine variation — great for feeling the contraction at the top", description: "Lateral raise machine" },
+  ],
+
+  // ── 5/3/1 Squat Day ──────────────────────────────────────────────────────
+  sq1: [ // Barbell Back Squat
+    { id: "sub-sq1a", name: "Front Squat", targetMuscle: "Quads/Glutes", notes: "Barbell in front rack — more upright torso, great quad emphasis", description: "Barbell front squat" },
+    { id: "sub-sq1b", name: "Goblet Squat", targetMuscle: "Quads/Glutes", notes: "Dumbbell at chest — perfect if lower back is fatigued from main work", description: "Goblet squat with dumbbell" },
+  ],
+  sq2: [ // Front Squat
+    { id: "sub-sq2a", name: "Barbell Back Squat", targetMuscle: "Quads", notes: "Switch to back squat if front rack position is uncomfortable", description: "Classic barbell back squat" },
+    { id: "sub-sq2b", name: "Hack Squat Machine", targetMuscle: "Quads", notes: "Machine hack squat — upright torso, excellent quad isolation", description: "Hack squat machine" },
+  ],
+  sq3: [ // Leg Press
+    { id: "sub-sq3a", name: "Goblet Squat", targetMuscle: "Quads/Glutes", notes: "Bodyweight-friendly alternative, sit deep with upright torso", description: "Goblet squat" },
+    { id: "sub-sq3b", name: "Bulgarian Split Squat", targetMuscle: "Quads/Glutes", notes: "Rear foot elevated, front leg drives — great unilateral quad strength", description: "Bulgarian split squat" },
+  ],
+  sq4: [ // Leg Extension
+    { id: "sub-sq4a", name: "Sissy Squat", targetMuscle: "Quads", notes: "Lean back on toes, lower toward ground — advanced quad isolation", trackWeight: false, repLabel: "Reps", description: "Bodyweight sissy squat" },
+    { id: "sub-sq4b", name: "Single-Leg Extension", targetMuscle: "Quads", notes: "One leg at a time for equal development on both sides", description: "Unilateral leg extension" },
+  ],
+  sq5: [ // Walking Lunges
+    { id: "sub-sq5a", name: "Reverse Lunge (DB)", targetMuscle: "Quads/Glutes", notes: "Step back instead of forward — easier on knees, same muscles", description: "Dumbbell reverse lunge" },
+    { id: "sub-sq5b", name: "Bulgarian Split Squat", targetMuscle: "Quads/Glutes", notes: "Rear foot elevated on bench — maximum single-leg strength stimulus", description: "Bulgarian split squat" },
+  ],
+  sq6: [ // Seated Hamstring Curl
+    { id: "sub-sq6a", name: "Lying Hamstring Curl", targetMuscle: "Hamstrings", notes: "Prone machine curl — slightly different hamstring activation angle", description: "Lying machine hamstring curl" },
+    { id: "sub-sq6b", name: "Nordic Hamstring Curl", targetMuscle: "Hamstrings", notes: "Eccentric-only — anchor feet, lower body toward ground under control", trackWeight: false, repLabel: "Reps", description: "Nordic hamstring curl" },
+  ],
+
+  // ── 5/3/1 Bench Day ──────────────────────────────────────────────────────
+  bn1: [ // Flat Barbell Bench Press
+    { id: "sub-bn1a", name: "Flat Dumbbell Bench Press", targetMuscle: "Chest", notes: "Dumbbells allow greater ROM at the bottom — great if no spotter available", description: "Flat dumbbell bench press" },
+    { id: "sub-bn1b", name: "Smith Machine Bench Press", targetMuscle: "Chest", notes: "Fixed path press — useful if training alone without a spotter", description: "Smith machine flat bench press" },
+  ],
+  bn2: [ // Incline Barbell Bench Press
+    { id: "sub-bn2a", name: "45° Incline Dumbbell Bench Press", targetMuscle: "Upper Chest", notes: "Dumbbell variation allows more natural shoulder rotation", description: "Incline dumbbell press at 45°" },
+    { id: "sub-bn2b", name: "Incline Smith Machine Press", targetMuscle: "Upper Chest", notes: "Controlled path — solid if no spotter", description: "Incline Smith machine press" },
+  ],
+  bn3: [ // 45° Incline Dumbbell Bench Press
+    { id: "sub-bn3a", name: "Incline Barbell Bench Press", targetMuscle: "Upper Chest", notes: "Barbell variation — allows heavier loads for progressive overload", description: "Incline barbell bench press" },
+    { id: "sub-bn3b", name: "Incline Cable Press", targetMuscle: "Upper Chest", notes: "Cable provides constant tension through full ROM", description: "Incline cable chest press" },
+  ],
+  bn4: [ // Cable Fly
+    { id: "sub-bn4a", name: "Flat Dumbbell Flies", targetMuscle: "Chest", notes: "Classic dumbbell fly — great stretch at the bottom", description: "Flat dumbbell chest fly" },
+    { id: "sub-bn4b", name: "Pec Deck Machine", targetMuscle: "Chest", notes: "Machine fly — squeeze and hold at peak contraction", description: "Pec deck fly machine" },
+  ],
+  bn5: [ // Skull Crushers
+    { id: "sub-bn5a", name: "Overhead Dumbbell Tricep Extension", targetMuscle: "Triceps", notes: "Single or double arm overhead — great long head stretch", description: "Overhead dumbbell tricep extension" },
+    { id: "sub-bn5b", name: "Close-Grip Bench Press", targetMuscle: "Triceps", notes: "Hands shoulder-width, same pressing mechanics — heavier alternative", description: "Close-grip barbell bench press" },
+  ],
+  bn6: [ // X-Over Cable Tricep Extensions
+    { id: "sub-bn6a", name: "Tricep Rope Pushdown", targetMuscle: "Triceps", notes: "Rope attachment, spread rope at the bottom for extra contraction", description: "Cable rope tricep pushdown" },
+    { id: "sub-bn6b", name: "Cable Kickback", targetMuscle: "Triceps", notes: "Hinge forward, extend arm back fully, squeeze at top", description: "Single-arm cable tricep kickback" },
+  ],
+
+  // ── 5/3/1 Deadlift Day ───────────────────────────────────────────────────
+  dl1: [ // Conventional Deadlift
+    { id: "sub-dl1a", name: "Romanian Deadlift", targetMuscle: "Full Posterior Chain", notes: "Hinge-focused variation — less quad, more hamstring and glute", description: "Romanian deadlift" },
+    { id: "sub-dl1b", name: "Trap Bar Deadlift", targetMuscle: "Full Posterior Chain", notes: "More upright torso, easier on lower back — great for high reps", description: "Trap bar (hex bar) deadlift" },
+  ],
+  dl2: [ // Rack Pull
+    { id: "sub-dl2a", name: "Barbell Shrugs", targetMuscle: "Upper Back/Traps", notes: "Isolate the traps — heavy shrugs with 1s hold at top", description: "Heavy barbell shrug" },
+    { id: "sub-dl2b", name: "Deficit Deadlift", targetMuscle: "Upper Back/Traps", notes: "Stand on plates, additional range of motion — builds off-the-floor strength", description: "Deficit deadlift for increased ROM" },
+  ],
+  dl3: [ // Barbell Row
+    { id: "sub-dl3a", name: "Single Arm Dumbbell Row", targetMuscle: "Mid Back", notes: "Each side independently — brace on bench, pull to hip", description: "Single-arm dumbbell row" },
+    { id: "sub-dl3b", name: "T-Bar Row", targetMuscle: "Mid Back", notes: "Landmine or T-bar machine — great for thickness with heavy loads", description: "T-bar row" },
+  ],
+  dl4: [ // Lat Pull Down - Pronated Grip
+    { id: "sub-dl4a", name: "Lat Pull Down - Supinated Grip", targetMuscle: "Lats", notes: "Underhand grip — can feel stronger and more natural for some", description: "Supinated grip lat pulldown" },
+    { id: "sub-dl4b", name: "Straight-Arm Pulldown", targetMuscle: "Lats", notes: "Arms straight, isolate lats — great as a finisher", description: "Cable straight-arm lat pulldown" },
+  ],
+  dl5: [ // Single Arm Dumbbell Row
+    { id: "sub-dl5a", name: "T-Bar Row", targetMuscle: "Lats/Mid Back", notes: "Both arms — load heavier with the T-bar for volume work", description: "T-bar row" },
+    { id: "sub-dl5b", name: "Seated Cable Row - V Bar", targetMuscle: "Lats/Mid Back", notes: "Good mid-back alternative with constant cable tension", description: "Seated cable row with V-bar" },
+  ],
+  dl6: [ // Face Pulls
+    { id: "sub-dl6a", name: "Band Pull-Apart", targetMuscle: "Rear Delts", notes: "Pull band apart at chest height — great warm-up or finisher", trackWeight: false, repLabel: "Reps", description: "Resistance band pull-apart" },
+    { id: "sub-dl6b", name: "Bent-Over Dumbbell Reverse Fly", targetMuscle: "Rear Delts", notes: "Hinge forward, raise dumbbells to sides — isolate rear delts", description: "Bent-over dumbbell rear fly" },
+  ],
+
+  // ── 5/3/1 Press Day ──────────────────────────────────────────────────────
+  pr1: [ // Barbell Overhead Press
+    { id: "sub-pr1a", name: "Dumbbell Shoulder Press", targetMuscle: "Shoulders", notes: "Seated or standing — each arm works independently", description: "Dumbbell overhead press" },
+    { id: "sub-pr1b", name: "Arnold Press", targetMuscle: "Shoulders", notes: "Rotating press from neutral grip upward — hits all three delt heads", description: "Arnold rotating dumbbell press" },
+  ],
+  pr2: [ // Arnold Press
+    { id: "sub-pr2a", name: "Dumbbell Overhead Press", targetMuscle: "Full Delts", notes: "Classic press without the rotation — go slightly heavier", description: "Seated dumbbell overhead press" },
+    { id: "sub-pr2b", name: "Converging Shoulder Press Machine", targetMuscle: "Full Delts", notes: "Machine arc mimics natural pressing path — great for higher reps", description: "Converging shoulder press machine" },
+  ],
+  pr3: [ // Dumbbell Lateral Raises
+    { id: "sub-pr3a", name: "Cable Lateral Raise", targetMuscle: "Side Delts", notes: "Low pulley, single arm — constant tension throughout", description: "Single-arm cable lateral raise" },
+    { id: "sub-pr3b", name: "Machine Lateral Raise", targetMuscle: "Side Delts", notes: "Bilateral machine — feel the contraction at shoulder height", description: "Machine lateral raise" },
+  ],
+  pr4: [ // Dumbbell Front Raises
+    { id: "sub-pr4a", name: "Cable Front Raise", targetMuscle: "Front Delts", notes: "Low cable, raise to eye level — constant tension vs dumbbell", description: "Cable front raise" },
+    { id: "sub-pr4b", name: "Barbell Front Raise", targetMuscle: "Front Delts", notes: "Both arms together — slightly heavier load possible", description: "Barbell front raise" },
+  ],
+  pr5: [ // Face Pulls
+    { id: "sub-pr5a", name: "Band Pull-Apart", targetMuscle: "Rear Delts/Rotator Cuff", notes: "Pull band at chest height — great warm-up or substitute without cables", trackWeight: false, repLabel: "Reps", description: "Resistance band pull-apart" },
+    { id: "sub-pr5b", name: "Prone Y-Raise", targetMuscle: "Rear Delts/Rotator Cuff", notes: "Face down on incline bench, raise arms in Y — targets external rotation", description: "Prone incline bench Y-raise" },
+  ],
+  pr6: [ // Upright Row
+    { id: "sub-pr6a", name: "Cable Upright Row", targetMuscle: "Traps/Side Delts", notes: "Cable version provides more consistent tension than barbell", description: "Cable upright row" },
+    { id: "sub-pr6b", name: "Lateral Raises", targetMuscle: "Traps/Side Delts", notes: "If upright row causes shoulder discomfort, replace with laterals for side delts", description: "Dumbbell lateral raises" },
+  ],
+
+  // ── Arnold Split — Chest & Back ──────────────────────────────────────────
+  cb1: [ // Flat Barbell Bench Press
+    { id: "sub-cb1a", name: "Flat Dumbbell Bench Press", targetMuscle: "Chest", notes: "Greater ROM at the bottom — excellent if supersets are causing fatigue", description: "Flat dumbbell bench press" },
+    { id: "sub-cb1b", name: "Push-Ups", targetMuscle: "Chest", notes: "High-rep finisher or if equipment is occupied — add weight vest to progress", trackWeight: false, repLabel: "Reps", description: "Push-ups" },
+  ],
+  cb2: [ // Barbell Row
+    { id: "sub-cb2a", name: "T-Bar Row", targetMuscle: "Mid Back", notes: "Great for thickness — superset with incline press for antagonist training", description: "T-bar row" },
+    { id: "sub-cb2b", name: "Chest-Supported Dumbbell Row", targetMuscle: "Mid Back", notes: "Chest on incline bench removes lower back fatigue — isolate the back", description: "Chest-supported dumbbell row" },
+  ],
+  cb3: [ // Incline Dumbbell Press
+    { id: "sub-cb3a", name: "Incline Barbell Bench Press", targetMuscle: "Upper Chest", notes: "Heavier load possible — same upper chest angle", description: "Incline barbell bench press" },
+    { id: "sub-cb3b", name: "Incline Cable Press", targetMuscle: "Upper Chest", notes: "Constant tension — pair with pulldown for Arnold superset feel", description: "Incline cable press" },
+  ],
+  cb4: [ // Lat Pull Down - Pronated Grip
+    { id: "sub-cb4a", name: "Lat Pull Down - Supinated Grip", targetMuscle: "Lats", notes: "Underhand grip — many find this easier to feel the lats", description: "Supinated lat pulldown" },
+    { id: "sub-cb4b", name: "Pull-Up", targetMuscle: "Lats", notes: "Bodyweight pull-up — use band assistance if needed", trackWeight: false, repLabel: "Reps", description: "Bodyweight pull-up" },
+  ],
+  cb5: [ // Cable Fly
+    { id: "sub-cb5a", name: "Flat Dumbbell Flies", targetMuscle: "Chest", notes: "Classic dumbbell fly — good stretch at bottom", description: "Flat dumbbell fly" },
+    { id: "sub-cb5b", name: "Pec Deck Machine", targetMuscle: "Chest", notes: "Machine fly — squeeze and hold at peak contraction", description: "Pec deck machine" },
+  ],
+  cb6: [ // Seated Cable Row - V Bar
+    { id: "sub-cb6a", name: "Single Arm Dumbbell Row", targetMuscle: "Mid Back", notes: "Unilateral — each side works independently", description: "Single-arm dumbbell row" },
+    { id: "sub-cb6b", name: "Machine Row", targetMuscle: "Mid Back", notes: "Chest-supported machine — removes lower back involvement", description: "Chest-supported machine row" },
+  ],
+
+  // ── Arnold Split — Shoulders & Arms ──────────────────────────────────────
+  sa1: [ // Arnold Press
+    { id: "sub-sa1a", name: "Dumbbell Overhead Press", targetMuscle: "Full Delts", notes: "Standard press without the rotation — go slightly heavier", description: "Seated dumbbell overhead press" },
+    { id: "sub-sa1b", name: "Converging Shoulder Press Machine", targetMuscle: "Full Delts", notes: "Machine arc mimics pressing path — great for volume", description: "Converging shoulder press machine" },
+  ],
+  sa2: [ // Dumbbell Lateral Raises
+    { id: "sub-sa2a", name: "Cable Lateral Raise", targetMuscle: "Side Delts", notes: "Low pulley single arm — constant tension throughout", description: "Single-arm cable lateral raise" },
+    { id: "sub-sa2b", name: "Machine Lateral Raise", targetMuscle: "Side Delts", notes: "Both arms — great for feeling the contraction", description: "Machine lateral raise" },
+  ],
+  sa3: [ // Barbell Curl
+    { id: "sub-sa3a", name: "EZ Bar Curl", targetMuscle: "Biceps", notes: "Angled grip reduces wrist strain — same stimulus as barbell", description: "EZ bar bicep curl" },
+    { id: "sub-sa3b", name: "Dumbbell Preacher Curl", targetMuscle: "Biceps", notes: "Preacher pad isolates the bicep — great for peak contraction", description: "Dumbbell preacher curl" },
+  ],
+  sa4: [ // Skull Crushers
+    { id: "sub-sa4a", name: "Overhead Dumbbell Tricep Extension", targetMuscle: "Triceps", notes: "Single or double arm — long head stretch is excellent", description: "Overhead dumbbell tricep extension" },
+    { id: "sub-sa4b", name: "Close-Grip Bench Press", targetMuscle: "Triceps", notes: "Compound alternative — allows heavier loading", description: "Close-grip bench press" },
+  ],
+  sa5: [ // Dumbbell Preacher Hammer Curls
+    { id: "sub-sa5a", name: "Cross-Body Hammer Curl", targetMuscle: "Biceps", notes: "Curl dumbbell across body to opposite shoulder — neutral grip", description: "Cross-body dumbbell hammer curl" },
+    { id: "sub-sa5b", name: "Rope Hammer Curl (Cable)", targetMuscle: "Biceps", notes: "Rope on low cable, neutral grip — constant tension", description: "Cable rope hammer curl" },
+  ],
+  sa6: [ // Tricep Push Down - Rope
+    { id: "sub-sa6a", name: "Tricep Push Down - V Bar", targetMuscle: "Triceps", notes: "V-bar attachment — slight overhand grip, lock elbows in", description: "V-bar cable tricep pushdown" },
+    { id: "sub-sa6b", name: "Skull Crushers", targetMuscle: "Triceps", notes: "Barbell or dumbbell — great compound tricep movement", description: "Skull crushers" },
+  ],
+
+  // ── Bro Split — Chest Day ────────────────────────────────────────────────
+  ch1: [ // Flat Barbell Bench Press
+    { id: "sub-ch1a", name: "Flat Dumbbell Bench Press", targetMuscle: "Chest", notes: "Dumbbells allow greater ROM and natural shoulder rotation", description: "Flat dumbbell bench press" },
+    { id: "sub-ch1b", name: "Smith Machine Bench Press", targetMuscle: "Chest", notes: "Controlled path — solid if training alone without spotter", description: "Smith machine bench press" },
+  ],
+  ch2: [ // Incline Barbell Bench Press
+    { id: "sub-ch2a", name: "45° Incline Dumbbell Bench Press", targetMuscle: "Upper Chest", notes: "More natural shoulder rotation, greater ROM", description: "Incline dumbbell press" },
+    { id: "sub-ch2b", name: "Incline Smith Machine Press", targetMuscle: "Upper Chest", notes: "Fixed path — safe to go heavy without spotter", description: "Incline Smith machine press" },
+  ],
+  ch3: [ // 45° Incline DB Bench Press
+    { id: "sub-ch3a", name: "Incline Barbell Bench Press", targetMuscle: "Upper Chest", notes: "Barbell allows heavier loading for progressive overload", description: "Incline barbell bench press" },
+    { id: "sub-ch3b", name: "Incline Cable Fly", targetMuscle: "Upper Chest", notes: "Cable provides constant tension — great as a volume finisher", description: "Incline cable fly" },
+  ],
+  ch4: [ // Flat Dumbbell Flies
+    { id: "sub-ch4a", name: "Cable Crossover Flies", targetMuscle: "Chest", notes: "Cables from high position — constant tension, no dead zone at top", description: "High-to-low cable crossover" },
+    { id: "sub-ch4b", name: "Pec Deck Machine", targetMuscle: "Chest", notes: "Machine fly — hold at peak contraction for extra stimulus", description: "Pec deck fly" },
+  ],
+  ch5: [ // Cable Fly
+    { id: "sub-ch5a", name: "Flat Dumbbell Flies", targetMuscle: "Inner Chest", notes: "Classic dumbbell fly — great stretch at the bottom", description: "Flat dumbbell fly" },
+    { id: "sub-ch5b", name: "Pec Deck Machine", targetMuscle: "Inner Chest", notes: "Machine version — excellent for isolation and peak squeeze", description: "Pec deck machine" },
+  ],
+  ch6: [ // Weighted Dips
+    { id: "sub-ch6a", name: "Machine Dip", targetMuscle: "Lower Chest/Triceps", notes: "Assisted dip machine — lean forward to bias chest", description: "Assisted dip machine" },
+    { id: "sub-ch6b", name: "Decline Push-Ups", targetMuscle: "Lower Chest/Triceps", notes: "Feet elevated on bench — lower chest emphasis without equipment", trackWeight: false, repLabel: "Reps", description: "Decline push-ups for lower chest" },
+  ],
+
+  // ── Bro Split — Back Day ─────────────────────────────────────────────────
+  bk1: [ // Conventional Deadlift
+    { id: "sub-bk1a", name: "Romanian Deadlift", targetMuscle: "Full Back", notes: "Hinge focus — great if lower back is fatigued from heavy pulls", description: "Romanian deadlift" },
+    { id: "sub-bk1b", name: "Trap Bar Deadlift", targetMuscle: "Full Back", notes: "More upright torso, neutral grip — easier on the lower back", description: "Trap bar deadlift" },
+  ],
+  bk2: [ // Barbell Row
+    { id: "sub-bk2a", name: "Single Arm Dumbbell Row", targetMuscle: "Mid Back", notes: "Unilateral — great for addressing strength imbalances", description: "Single-arm dumbbell row" },
+    { id: "sub-bk2b", name: "T-Bar Row", targetMuscle: "Mid Back", notes: "Great for back thickness — handle options allow different grips", description: "T-bar row" },
+  ],
+  bk3: [ // Lat Pull Down - Pronated Grip
+    { id: "sub-bk3a", name: "Lat Pull Down - Supinated Grip", targetMuscle: "Lats", notes: "Underhand grip — many feel this more in the lats", description: "Supinated grip lat pulldown" },
+    { id: "sub-bk3b", name: "Pull-Up", targetMuscle: "Lats", notes: "Bodyweight pull-up — use assistance band if needed", trackWeight: false, repLabel: "Reps", description: "Bodyweight pull-up" },
+  ],
+  bk4: [ // Seated Cable Row - V Bar
+    { id: "sub-bk4a", name: "Wide Grip Seated Cable Row", targetMuscle: "Mid Back", notes: "Wide bar flares elbows — targets upper back and rhomboids more", description: "Wide-grip cable seated row" },
+    { id: "sub-bk4b", name: "Chest-Supported Dumbbell Row", targetMuscle: "Mid Back", notes: "Chest on incline bench — fully removes lower back from the equation", description: "Incline chest-supported dumbbell row" },
+  ],
+  bk5: [ // Single Arm Dumbbell Row
+    { id: "sub-bk5a", name: "T-Bar Row", targetMuscle: "Lats/Mid Back", notes: "Both arms — load heavier for volume", description: "T-bar row" },
+    { id: "sub-bk5b", name: "Seated Cable Row - V Bar", targetMuscle: "Lats/Mid Back", notes: "Cable provides constant tension unlike dumbbell", description: "Seated cable row with V-bar" },
+  ],
+  bk6: [ // Face Pulls
+    { id: "sub-bk6a", name: "Band Pull-Apart", targetMuscle: "Rear Delts", notes: "Pull band apart at chest height — great without cable machine", trackWeight: false, repLabel: "Reps", description: "Resistance band pull-apart" },
+    { id: "sub-bk6b", name: "Bent-Over Dumbbell Reverse Fly", targetMuscle: "Rear Delts", notes: "Hinge forward, raise dumbbells to sides — isolates rear delts", description: "Bent-over dumbbell rear fly" },
+  ],
+
+  // ── Bro Split — Shoulders Day ─────────────────────────────────────────────
+  sh1: [ // Barbell Overhead Press
+    { id: "sub-sh1a", name: "Dumbbell Shoulder Press", targetMuscle: "Front Delts/Overall", notes: "Independent arms — easier on the shoulders for many lifters", description: "Seated dumbbell overhead press" },
+    { id: "sub-sh1b", name: "Arnold Press", targetMuscle: "Front Delts/Overall", notes: "Rotating press — engages all three delt heads through the movement", description: "Arnold rotating dumbbell press" },
+  ],
+  sh2: [ // Arnold Press
+    { id: "sub-sh2a", name: "Dumbbell Overhead Press", targetMuscle: "Full Delts", notes: "No rotation — focus on vertical press for heavy sets", description: "Seated dumbbell overhead press" },
+    { id: "sub-sh2b", name: "Converging Shoulder Press Machine", targetMuscle: "Full Delts", notes: "Machine arc — great for accumulating shoulder volume safely", description: "Converging shoulder press machine" },
+  ],
+  sh3: [ // Dumbbell Lateral Raises
+    { id: "sub-sh3a", name: "Cable Lateral Raise", targetMuscle: "Side Delts", notes: "Low pulley, single arm — constant tension vs dumbbells", description: "Single-arm cable lateral raise" },
+    { id: "sub-sh3b", name: "Machine Lateral Raise", targetMuscle: "Side Delts", notes: "Both arms simultaneously — good for controlled volume work", description: "Machine lateral raise" },
+  ],
+  sh4: [ // Dumbbell Front Raises
+    { id: "sub-sh4a", name: "Cable Front Raise", targetMuscle: "Front Delts", notes: "Low cable — constant tension throughout vs dumbbell dead spot at bottom", description: "Cable front raise" },
+    { id: "sub-sh4b", name: "Barbell Front Raise", targetMuscle: "Front Delts", notes: "Both arms together — can load slightly heavier", description: "Barbell front raise" },
+  ],
+  sh5: [ // Single Arm Cross Body Reverse Fly
+    { id: "sub-sh5a", name: "Bent-Over Dumbbell Reverse Fly", targetMuscle: "Rear Delts", notes: "Both arms — hinge forward 45°, raise to sides", description: "Bent-over dumbbell rear fly" },
+    { id: "sub-sh5b", name: "Cable Reverse Fly", targetMuscle: "Rear Delts", notes: "Cables crossed, pull out to sides — great at any angle", description: "Cable rear delt fly" },
+  ],
+  sh6: [ // Barbell Shrugs
+    { id: "sub-sh6a", name: "Dumbbell Shrugs", targetMuscle: "Traps", notes: "Dumbbells allow more freedom of movement — hold 1s at top", description: "Dumbbell shrugs" },
+    { id: "sub-sh6b", name: "Cable Shrug", targetMuscle: "Traps", notes: "Cable provides constant tension — useful for high-rep trap work", description: "Cable shrug" },
+  ],
+
+  // ── Bro Split — Arms Day ─────────────────────────────────────────────────
+  am1: [ // Barbell Curl
+    { id: "sub-am1a", name: "EZ Bar Curl", targetMuscle: "Biceps", notes: "Angled grip reduces wrist strain — same bicep stimulus", description: "EZ bar bicep curl" },
+    { id: "sub-am1b", name: "Dumbbell Preacher Curl", targetMuscle: "Biceps", notes: "Preacher pad isolates the bicep — excellent for peak contraction", description: "Dumbbell preacher curl" },
+  ],
+  am2: [ // Skull Crushers
+    { id: "sub-am2a", name: "Overhead Dumbbell Tricep Extension", targetMuscle: "Triceps", notes: "Single or double arm overhead — great long head stretch", description: "Overhead dumbbell tricep extension" },
+    { id: "sub-am2b", name: "Close-Grip Bench Press", targetMuscle: "Triceps", notes: "Compound pressing — allows heavier tricep loading", description: "Close-grip bench press" },
+  ],
+  am3: [ // Incline Dumbbell Curl
+    { id: "sub-am3a", name: "Spider Curl", targetMuscle: "Biceps", notes: "Lie chest-down on incline bench, curl from fully stretched — hits long head hard", description: "Incline bench spider curl" },
+    { id: "sub-am3b", name: "Cable Curl", targetMuscle: "Biceps", notes: "Low cable, constant tension — great for the stretched position", description: "Cable bicep curl" },
+  ],
+  am4: [ // Close-Grip Bench Press
+    { id: "sub-am4a", name: "Tricep Dips", targetMuscle: "Triceps", notes: "Upright torso to bias triceps — add weight between legs to progress", description: "Bodyweight or weighted tricep dips" },
+    { id: "sub-am4b", name: "Overhead Cable Tricep Extension", targetMuscle: "Triceps", notes: "Cable overhead — excellent long head stretch, pairs well with pushdowns", description: "Overhead cable tricep extension" },
+  ],
+  am5: [ // Dumbbell Preacher Hammer Curls
+    { id: "sub-am5a", name: "Cross-Body Hammer Curl", targetMuscle: "Brachialis", notes: "Curl across body to opposite shoulder — neutral grip trains brachialis hard", description: "Cross-body dumbbell hammer curl" },
+    { id: "sub-am5b", name: "Rope Hammer Curl (Cable)", targetMuscle: "Brachialis", notes: "Rope on low cable, neutral grip — constant tension variation", description: "Cable rope hammer curl" },
+  ],
+  am6: [ // Tricep Push Down - Rope
+    { id: "sub-am6a", name: "Tricep Push Down - V Bar", targetMuscle: "Triceps", notes: "V-bar attachment, slight overhand grip — great for heavy sets", description: "V-bar cable tricep pushdown" },
+    { id: "sub-am6b", name: "Skull Crushers", targetMuscle: "Triceps", notes: "Barbell or dumbbell — great compound tricep movement to swap in", description: "Skull crushers" },
+  ],
 };
