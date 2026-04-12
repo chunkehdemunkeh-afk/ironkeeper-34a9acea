@@ -110,6 +110,51 @@ export type Database = {
         }
         Relationships: []
       }
+      favourite_foods: {
+        Row: {
+          barcode: string | null
+          brand: string | null
+          calories: number
+          carbs_g: number
+          created_at: string
+          fat_g: number
+          food_name: string
+          id: string
+          protein_g: number
+          serving_qty: number
+          serving_size: string | null
+          user_id: string
+        }
+        Insert: {
+          barcode?: string | null
+          brand?: string | null
+          calories?: number
+          carbs_g?: number
+          created_at?: string
+          fat_g?: number
+          food_name: string
+          id?: string
+          protein_g?: number
+          serving_qty?: number
+          serving_size?: string | null
+          user_id: string
+        }
+        Update: {
+          barcode?: string | null
+          brand?: string | null
+          calories?: number
+          carbs_g?: number
+          created_at?: string
+          fat_g?: number
+          food_name?: string
+          id?: string
+          protein_g?: number
+          serving_qty?: number
+          serving_size?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
       food_logs: {
         Row: {
           barcode: string | null
