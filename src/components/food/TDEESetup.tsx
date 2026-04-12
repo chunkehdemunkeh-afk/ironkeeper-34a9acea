@@ -2,7 +2,7 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { ChevronLeft, ChevronRight, Check, Flame, Beef, Wheat, Droplets } from "lucide-react";
+import { ChevronLeft, ChevronRight, Check, Flame, Beef, Wheat, Droplets, Droplet } from "lucide-react";
 import {
   Gender, ActivityLevel, GoalType,
   ACTIVITY_LABELS, GOAL_LABELS, calculateTDEE,
@@ -32,9 +32,12 @@ export default function TDEESetup({ onComplete }: Props) {
   const [weightKg, setWeightKg] = useState("");
   const [activity, setActivity] = useState<ActivityLevel>("moderate");
   const [goal, setGoal] = useState<GoalType>("maintain");
+  const [waterGoalMl, setWaterGoalMl] = useState(2500);
   const [saving, setSaving] = useState(false);
 
-  const totalSteps = 4;
+  const totalSteps = 5;
+
+  const WATER_OPTIONS = [1500, 2000, 2500, 3000, 3500, 4000];
 
   const canNext =
     step === 0 ? age !== "" :
@@ -60,6 +63,7 @@ export default function TDEESetup({ onComplete }: Props) {
       tdee_activity_level: activity,
       tdee_goal: goal,
       tdee_gender: gender,
+      water_goal_ml: waterGoalMl,
     }, { onConflict: "user_id" });
     setSaving(false);
     if (error) {
@@ -70,7 +74,7 @@ export default function TDEESetup({ onComplete }: Props) {
     onComplete();
   };
 
-  const preview = canNext && isLastStep
+  const preview = canNext && step >= 3
     ? calculateTDEE(gender, +age || 25, Math.round((+heightFt * 12 + (+heightIn || 0)) * 2.54) || 175, +weightKg || 75, activity, goal)
     : null;
 
