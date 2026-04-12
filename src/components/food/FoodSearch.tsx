@@ -245,6 +245,7 @@ export default function FoodSearch({ open, onClose, mealType, date, onLogged }: 
               onFoodFound={(food) => {
                 setSelected(food);
                 setServings("1");
+                setServingGrams(100);
                 setMode("search");
               }}
             />
