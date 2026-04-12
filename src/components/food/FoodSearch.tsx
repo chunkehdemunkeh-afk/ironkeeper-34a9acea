@@ -106,11 +106,14 @@ export default function FoodSearch({ open, onClose, mealType, date, onLogged }: 
     })();
   }, [open, user]);
 
-  const doSearch = useCallback(async () => {
-    if (!query.trim()) return;
+  const doSearch = useCallback(async (searchQuery?: string) => {
+    const q = searchQuery ?? query;
+    if (!q.trim()) return;
+    if (searchQuery) setQuery(searchQuery);
     setSearching(true);
+    saveRecentSearch(q);
     try {
-      const items = await searchFoods(query);
+      const items = await searchFoods(q);
       setResults(items);
     } catch (e) {
       if (e instanceof ServiceUnavailableError) {
