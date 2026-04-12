@@ -125,13 +125,34 @@ function ExerciseDragItem({
           </button>
         )}
         {onDelete && (
-          <button
-            onClick={(e) => { e.stopPropagation(); onDelete(); }}
-            className="flex h-6 w-6 items-center justify-center rounded-md bg-destructive/10 text-destructive mr-1 hover:bg-destructive/20 transition-colors"
-            title="Remove exercise"
-          >
-            <Trash2 className="h-3 w-3" />
-          </button>
+          <AlertDialog>
+            <AlertDialogTrigger asChild>
+              <button
+                onClick={(e) => e.stopPropagation()}
+                className="flex h-6 w-6 items-center justify-center rounded-md bg-destructive/10 text-destructive mr-1 hover:bg-destructive/20 transition-colors"
+                title="Remove exercise"
+              >
+                <Trash2 className="h-3 w-3" />
+              </button>
+            </AlertDialogTrigger>
+            <AlertDialogContent className="max-w-sm rounded-2xl">
+              <AlertDialogHeader>
+                <AlertDialogTitle>Remove exercise?</AlertDialogTitle>
+                <AlertDialogDescription>
+                  This will remove <span className="font-medium text-foreground">{name}</span> and all its logged sets from this session.
+                </AlertDialogDescription>
+              </AlertDialogHeader>
+              <AlertDialogFooter>
+                <AlertDialogCancel className="rounded-xl">Cancel</AlertDialogCancel>
+                <AlertDialogAction
+                  onClick={onDelete}
+                  className="rounded-xl bg-destructive text-destructive-foreground hover:bg-destructive/90"
+                >
+                  Remove
+                </AlertDialogAction>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>
         )}
         <button onClick={onToggleExpand}>
           {isExpanded ? <ChevronUp className="h-4 w-4 text-muted-foreground" /> : <ChevronDown className="h-4 w-4 text-muted-foreground" />}
