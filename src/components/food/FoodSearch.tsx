@@ -1,9 +1,10 @@
 import { useState, useCallback, useEffect } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Search, Plus, Loader2, X, Clock, RotateCcw, PenLine } from "lucide-react";
+import { Search, Plus, Loader2, X, Clock, RotateCcw, PenLine, ScanBarcode } from "lucide-react";
 import { searchFoods, FoodItem } from "@/lib/open-food-facts";
 import ManualFoodEntry from "./ManualFoodEntry";
+import BarcodeScanner from "./BarcodeScanner";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { Label } from "@/components/ui/label";
 import { supabase } from "@/integrations/supabase/client";
@@ -42,7 +43,7 @@ export default function FoodSearch({ open, onClose, mealType, date, onLogged }: 
   const [saving, setSaving] = useState(false);
   const [recents, setRecents] = useState<RecentFood[]>([]);
   const [quickAdding, setQuickAdding] = useState<string | null>(null);
-  const [mode, setMode] = useState<"search" | "manual">("search");
+  const [mode, setMode] = useState<"search" | "manual" | "scan">("search");
 
   useEffect(() => {
     if (!open || !user) return;
