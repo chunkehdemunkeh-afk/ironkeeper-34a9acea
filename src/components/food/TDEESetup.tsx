@@ -339,6 +339,49 @@ export default function TDEESetup({ onComplete }: Props) {
               )}
             </motion.div>
           )}
+
+          {step === 4 && (
+            <motion.div
+              key="water"
+              initial={{ opacity: 0, x: 40 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -40 }}
+              transition={{ duration: 0.25 }}
+              className="px-4 pt-4 pb-2"
+            >
+              <h1 className="font-display text-3xl font-bold text-foreground">Daily water goal</h1>
+              <p className="text-muted-foreground mt-2 text-sm">How much water do you want to drink each day?</p>
+
+              <div className="space-y-3 mt-6">
+                {WATER_OPTIONS.map((ml) => {
+                  const isSelected = waterGoalMl === ml;
+                  return (
+                    <motion.button
+                      key={ml}
+                      whileTap={{ scale: 0.98 }}
+                      onClick={() => setWaterGoalMl(ml)}
+                      className={`w-full rounded-2xl p-4 text-left transition-all border flex items-center gap-3 ${
+                        isSelected
+                          ? "border-primary bg-primary/10 ring-1 ring-primary"
+                          : "border-border/50 glass-card hover:border-primary/30"
+                      }`}
+                    >
+                      <Droplet className={`h-5 w-5 ${isSelected ? "text-blue-400" : "text-muted-foreground"}`} />
+                      <div className="flex-1">
+                        <p className="text-sm font-semibold text-foreground">{(ml / 1000).toFixed(1)}L</p>
+                        <p className="text-[11px] text-muted-foreground">{Math.round(ml / 250)} glasses</p>
+                      </div>
+                      {isSelected && (
+                        <div className="flex h-5 w-5 items-center justify-center rounded-full bg-primary shrink-0">
+                          <Check className="h-3 w-3 text-primary-foreground" />
+                        </div>
+                      )}
+                    </motion.button>
+                  );
+                })}
+              </div>
+            </motion.div>
+          )}
         </AnimatePresence>
       </div>
 
