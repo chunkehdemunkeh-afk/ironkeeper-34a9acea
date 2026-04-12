@@ -311,7 +311,8 @@ export default function FoodSearch({ open, onClose, mealType, date, onLogged }: 
                 </div>
               )}
 
-                {selected ? (
+              {selected ? (
+                <div className="flex-1 p-4 space-y-4 overflow-y-auto">
                   <div className="flex items-start justify-between">
                     <div>
                       <h3 className="font-semibold text-sm">{selected.name}</h3>
