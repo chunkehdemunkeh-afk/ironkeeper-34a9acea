@@ -47,6 +47,23 @@ export default function FoodSearch({ open, onClose, mealType, date, onLogged }: 
   const [favouriteNames, setFavouriteNames] = useState<Set<string>>(new Set());
   const [quickAdding, setQuickAdding] = useState<string | null>(null);
   const [mode, setMode] = useState<"search" | "manual" | "scan">("search");
+  const [recentSearches, setRecentSearches] = useState<string[]>([]);
+
+  // Load recent searches from localStorage
+  useEffect(() => {
+    try {
+      const stored = localStorage.getItem("recent-food-searches");
+      if (stored) setRecentSearches(JSON.parse(stored).slice(0, 5));
+    } catch {}
+  }, []);
+
+  const saveRecentSearch = (term: string) => {
+    const trimmed = term.trim().toLowerCase();
+    if (!trimmed) return;
+    const updated = [trimmed, ...recentSearches.filter((s) => s !== trimmed)].slice(0, 5);
+    setRecentSearches(updated);
+    localStorage.setItem("recent-food-searches", JSON.stringify(updated));
+  };
 
   // Fetch recents + favourites on open
   useEffect(() => {
