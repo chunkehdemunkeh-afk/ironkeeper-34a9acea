@@ -1,4 +1,4 @@
-// Open Food Facts API client
+// Open Food Facts API client (via edge function proxy)
 
 export interface FoodItem {
   barcode?: string;
@@ -46,11 +46,14 @@ function parseProduct(p: OFFProduct): FoodItem | null {
   };
 }
 
+const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL;
+
 export async function searchFoods(query: string, page = 1): Promise<FoodItem[]> {
   if (!query.trim()) return [];
-  const url = `https://world.openfoodfacts.org/api/v2/search?search_terms=${encodeURIComponent(query)}&page_size=20&page=${page}&fields=code,product_name,brands,serving_size,nutriments,image_front_small_url`;
   try {
-    const res = await fetch(url);
+    const res = await fetch(
+      `${SUPABASE_URL}/functions/v1/food-search?q=${encodeURIComponent(query)}&page=${page}`
+    );
     if (!res.ok) return [];
     const data = await res.json();
     return (data.products as OFFProduct[])
@@ -63,10 +66,15 @@ export async function searchFoods(query: string, page = 1): Promise<FoodItem[]> 
 
 export async function lookupBarcode(barcode: string): Promise<FoodItem | null> {
   if (!barcode.trim()) return null;
-  const url = `https://world.openfoodfacts.org/api/v2/product/${encodeURIComponent(barcode)}.json?fields=code,product_name,brands,serving_size,nutriments,image_front_small_url`;
-  const res = await fetch(url);
-  if (!res.ok) return null;
-  const data = await res.json();
-  if (data.status !== 1 || !data.product) return null;
-  return parseProduct(data.product as OFFProduct);
+  try {
+    const res = await fetch(
+      `${SUPABASE_URL}/functions/v1/food-search?barcode=${encodeURIComponent(barcode)}`
+    );
+    if (!res.ok) return null;
+    const data = await res.json();
+    if (data.status !== 1 || !data.product) return null;
+    return parseProduct(data.product as OFFProduct);
+  } catch {
+    return null;
+  }
 }
