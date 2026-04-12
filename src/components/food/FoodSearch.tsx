@@ -1,9 +1,10 @@
 import { useState, useCallback, useEffect } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Search, Plus, Loader2, X, Clock, RotateCcw, PenLine } from "lucide-react";
+import { Search, Plus, Loader2, X, Clock, RotateCcw, PenLine, ScanBarcode } from "lucide-react";
 import { searchFoods, FoodItem } from "@/lib/open-food-facts";
 import ManualFoodEntry from "./ManualFoodEntry";
+import BarcodeScanner from "./BarcodeScanner";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { Label } from "@/components/ui/label";
 import { supabase } from "@/integrations/supabase/client";
@@ -42,7 +43,7 @@ export default function FoodSearch({ open, onClose, mealType, date, onLogged }: 
   const [saving, setSaving] = useState(false);
   const [recents, setRecents] = useState<RecentFood[]>([]);
   const [quickAdding, setQuickAdding] = useState<string | null>(null);
-  const [mode, setMode] = useState<"search" | "manual">("search");
+  const [mode, setMode] = useState<"search" | "manual" | "scan">("search");
 
   useEffect(() => {
     if (!open || !user) return;
@@ -157,6 +158,16 @@ export default function FoodSearch({ open, onClose, mealType, date, onLogged }: 
               <Search className="h-3.5 w-3.5" /> Search
             </button>
             <button
+              onClick={() => setMode("scan")}
+              className={`flex-1 flex items-center justify-center gap-1.5 py-2 rounded-lg text-xs font-medium transition-colors ${
+                mode === "scan"
+                  ? "bg-primary text-primary-foreground"
+                  : "bg-secondary text-muted-foreground hover:text-foreground"
+              }`}
+            >
+              <ScanBarcode className="h-3.5 w-3.5" /> Scan
+            </button>
+            <button
               onClick={() => setMode("manual")}
               className={`flex-1 flex items-center justify-center gap-1.5 py-2 rounded-lg text-xs font-medium transition-colors ${
                 mode === "manual"
@@ -164,11 +175,19 @@ export default function FoodSearch({ open, onClose, mealType, date, onLogged }: 
                   : "bg-secondary text-muted-foreground hover:text-foreground"
               }`}
             >
-              <PenLine className="h-3.5 w-3.5" /> Manual Entry
+              <PenLine className="h-3.5 w-3.5" /> Manual
             </button>
           </div>
 
-          {mode === "manual" ? (
+          {mode === "scan" ? (
+            <BarcodeScanner
+              onFoodFound={(food) => {
+                setSelected(food);
+                setServings("1");
+                setMode("search");
+              }}
+            />
+          ) : mode === "manual" ? (
             <ManualFoodEntry mealType={mealType} date={date} onLogged={onLogged} onClose={onClose} />
           ) : (
             <>
