@@ -108,18 +108,19 @@ export default function FoodSearch({ open, onClose, mealType, date, onLogged }: 
     if (!user || !selected) return;
     setSaving(true);
     const qty = Math.max(0.1, parseFloat(servings) || 1);
+    const multiplier = (servingGrams / 100) * qty;
     const { error } = await supabase.from("food_logs").insert({
       user_id: user.id,
       date,
       meal_type: mealType,
       food_name: selected.name,
       brand: selected.brand || null,
-      serving_size: selected.servingSize || "100g",
+      serving_size: `${servingGrams}g`,
       serving_qty: qty,
-      calories: Math.round(selected.calories * qty),
-      protein_g: Math.round(selected.protein * qty * 10) / 10,
-      carbs_g: Math.round(selected.carbs * qty * 10) / 10,
-      fat_g: Math.round(selected.fat * qty * 10) / 10,
+      calories: Math.round(selected.calories * multiplier),
+      protein_g: Math.round(selected.protein * multiplier * 10) / 10,
+      carbs_g: Math.round(selected.carbs * multiplier * 10) / 10,
+      fat_g: Math.round(selected.fat * multiplier * 10) / 10,
       barcode: selected.barcode || null,
     });
     setSaving(false);
