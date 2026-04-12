@@ -287,6 +287,13 @@ export default function FoodTracker() {
           onLogged={fetchData}
         />
       )}
+
+      {/* Nutrition settings sheet */}
+      <NutritionSettings
+        open={showSettings}
+        onClose={() => setShowSettings(false)}
+        onSaved={fetchData}
+      />
     </div>
   );
 }
