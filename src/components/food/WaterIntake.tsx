@@ -10,13 +10,26 @@ interface Props {
 }
 
 const GLASS_ML = 250;
-const GOAL_ML = 2500; // 2.5L daily goal
 
 export default function WaterIntake({ date }: Props) {
   const { user } = useAuth();
   const [totalMl, setTotalMl] = useState(0);
   const [entryIds, setEntryIds] = useState<string[]>([]);
+  const [goalMl, setGoalMl] = useState(2500);
   const [loading, setLoading] = useState(true);
+
+  // Fetch user's water goal
+  useEffect(() => {
+    if (!user) return;
+    supabase
+      .from("nutrition_goals")
+      .select("water_goal_ml")
+      .eq("user_id", user.id)
+      .maybeSingle()
+      .then(({ data }) => {
+        if (data?.water_goal_ml) setGoalMl(data.water_goal_ml);
+      });
+  }, [user]);
 
   const fetchWater = useCallback(async () => {
     if (!user) return;
@@ -56,8 +69,8 @@ export default function WaterIntake({ date }: Props) {
   };
 
   const glasses = Math.round(totalMl / GLASS_ML);
-  const goalGlasses = Math.round(GOAL_ML / GLASS_ML);
-  const pct = Math.min(100, Math.round((totalMl / GOAL_ML) * 100));
+  const goalGlasses = Math.round(goalMl / GLASS_ML);
+  const pct = Math.min(100, Math.round((totalMl / goalMl) * 100));
 
   return (
     <motion.div
@@ -72,7 +85,7 @@ export default function WaterIntake({ date }: Props) {
           </div>
           <div>
             <p className="text-sm font-semibold">Water</p>
-            <p className="text-[10px] text-muted-foreground">{glasses}/{goalGlasses} glasses · {(totalMl / 1000).toFixed(1)}L / {(GOAL_ML / 1000).toFixed(1)}L</p>
+            <p className="text-[10px] text-muted-foreground">{glasses}/{goalGlasses} glasses · {(totalMl / 1000).toFixed(1)}L / {(goalMl / 1000).toFixed(1)}L</p>
           </div>
         </div>
         <div className="flex items-center gap-1">

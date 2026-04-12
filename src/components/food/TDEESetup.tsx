@@ -2,7 +2,7 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { ChevronLeft, ChevronRight, Check, Flame, Beef, Wheat, Droplets } from "lucide-react";
+import { ChevronLeft, ChevronRight, Check, Flame, Beef, Wheat, Droplets, Droplet } from "lucide-react";
 import {
   Gender, ActivityLevel, GoalType,
   ACTIVITY_LABELS, GOAL_LABELS, calculateTDEE,
@@ -32,9 +32,12 @@ export default function TDEESetup({ onComplete }: Props) {
   const [weightKg, setWeightKg] = useState("");
   const [activity, setActivity] = useState<ActivityLevel>("moderate");
   const [goal, setGoal] = useState<GoalType>("maintain");
+  const [waterGoalMl, setWaterGoalMl] = useState(2500);
   const [saving, setSaving] = useState(false);
 
-  const totalSteps = 4;
+  const totalSteps = 5;
+
+  const WATER_OPTIONS = [1500, 2000, 2500, 3000, 3500, 4000];
 
   const canNext =
     step === 0 ? age !== "" :
@@ -60,6 +63,7 @@ export default function TDEESetup({ onComplete }: Props) {
       tdee_activity_level: activity,
       tdee_goal: goal,
       tdee_gender: gender,
+      water_goal_ml: waterGoalMl,
     }, { onConflict: "user_id" });
     setSaving(false);
     if (error) {
@@ -70,7 +74,7 @@ export default function TDEESetup({ onComplete }: Props) {
     onComplete();
   };
 
-  const preview = canNext && isLastStep
+  const preview = canNext && step >= 3
     ? calculateTDEE(gender, +age || 25, Math.round((+heightFt * 12 + (+heightIn || 0)) * 2.54) || 175, +weightKg || 75, activity, goal)
     : null;
 
@@ -333,6 +337,49 @@ export default function TDEESetup({ onComplete }: Props) {
                   </div>
                 </motion.div>
               )}
+            </motion.div>
+          )}
+
+          {step === 4 && (
+            <motion.div
+              key="water"
+              initial={{ opacity: 0, x: 40 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -40 }}
+              transition={{ duration: 0.25 }}
+              className="px-4 pt-4 pb-2"
+            >
+              <h1 className="font-display text-3xl font-bold text-foreground">Daily water goal</h1>
+              <p className="text-muted-foreground mt-2 text-sm">How much water do you want to drink each day?</p>
+
+              <div className="space-y-3 mt-6">
+                {WATER_OPTIONS.map((ml) => {
+                  const isSelected = waterGoalMl === ml;
+                  return (
+                    <motion.button
+                      key={ml}
+                      whileTap={{ scale: 0.98 }}
+                      onClick={() => setWaterGoalMl(ml)}
+                      className={`w-full rounded-2xl p-4 text-left transition-all border flex items-center gap-3 ${
+                        isSelected
+                          ? "border-primary bg-primary/10 ring-1 ring-primary"
+                          : "border-border/50 glass-card hover:border-primary/30"
+                      }`}
+                    >
+                      <Droplet className={`h-5 w-5 ${isSelected ? "text-blue-400" : "text-muted-foreground"}`} />
+                      <div className="flex-1">
+                        <p className="text-sm font-semibold text-foreground">{(ml / 1000).toFixed(1)}L</p>
+                        <p className="text-[11px] text-muted-foreground">{Math.round(ml / 250)} glasses</p>
+                      </div>
+                      {isSelected && (
+                        <div className="flex h-5 w-5 items-center justify-center rounded-full bg-primary shrink-0">
+                          <Check className="h-3 w-3 text-primary-foreground" />
+                        </div>
+                      )}
+                    </motion.button>
+                  );
+                })}
+              </div>
             </motion.div>
           )}
         </AnimatePresence>

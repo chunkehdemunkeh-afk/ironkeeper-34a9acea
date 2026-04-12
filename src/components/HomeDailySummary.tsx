@@ -9,7 +9,7 @@ export default function HomeDailySummary() {
   const { user } = useAuth();
   const today = format(new Date(), "yyyy-MM-dd");
   const [totals, setTotals] = useState({ calories: 0, protein: 0, carbs: 0, fat: 0 });
-  const [goals, setGoals] = useState<{ calories: number; protein_g: number; carbs_g: number; fat_g: number } | null>(null);
+  const [goals, setGoals] = useState<{ calories: number; protein_g: number; carbs_g: number; fat_g: number; water_goal_ml?: number } | null>(null);
   const [waterMl, setWaterMl] = useState(0);
 
   useEffect(() => {
@@ -22,7 +22,7 @@ export default function HomeDailySummary() {
         .eq("date", today),
       supabase
         .from("nutrition_goals")
-        .select("calories, protein_g, carbs_g, fat_g")
+        .select("calories, protein_g, carbs_g, fat_g, water_goal_ml")
         .eq("user_id", user.id)
         .maybeSingle(),
       supabase
@@ -50,7 +50,7 @@ export default function HomeDailySummary() {
   if (!goals) return null;
 
   const pct = (val: number, target: number) => Math.min(100, Math.round((val / target) * 100));
-  const waterGoal = 2500;
+  const waterGoal = goals.water_goal_ml || 2500;
 
   return (
     <motion.div
