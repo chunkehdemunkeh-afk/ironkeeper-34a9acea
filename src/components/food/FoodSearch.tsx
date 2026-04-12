@@ -91,8 +91,15 @@ export default function FoodSearch({ open, onClose, mealType, date, onLogged }: 
   const doSearch = useCallback(async () => {
     if (!query.trim()) return;
     setSearching(true);
-    const items = await searchFoods(query);
-    setResults(items);
+    try {
+      const items = await searchFoods(query);
+      setResults(items);
+    } catch (e) {
+      if (e instanceof ServiceUnavailableError) {
+        toast.error(e.message);
+      }
+      setResults([]);
+    }
     setSearching(false);
   }, [query]);
 
