@@ -1016,6 +1016,7 @@ export default function WorkoutSession() {
                           onPlayVideo={() => setVideoExercise({ name: gDisplayName, id: gExId })}
                           onSwap={() => setSwapExerciseId(gExId)}
                           hasSubs={gHasSubs}
+                          onDelete={() => removeExercise(gExId)}
                         >
                           <AnimatePresence>
                             {gIsExpanded && (
