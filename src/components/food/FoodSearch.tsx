@@ -2,7 +2,7 @@ import { useState, useCallback, useEffect } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Search, Plus, Loader2, X, Clock, RotateCcw, PenLine, ScanBarcode, Star } from "lucide-react";
-import { searchFoods, FoodItem } from "@/lib/open-food-facts";
+import { searchFoods, FoodItem, ServiceUnavailableError } from "@/lib/open-food-facts";
 import ManualFoodEntry from "./ManualFoodEntry";
 import BarcodeScanner from "./BarcodeScanner";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
@@ -91,8 +91,15 @@ export default function FoodSearch({ open, onClose, mealType, date, onLogged }: 
   const doSearch = useCallback(async () => {
     if (!query.trim()) return;
     setSearching(true);
-    const items = await searchFoods(query);
-    setResults(items);
+    try {
+      const items = await searchFoods(query);
+      setResults(items);
+    } catch (e) {
+      if (e instanceof ServiceUnavailableError) {
+        toast.error(e.message);
+      }
+      setResults([]);
+    }
     setSearching(false);
   }, [query]);
 
