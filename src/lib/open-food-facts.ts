@@ -48,13 +48,17 @@ function parseProduct(p: OFFProduct): FoodItem | null {
 
 export async function searchFoods(query: string, page = 1): Promise<FoodItem[]> {
   if (!query.trim()) return [];
-  const url = `https://world.openfoodfacts.org/cgi/search.pl?search_terms=${encodeURIComponent(query)}&search_simple=1&action=process&json=1&page_size=20&page=${page}&fields=code,product_name,brands,serving_size,nutriments,image_front_small_url`;
-  const res = await fetch(url);
-  if (!res.ok) return [];
-  const data = await res.json();
-  return (data.products as OFFProduct[])
-    .map(parseProduct)
-    .filter((p): p is FoodItem => p !== null && p.calories > 0);
+  const url = `https://world.openfoodfacts.org/api/v2/search?search_terms=${encodeURIComponent(query)}&page_size=20&page=${page}&fields=code,product_name,brands,serving_size,nutriments,image_front_small_url`;
+  try {
+    const res = await fetch(url);
+    if (!res.ok) return [];
+    const data = await res.json();
+    return (data.products as OFFProduct[])
+      .map(parseProduct)
+      .filter((p): p is FoodItem => p !== null && p.calories > 0);
+  } catch {
+    return [];
+  }
 }
 
 export async function lookupBarcode(barcode: string): Promise<FoodItem | null> {
