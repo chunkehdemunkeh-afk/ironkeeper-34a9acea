@@ -456,7 +456,7 @@ export default function FoodSearch({ open, onClose, mealType, date, onLogged }: 
                   {results.map((item, i) => (
                     <button
                       key={`${item.barcode}-${i}`}
-                      onClick={() => { setSelected(item); setServings("1"); }}
+                      onClick={() => { setSelected(item); setServings("1"); setServingGrams(100); }}
                       className="w-full flex items-center gap-3 p-3 rounded-xl bg-card border border-border hover:border-primary/50 transition-colors text-left"
                     >
                       {item.imageUrl ? (
