@@ -295,7 +295,22 @@ export default function FoodSearch({ open, onClose, mealType, date, onLogged }: 
                 </form>
               </div>
 
-              {selected ? (
+              {/* Recent searches */}
+              {!selected && results.length === 0 && !query && recentSearches.length > 0 && (
+                <div className="px-4 pb-2 flex flex-wrap gap-2">
+                  {recentSearches.map((term) => (
+                    <button
+                      key={term}
+                      onClick={() => doSearch(term)}
+                      className="flex items-center gap-1 px-3 py-1.5 rounded-full bg-secondary text-xs text-muted-foreground hover:text-foreground transition-colors"
+                    >
+                      <Clock className="h-3 w-3" />
+                      <span className="capitalize">{term}</span>
+                    </button>
+                  ))}
+                </div>
+              )}
+
                 <div className="flex-1 p-4 space-y-4 overflow-y-auto">
                   <div className="flex items-start justify-between">
                     <div>
