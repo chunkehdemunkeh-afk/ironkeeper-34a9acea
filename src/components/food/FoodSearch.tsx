@@ -43,7 +43,7 @@ export default function FoodSearch({ open, onClose, mealType, date, onLogged }: 
   const [recents, setRecents] = useState<RecentFood[]>([]);
   const [quickAdding, setQuickAdding] = useState<string | null>(null);
   const [mode, setMode] = useState<"search" | "manual">("search");
-  // Fetch recent unique foods on open
+
   useEffect(() => {
     if (!open || !user) return;
     (async () => {
@@ -54,7 +54,6 @@ export default function FoodSearch({ open, onClose, mealType, date, onLogged }: 
         .order("created_at", { ascending: false })
         .limit(50);
       if (!data) return;
-      // Deduplicate by food_name, keep most recent
       const seen = new Set<string>();
       const unique: RecentFood[] = [];
       for (const row of data) {
@@ -145,155 +144,182 @@ export default function FoodSearch({ open, onClose, mealType, date, onLogged }: 
             <SheetTitle className="capitalize text-left">Add to {mealType}</SheetTitle>
           </SheetHeader>
 
-          {/* Search */}
-          <div className="px-4 pb-3">
-            <form
-              onSubmit={(e) => { e.preventDefault(); doSearch(); }}
-              className="flex gap-2"
+          {/* Mode tabs */}
+          <div className="flex px-4 pb-3 gap-2">
+            <button
+              onClick={() => setMode("search")}
+              className={`flex-1 flex items-center justify-center gap-1.5 py-2 rounded-lg text-xs font-medium transition-colors ${
+                mode === "search"
+                  ? "bg-primary text-primary-foreground"
+                  : "bg-secondary text-muted-foreground hover:text-foreground"
+              }`}
             >
-              <div className="relative flex-1">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                <Input
-                  value={query}
-                  onChange={(e) => setQuery(e.target.value)}
-                  placeholder="Search foods..."
-                  className="pl-9 h-10"
-                  autoFocus
-                />
-              </div>
-              <Button type="submit" size="sm" disabled={searching} className="h-10 px-4">
-                {searching ? <Loader2 className="h-4 w-4 animate-spin" /> : "Search"}
-              </Button>
-            </form>
+              <Search className="h-3.5 w-3.5" /> Search
+            </button>
+            <button
+              onClick={() => setMode("manual")}
+              className={`flex-1 flex items-center justify-center gap-1.5 py-2 rounded-lg text-xs font-medium transition-colors ${
+                mode === "manual"
+                  ? "bg-primary text-primary-foreground"
+                  : "bg-secondary text-muted-foreground hover:text-foreground"
+              }`}
+            >
+              <PenLine className="h-3.5 w-3.5" /> Manual Entry
+            </button>
           </div>
 
-          {/* Selected item detail */}
-          {selected ? (
-            <div className="flex-1 p-4 space-y-4 overflow-y-auto">
-              <div className="flex items-start justify-between">
-                <div>
-                  <h3 className="font-semibold text-sm">{selected.name}</h3>
-                  {selected.brand && (
-                    <p className="text-xs text-muted-foreground">{selected.brand}</p>
-                  )}
-                </div>
-                <button onClick={() => setSelected(null)}>
-                  <X className="h-4 w-4 text-muted-foreground" />
-                </button>
-              </div>
-
-              <div className="grid grid-cols-4 gap-2 text-center p-3 rounded-xl bg-secondary/50">
-                <div>
-                  <div className="text-base font-bold text-primary">
-                    {Math.round(selected.calories * (parseFloat(servings) || 1))}
-                  </div>
-                  <div className="text-[10px] text-muted-foreground">kcal</div>
-                </div>
-                <div>
-                  <div className="text-base font-bold text-blue-400">
-                    {(selected.protein * (parseFloat(servings) || 1)).toFixed(1)}g
-                  </div>
-                  <div className="text-[10px] text-muted-foreground">Protein</div>
-                </div>
-                <div>
-                  <div className="text-base font-bold text-amber-400">
-                    {(selected.carbs * (parseFloat(servings) || 1)).toFixed(1)}g
-                  </div>
-                  <div className="text-[10px] text-muted-foreground">Carbs</div>
-                </div>
-                <div>
-                  <div className="text-base font-bold text-rose-400">
-                    {(selected.fat * (parseFloat(servings) || 1)).toFixed(1)}g
-                  </div>
-                  <div className="text-[10px] text-muted-foreground">Fat</div>
-                </div>
-              </div>
-
-              <div>
-                <Label className="text-xs text-muted-foreground">
-                  Servings ({selected.servingSize || "100g"} per serving)
-                </Label>
-                <Input
-                  type="number"
-                  step="0.5"
-                  min="0.1"
-                  value={servings}
-                  onChange={(e) => setServings(e.target.value)}
-                  className="mt-1 h-12 text-lg"
-                />
-              </div>
-
-              <Button onClick={handleLog} disabled={saving} className="w-full h-12 font-semibold">
-                <Plus className="h-4 w-4 mr-2" />
-                {saving ? "Logging..." : "Log Food"}
-              </Button>
-            </div>
+          {mode === "manual" ? (
+            <ManualFoodEntry mealType={mealType} date={date} onLogged={onLogged} onClose={onClose} />
           ) : (
-            <div className="flex-1 overflow-y-auto px-4 space-y-2 pb-4">
-              {/* Recent foods */}
-              {showRecents && (
-                <div className="space-y-2">
-                  <div className="flex items-center gap-1.5 text-muted-foreground mb-1">
-                    <Clock className="h-3.5 w-3.5" />
-                    <span className="text-xs font-medium">Recent Foods</span>
+            <>
+              {/* Search bar */}
+              <div className="px-4 pb-3">
+                <form
+                  onSubmit={(e) => { e.preventDefault(); doSearch(); }}
+                  className="flex gap-2"
+                >
+                  <div className="relative flex-1">
+                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                    <Input
+                      value={query}
+                      onChange={(e) => setQuery(e.target.value)}
+                      placeholder="Search foods..."
+                      className="pl-9 h-10"
+                      autoFocus
+                    />
                   </div>
-                  {recents.map((food, i) => (
-                    <button
-                      key={`recent-${i}`}
-                      onClick={() => quickAdd(food)}
-                      disabled={quickAdding === food.food_name}
-                      className="w-full flex items-center gap-3 p-3 rounded-xl bg-card border border-border hover:border-primary/50 transition-colors text-left disabled:opacity-50"
-                    >
-                      <div className="h-10 w-10 rounded-lg bg-secondary flex items-center justify-center shrink-0">
-                        <RotateCcw className="h-4 w-4 text-muted-foreground" />
+                  <Button type="submit" size="sm" disabled={searching} className="h-10 px-4">
+                    {searching ? <Loader2 className="h-4 w-4 animate-spin" /> : "Search"}
+                  </Button>
+                </form>
+              </div>
+
+              {selected ? (
+                <div className="flex-1 p-4 space-y-4 overflow-y-auto">
+                  <div className="flex items-start justify-between">
+                    <div>
+                      <h3 className="font-semibold text-sm">{selected.name}</h3>
+                      {selected.brand && (
+                        <p className="text-xs text-muted-foreground">{selected.brand}</p>
+                      )}
+                    </div>
+                    <button onClick={() => setSelected(null)}>
+                      <X className="h-4 w-4 text-muted-foreground" />
+                    </button>
+                  </div>
+
+                  <div className="grid grid-cols-4 gap-2 text-center p-3 rounded-xl bg-secondary/50">
+                    <div>
+                      <div className="text-base font-bold text-primary">
+                        {Math.round(selected.calories * (parseFloat(servings) || 1))}
                       </div>
+                      <div className="text-[10px] text-muted-foreground">kcal</div>
+                    </div>
+                    <div>
+                      <div className="text-base font-bold text-blue-400">
+                        {(selected.protein * (parseFloat(servings) || 1)).toFixed(1)}g
+                      </div>
+                      <div className="text-[10px] text-muted-foreground">Protein</div>
+                    </div>
+                    <div>
+                      <div className="text-base font-bold text-amber-400">
+                        {(selected.carbs * (parseFloat(servings) || 1)).toFixed(1)}g
+                      </div>
+                      <div className="text-[10px] text-muted-foreground">Carbs</div>
+                    </div>
+                    <div>
+                      <div className="text-base font-bold text-rose-400">
+                        {(selected.fat * (parseFloat(servings) || 1)).toFixed(1)}g
+                      </div>
+                      <div className="text-[10px] text-muted-foreground">Fat</div>
+                    </div>
+                  </div>
+
+                  <div>
+                    <Label className="text-xs text-muted-foreground">
+                      Servings ({selected.servingSize || "100g"} per serving)
+                    </Label>
+                    <Input
+                      type="number"
+                      step="0.5"
+                      min="0.1"
+                      value={servings}
+                      onChange={(e) => setServings(e.target.value)}
+                      className="mt-1 h-12 text-lg"
+                    />
+                  </div>
+
+                  <Button onClick={handleLog} disabled={saving} className="w-full h-12 font-semibold">
+                    <Plus className="h-4 w-4 mr-2" />
+                    {saving ? "Logging..." : "Log Food"}
+                  </Button>
+                </div>
+              ) : (
+                <div className="flex-1 overflow-y-auto px-4 space-y-2 pb-4">
+                  {showRecents && (
+                    <div className="space-y-2">
+                      <div className="flex items-center gap-1.5 text-muted-foreground mb-1">
+                        <Clock className="h-3.5 w-3.5" />
+                        <span className="text-xs font-medium">Recent Foods</span>
+                      </div>
+                      {recents.map((food, i) => (
+                        <button
+                          key={`recent-${i}`}
+                          onClick={() => quickAdd(food)}
+                          disabled={quickAdding === food.food_name}
+                          className="w-full flex items-center gap-3 p-3 rounded-xl bg-card border border-border hover:border-primary/50 transition-colors text-left disabled:opacity-50"
+                        >
+                          <div className="h-10 w-10 rounded-lg bg-secondary flex items-center justify-center shrink-0">
+                            <RotateCcw className="h-4 w-4 text-muted-foreground" />
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <p className="text-sm font-medium truncate">{food.food_name}</p>
+                            <p className="text-[10px] text-muted-foreground truncate">
+                              {food.serving_qty}× {food.serving_size || "100g"} · {Math.round(food.protein_g)}p · {Math.round(food.carbs_g)}c · {Math.round(food.fat_g)}f
+                            </p>
+                          </div>
+                          <div className="text-right shrink-0">
+                            <div className="text-sm font-bold text-primary">{Math.round(food.calories)}</div>
+                            <div className="text-[10px] text-muted-foreground">kcal</div>
+                          </div>
+                        </button>
+                      ))}
+                      <div className="border-t border-border my-3" />
+                      <p className="text-center text-xs text-muted-foreground">
+                        Or search for new foods above
+                      </p>
+                    </div>
+                  )}
+
+                  {results.length === 0 && !searching && query && (
+                    <p className="text-center text-muted-foreground text-sm py-8">
+                      No results found. Try a different search.
+                    </p>
+                  )}
+                  {results.map((item, i) => (
+                    <button
+                      key={`${item.barcode}-${i}`}
+                      onClick={() => { setSelected(item); setServings("1"); }}
+                      className="w-full flex items-center gap-3 p-3 rounded-xl bg-card border border-border hover:border-primary/50 transition-colors text-left"
+                    >
+                      {item.imageUrl ? (
+                        <img src={item.imageUrl} alt="" className="h-10 w-10 rounded-lg object-cover" />
+                      ) : (
+                        <div className="h-10 w-10 rounded-lg bg-secondary flex items-center justify-center text-muted-foreground text-xs">🍽</div>
+                      )}
                       <div className="flex-1 min-w-0">
-                        <p className="text-sm font-medium truncate">{food.food_name}</p>
-                        <p className="text-[10px] text-muted-foreground truncate">
-                          {food.serving_qty}× {food.serving_size || "100g"} · {Math.round(food.protein_g)}p · {Math.round(food.carbs_g)}c · {Math.round(food.fat_g)}f
-                        </p>
+                        <p className="text-sm font-medium truncate">{item.name}</p>
+                        {item.brand && <p className="text-xs text-muted-foreground truncate">{item.brand}</p>}
                       </div>
                       <div className="text-right shrink-0">
-                        <div className="text-sm font-bold text-primary">{Math.round(food.calories)}</div>
-                        <div className="text-[10px] text-muted-foreground">kcal</div>
+                        <div className="text-sm font-bold text-primary">{item.calories}</div>
+                        <div className="text-[10px] text-muted-foreground">kcal/100g</div>
                       </div>
                     </button>
                   ))}
-                  <div className="border-t border-border my-3" />
-                  <p className="text-center text-xs text-muted-foreground">
-                    Or search for new foods above
-                  </p>
                 </div>
               )}
-
-              {/* Search results */}
-              {results.length === 0 && !searching && query && (
-                <p className="text-center text-muted-foreground text-sm py-8">
-                  No results found. Try a different search.
-                </p>
-              )}
-              {results.map((item, i) => (
-                <button
-                  key={`${item.barcode}-${i}`}
-                  onClick={() => { setSelected(item); setServings("1"); }}
-                  className="w-full flex items-center gap-3 p-3 rounded-xl bg-card border border-border hover:border-primary/50 transition-colors text-left"
-                >
-                  {item.imageUrl ? (
-                    <img src={item.imageUrl} alt="" className="h-10 w-10 rounded-lg object-cover" />
-                  ) : (
-                    <div className="h-10 w-10 rounded-lg bg-secondary flex items-center justify-center text-muted-foreground text-xs">🍽</div>
-                  )}
-                  <div className="flex-1 min-w-0">
-                    <p className="text-sm font-medium truncate">{item.name}</p>
-                    {item.brand && <p className="text-xs text-muted-foreground truncate">{item.brand}</p>}
-                  </div>
-                  <div className="text-right shrink-0">
-                    <div className="text-sm font-bold text-primary">{item.calories}</div>
-                    <div className="text-[10px] text-muted-foreground">kcal/100g</div>
-                  </div>
-                </button>
-              ))}
-            </div>
+            </>
           )}
         </div>
       </SheetContent>
