@@ -134,7 +134,7 @@ export async function lookupBarcode(barcode: string): Promise<FoodItem | null> {
   // Try FatSecret barcode lookup first
   try {
     const res = await fetch(
-      `${SUPABASE_URL}/functions/v1/fatsecret-search?barcode=${encodeURIComponent(barcode)}`
+      `${SUPABASE_URL}/functions/v1/fatsecret-search?barcode=${encodeURIComponent(barcode)}&region=GB&language=en`
     );
     if (res.ok) {
       const data = await res.json();
