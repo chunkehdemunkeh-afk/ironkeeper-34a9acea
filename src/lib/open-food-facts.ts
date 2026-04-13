@@ -22,11 +22,12 @@ const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL;
 
 function parseFatSecretDescription(desc: string): { calories: number; fat: number; carbs: number; protein: number; servingSize: string } {
   // Format: "Per 100g - Calories: 110kcal | Fat: 1.24g | Carbs: 0.00g | Protein: 23.09g"
+  // Or:     "Per 1 serving (61g) - Calories: 170kcal | Fat: 3.00g | Carbs: 24.70g | Protein: 10.40g"
   const servingMatch = desc.match(/^Per\s+(.+?)\s*-/);
   const calMatch = desc.match(/Calories:\s*([\d.]+)/);
   const fatMatch = desc.match(/Fat:\s*([\d.]+)/);
   const carbMatch = desc.match(/Carbs:\s*([\d.]+)/);
-  const protMatch = desc.match(/Protein:\s*([\d.]+)/);
+  const protMatch = desc.match(/Prot(?:ein)?:\s*([\d.]+)/);
 
   return {
     servingSize: servingMatch?.[1] || "1 serving",
@@ -98,7 +99,7 @@ export async function searchFoods(query: string, page = 1): Promise<FoodItem[]> 
   // Try FatSecret first
   try {
     const res = await fetch(
-      `${SUPABASE_URL}/functions/v1/fatsecret-search?q=${encodeURIComponent(query)}&page=${Math.max(0, page - 1)}`
+      `${SUPABASE_URL}/functions/v1/fatsecret-search?q=${encodeURIComponent(query)}&page=${Math.max(0, page - 1)}&region=GB&language=en`
     );
     if (res.ok) {
       const data = await res.json();
@@ -134,7 +135,7 @@ export async function lookupBarcode(barcode: string): Promise<FoodItem | null> {
   // Try FatSecret barcode lookup first
   try {
     const res = await fetch(
-      `${SUPABASE_URL}/functions/v1/fatsecret-search?barcode=${encodeURIComponent(barcode)}`
+      `${SUPABASE_URL}/functions/v1/fatsecret-search?barcode=${encodeURIComponent(barcode)}&region=GB&language=en`
     );
     if (res.ok) {
       const data = await res.json();
