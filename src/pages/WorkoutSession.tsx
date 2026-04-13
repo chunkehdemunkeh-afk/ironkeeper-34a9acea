@@ -1115,20 +1115,36 @@ export default function WorkoutSession() {
                                     const isTimeBased = repLabel === "Sec";
                                     if (!isTimeBased && canTrackWeight) {
                                       return (
-                                        <label className="flex items-center gap-1 text-[10px] text-muted-foreground cursor-pointer select-none ml-auto">
-                                          <input
-                                            type="checkbox"
-                                            checked={bodyweightExercises.has(gExId)}
-                                            onChange={() => setBodyweightExercises(prev => {
-                                              const next = new Set(prev);
-                                              if (next.has(gExId)) next.delete(gExId);
-                                              else next.add(gExId);
-                                              return next;
-                                            })}
-                                            className="rounded border-border accent-primary h-3 w-3"
-                                          />
-                                          BW
-                                        </label>
+                                        <div className="flex items-center gap-2 ml-auto">
+                                          <label className="flex items-center gap-1 text-[10px] text-muted-foreground cursor-pointer select-none">
+                                            <Switch
+                                              checked={bodyweightExercises.has(gExId)}
+                                              onCheckedChange={() => setBodyweightExercises(prev => {
+                                                const next = new Set(prev);
+                                                if (next.has(gExId)) next.delete(gExId);
+                                                else next.add(gExId);
+                                                return next;
+                                              })}
+                                              className="h-4 w-7 data-[state=checked]:bg-primary [&>span]:h-3 [&>span]:w-3"
+                                            />
+                                            BW
+                                          </label>
+                                          {gExId === "acc-grip1" && (
+                                            <label className="flex items-center gap-1 text-[10px] text-muted-foreground cursor-pointer select-none">
+                                              <Switch
+                                                checked={twoHandedExercises.has(gExId)}
+                                                onCheckedChange={() => setTwoHandedExercises(prev => {
+                                                  const next = new Set(prev);
+                                                  if (next.has(gExId)) next.delete(gExId);
+                                                  else next.add(gExId);
+                                                  return next;
+                                                })}
+                                                className="h-4 w-7 data-[state=checked]:bg-primary [&>span]:h-3 [&>span]:w-3"
+                                              />
+                                              2H
+                                            </label>
+                                          )}
+                                        </div>
                                       );
                                     }
                                     return null;
