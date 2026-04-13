@@ -1033,6 +1033,16 @@ export default function WorkoutSession() {
             // Wrap superset groups with a visual indicator
             if (ssInfo?.isFirst) {
               const groupExIds = ssInfo.exerciseIds;
+              const groupExercises = groupExIds.map(id => {
+                const gEx = allExercises.find(e => e.id === id);
+                const gOverride = exerciseOverrides[id];
+                return gEx ? { ex: gEx, override: gOverride, displayName: gOverride?.name || gEx.name, exId: id } : null;
+              }).filter(Boolean) as { ex: typeof allExercises[0]; override: typeof exerciseOverrides[string]; displayName: string; exId: string }[];
+
+              const maxSets = Math.max(...groupExIds.map(id => setLogs[id]?.length || 0));
+              const allGroupDone = groupExIds.every(id => setLogs[id]?.every(s => s.completed));
+              const isSSExpanded = expandedExercise === `ss-${ex.id}`;
+
               return (
                 <div key={`ss-${ex.id}`} className="relative">
                   <div className="flex items-center gap-2 mb-1.5">
@@ -1042,126 +1052,133 @@ export default function WorkoutSession() {
                     </div>
                     <div className="flex-1 h-px bg-border/50" />
                   </div>
-                  <div className="relative pl-3 space-y-2">
-                    <div className="absolute left-0 top-0 bottom-0 w-0.5 rounded-full bg-gradient-to-b from-primary via-primary/60 to-primary" />
-                    {groupExIds.map((gExId) => {
-                      const gEx = allExercises.find(e => e.id === gExId);
-                      if (!gEx) return null;
-                      const gIsExpanded = expandedExercise === gExId;
-                      const gAllDone = setLogs[gExId]?.every((s) => s.completed);
-                      const gOverride = exerciseOverrides[gExId];
-                      const gDisplayName = gOverride?.name || gEx.name;
-                      const gHasSubs = !!(allSubs[gExId] && allSubs[gExId].length > 0);
-                      const gIdx = orderedExercises.indexOf(gEx);
+                  {/* Superset header card */}
+                  <div
+                    className={`glass-card rounded-xl overflow-hidden transition-all border ${allGroupDone ? "border-success/40 bg-success/5" : "border-border/50"}`}
+                    onClick={() => setExpandedExercise(isSSExpanded ? null : `ss-${ex.id}`)}
+                  >
+                    <div className="flex items-center gap-3 px-3 py-2.5 cursor-pointer">
+                      <div className={`flex h-8 w-8 items-center justify-center rounded-lg text-sm font-bold ${allGroupDone ? "bg-success/20 text-success" : "bg-primary/10 text-primary"}`}>
+                        {allGroupDone ? <Check className="h-4 w-4" /> : <Flame className="h-4 w-4" />}
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center gap-1.5">
+                          <span className={`text-sm font-semibold truncate ${allGroupDone ? "text-success" : "text-foreground"}`}>
+                            {groupExercises.map(g => g.displayName).join(" / ")}
+                          </span>
+                        </div>
+                        <span className="text-[11px] text-muted-foreground">{maxSets} rounds</span>
+                      </div>
+                      <div className="text-muted-foreground">
+                        {isSSExpanded ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
+                      </div>
+                    </div>
 
-                      return (
-                        <ExerciseDragItem
-                          key={gExId}
-                          exId={gExId}
-                          isExpanded={gIsExpanded}
-                          allDone={gAllDone}
-                          index={gIdx}
-                          name={gDisplayName}
-                          sets={setLogs[gExId]?.length || gEx.sets}
-                          reps={gEx.reps}
-                          onToggleExpand={() => setExpandedExercise(gIsExpanded ? null : gExId)}
-                          onPlayVideo={() => setVideoExercise({ name: gDisplayName, id: gExId })}
-                          onSwap={() => setSwapExerciseId(gExId)}
-                          hasSubs={gHasSubs}
-                          onDelete={() => removeExercise(gExId)}
+                    <AnimatePresence>
+                      {isSSExpanded && (
+                        <motion.div
+                          initial={{ height: 0, opacity: 0 }}
+                          animate={{ height: "auto", opacity: 1 }}
+                          exit={{ height: 0, opacity: 0 }}
+                          transition={{ duration: 0.2 }}
+                          className="overflow-hidden"
                         >
-                          <AnimatePresence>
-                            {gIsExpanded && (
-                              <motion.div
-                                initial={{ height: 0, opacity: 0 }}
-                                animate={{ height: "auto", opacity: 1 }}
-                                exit={{ height: 0, opacity: 0 }}
-                                transition={{ duration: 0.2 }}
-                                className="overflow-hidden"
-                              >
-                                <div className="px-3 pb-3 space-y-2">
-                                  {(gOverride?.notes || gEx.notes) && (
-                                    <p className="text-[11px] text-primary/80 bg-primary/5 rounded-lg px-2 py-1.5">
-                                      {gOverride?.notes || gEx.notes}
-                                    </p>
-                                  )}
-                                  <textarea
-                                    placeholder={lastExerciseNotes[gExId] || "Add notes for this exercise..."}
-                                    value={exerciseNotes[gExId] || ""}
-                                    onChange={(e) => setExerciseNotes((prev) => ({ ...prev, [gExId]: e.target.value }))}
-                                    rows={1}
-                                    className="w-full rounded-lg bg-muted/50 border border-border/50 px-2.5 py-1.5 text-xs text-foreground outline-none focus:ring-1 focus:ring-primary/50 placeholder:text-muted-foreground/40 resize-none"
-                                  />
+                          <div className="px-3 pb-3 space-y-3">
+                            {/* Notes & BW toggles per exercise */}
+                            {groupExercises.map(({ ex: gEx, override: gOverride, displayName, exId: gExId }) => (
+                              <div key={gExId} className="space-y-1">
+                                <div className="flex items-center gap-2">
+                                  <span className="text-xs font-semibold text-foreground">{displayName}</span>
                                   {(() => {
-                                    const isBW = bodyweightExercises.has(gExId);
-                                    const showWeight = !isBW && (gOverride?.trackWeight ?? gEx.trackWeight) !== false;
+                                    const canTrackWeight = (gOverride?.trackWeight ?? gEx.trackWeight) !== false;
                                     const repLabel = gOverride?.repLabel || gEx.repLabel || "Reps";
-                                    const weightLabel = gOverride?.weightLabel || gEx.weightLabel || "Kg";
                                     const isTimeBased = repLabel === "Sec";
-                                    const parseTargetSeconds = (reps: string) => {
-                                      const match = reps.match(/(\d+)/);
-                                      return match ? parseInt(match[1], 10) : 30;
-                                    };
-                                    const targetSec = isTimeBased ? parseTargetSeconds(gEx.reps) : 0;
-
-                                    return (
-                                      <>
-                                        {!isTimeBased && (gOverride?.trackWeight ?? gEx.trackWeight) !== false && (
-                                          <label className="flex items-center gap-1.5 text-[11px] text-muted-foreground cursor-pointer select-none mb-1">
-                                            <input
-                                              type="checkbox"
-                                              checked={isBW}
-                                              onChange={() => setBodyweightExercises(prev => {
-                                                const next = new Set(prev);
-                                                if (next.has(gExId)) next.delete(gExId);
-                                                else next.add(gExId);
-                                                return next;
-                                              })}
-                                              className="rounded border-border accent-primary h-3.5 w-3.5"
-                                            />
-                                            Bodyweight
-                                          </label>
-                                        )}
-                                        <div className={`grid ${isTimeBased ? "grid-cols-[28px_1fr_36px]" : showWeight ? "grid-cols-[28px_1fr_1fr_36px]" : "grid-cols-[28px_1fr_36px]"} gap-x-1.5 items-center text-[10px] text-muted-foreground font-medium uppercase tracking-wider`}>
-                                          <span className="text-center">Set</span>
-                                          {!isTimeBased && showWeight && <span className="text-center">{weightLabel}</span>}
-                                          <span className="text-center">{isTimeBased ? "Timer" : repLabel}</span>
-                                          <span className="text-center">✓</span>
-                                        </div>
-                                        {setLogs[gExId]?.map((set, si) => (
-                                          <SwipeableSetRow key={si} onDelete={() => deleteSet(gExId, si)}>
-                                            <div className={`grid ${isTimeBased ? "grid-cols-[28px_1fr_36px]" : showWeight ? "grid-cols-[28px_1fr_1fr_36px]" : "grid-cols-[28px_1fr_36px]"} gap-x-1.5 items-center bg-background`}>
-                                              <span className={`text-xs font-medium text-center ${set.completed ? "text-success" : "text-muted-foreground"}`}>{si + 1}</span>
-                                              {isTimeBased ? (
-                                                <ExerciseTimer targetSeconds={targetSec} onComplete={(secs) => { updateSetField(gExId, si, "reps", secs); toggleSet(gExId, si); }} />
-                                              ) : (
-                                                <>
-                                                  {showWeight && (
-                                                    <input type="number" inputMode="decimal" placeholder={lastSessionData[getEffectiveExId(gExId)]?.[si]?.weight?.toString() || "0"} value={set.weight || ""} onChange={(e) => updateSetField(gExId, si, "weight", Number(e.target.value))} className={`h-9 w-full rounded-lg px-2 text-sm text-center outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none transition-all ${set.completed ? "bg-success/15 border border-success/40 text-success font-semibold ring-1 ring-success/20" : "bg-muted/50 border border-border/50 focus:ring-1 focus:ring-primary/50 placeholder:text-muted-foreground/40"}`} />
-                                                  )}
-                                                  <input type="number" inputMode="numeric" placeholder={lastSessionData[getEffectiveExId(gExId)]?.[si]?.reps?.toString() || "0"} value={set.reps || ""} onChange={(e) => updateSetField(gExId, si, "reps", Number(e.target.value))} className={`h-9 w-full rounded-lg px-2 text-sm text-center outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none transition-all ${set.completed ? "bg-success/15 border border-success/40 text-success font-semibold ring-1 ring-success/20" : "bg-muted/50 border border-border/50 focus:ring-1 focus:ring-primary/50 placeholder:text-muted-foreground/40"}`} />
-                                                </>
-                                              )}
-                                              <button onClick={() => toggleSet(gExId, si)} className={`flex h-9 w-9 items-center justify-center rounded-lg transition-all ${set.completed ? "bg-success text-success-foreground glow-success" : "bg-muted/50 text-muted-foreground border border-border/50"}`}>
-                                                <Check className="h-3.5 w-3.5" />
-                                              </button>
-                                            </div>
-                                          </SwipeableSetRow>
-                                        ))}
-                                        <button onClick={() => addSet(gExId)} className="w-full flex items-center justify-center gap-1.5 py-2 rounded-lg border border-dashed border-border/60 text-xs text-muted-foreground hover:text-foreground hover:border-primary/40 transition-colors mt-1">
-                                          <Plus className="h-3 w-3" />
-                                          Add Set
-                                        </button>
-                                      </>
-                                    );
+                                    if (!isTimeBased && canTrackWeight) {
+                                      return (
+                                        <label className="flex items-center gap-1 text-[10px] text-muted-foreground cursor-pointer select-none ml-auto">
+                                          <input
+                                            type="checkbox"
+                                            checked={bodyweightExercises.has(gExId)}
+                                            onChange={() => setBodyweightExercises(prev => {
+                                              const next = new Set(prev);
+                                              if (next.has(gExId)) next.delete(gExId);
+                                              else next.add(gExId);
+                                              return next;
+                                            })}
+                                            className="rounded border-border accent-primary h-3 w-3"
+                                          />
+                                          BW
+                                        </label>
+                                      );
+                                    }
+                                    return null;
                                   })()}
                                 </div>
-                              </motion.div>
-                            )}
-                          </AnimatePresence>
-                        </ExerciseDragItem>
-                      );
-                    })}
+                                {(gOverride?.notes || gEx.notes) && (
+                                  <p className="text-[11px] text-primary/80 bg-primary/5 rounded-lg px-2 py-1">{gOverride?.notes || gEx.notes}</p>
+                                )}
+                              </div>
+                            ))}
+
+                            {/* Interleaved rounds */}
+                            {Array.from({ length: maxSets }, (_, si) => (
+                              <div key={si} className="space-y-1.5">
+                                <div className="flex items-center gap-1.5 mt-1">
+                                  <span className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">Round {si + 1}</span>
+                                  <div className="flex-1 h-px bg-border/30" />
+                                </div>
+                                {groupExercises.map(({ ex: gEx, override: gOverride, displayName, exId: gExId }) => {
+                                  const set = setLogs[gExId]?.[si];
+                                  if (!set) return null;
+                                  const isBW = bodyweightExercises.has(gExId);
+                                  const showWeight = !isBW && (gOverride?.trackWeight ?? gEx.trackWeight) !== false;
+                                  const repLabel = gOverride?.repLabel || gEx.repLabel || "Reps";
+                                  const weightLabel = gOverride?.weightLabel || gEx.weightLabel || "Kg";
+                                  const isTimeBased = repLabel === "Sec";
+                                  const parseTargetSeconds = (reps: string) => {
+                                    const match = reps.match(/(\d+)/);
+                                    return match ? parseInt(match[1], 10) : 30;
+                                  };
+                                  const targetSec = isTimeBased ? parseTargetSeconds(gEx.reps) : 0;
+
+                                  return (
+                                    <div key={gExId} className="space-y-0.5">
+                                      <span className="text-[10px] text-muted-foreground font-medium truncate block">{displayName}</span>
+                                      <SwipeableSetRow onDelete={() => deleteSet(gExId, si)}>
+                                        <div className={`grid ${isTimeBased ? "grid-cols-[1fr_36px]" : showWeight ? "grid-cols-[1fr_1fr_36px]" : "grid-cols-[1fr_36px]"} gap-x-1.5 items-center bg-background`}>
+                                          {isTimeBased ? (
+                                            <ExerciseTimer targetSeconds={targetSec} onComplete={(secs) => { updateSetField(gExId, si, "reps", secs); toggleSet(gExId, si); }} />
+                                          ) : (
+                                            <>
+                                              {showWeight && (
+                                                <input type="number" inputMode="decimal" placeholder={lastSessionData[getEffectiveExId(gExId)]?.[si]?.weight?.toString() || weightLabel} value={set.weight || ""} onChange={(e) => updateSetField(gExId, si, "weight", Number(e.target.value))} className={`h-9 w-full rounded-lg px-2 text-sm text-center outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none transition-all ${set.completed ? "bg-success/15 border border-success/40 text-success font-semibold ring-1 ring-success/20" : "bg-muted/50 border border-border/50 focus:ring-1 focus:ring-primary/50 placeholder:text-muted-foreground/40"}`} />
+                                              )}
+                                              <input type="number" inputMode="numeric" placeholder={lastSessionData[getEffectiveExId(gExId)]?.[si]?.reps?.toString() || repLabel} value={set.reps || ""} onChange={(e) => updateSetField(gExId, si, "reps", Number(e.target.value))} className={`h-9 w-full rounded-lg px-2 text-sm text-center outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none transition-all ${set.completed ? "bg-success/15 border border-success/40 text-success font-semibold ring-1 ring-success/20" : "bg-muted/50 border border-border/50 focus:ring-1 focus:ring-primary/50 placeholder:text-muted-foreground/40"}`} />
+                                            </>
+                                          )}
+                                          <button onClick={() => toggleSet(gExId, si)} className={`flex h-9 w-9 items-center justify-center rounded-lg transition-all ${set.completed ? "bg-success text-success-foreground glow-success" : "bg-muted/50 text-muted-foreground border border-border/50"}`}>
+                                            <Check className="h-3.5 w-3.5" />
+                                          </button>
+                                        </div>
+                                      </SwipeableSetRow>
+                                    </div>
+                                  );
+                                })}
+                              </div>
+                            ))}
+
+                            {/* Add Round button */}
+                            <button
+                              onClick={() => groupExIds.forEach(id => addSet(id))}
+                              className="w-full flex items-center justify-center gap-1.5 py-2 rounded-lg border border-dashed border-border/60 text-xs text-muted-foreground hover:text-foreground hover:border-primary/40 transition-colors mt-1"
+                            >
+                              <Plus className="h-3 w-3" />
+                              Add Round
+                            </button>
+                          </div>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
                   </div>
                 </div>
               );
