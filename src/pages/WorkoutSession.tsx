@@ -174,6 +174,7 @@ export default function WorkoutSession() {
 
   const [started, setStarted] = useState(false);
   const [elapsed, setElapsed] = useState(0);
+  const [twoHandedExercises, setTwoHandedExercises] = useState<Set<string>>(new Set());
   const [expandedExercise, setExpandedExercise] = useState<string | null>(null);
   const [exerciseOrder, setExerciseOrder] = useState<string[]>([]);
   const [setLogs, setSetLogs] = useState<Record<string, SetLog[]>>({});
@@ -201,7 +202,6 @@ export default function WorkoutSession() {
   const [weightDownSuggestions, setWeightDownSuggestions] = useState<Record<string, number[]>>({});
   const [addedAccessories, setAddedAccessories] = useState<string[]>([]);
   const [bodyweightExercises, setBodyweightExercises] = useState<Set<string>>(new Set());
-  const [twoHandedExercises, setTwoHandedExercises] = useState<Set<string>>(new Set());
   const [showResumePrompt, setShowResumePrompt] = useState(false);
   const autoSaveKey = workout ? `workout-autosave-${workout.id}` : null;
 
