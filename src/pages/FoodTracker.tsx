@@ -133,9 +133,16 @@ export default function FoodTracker() {
       {/* Header */}
       <div className="px-4 pt-4 pb-2 flex items-center justify-between">
         <h1 className="text-xl font-bold font-display">Nutrition</h1>
-        <Button variant="ghost" size="icon" onClick={() => setShowSettings(true)}>
-          <Settings className="h-4 w-4" />
-        </Button>
+        <div className="flex items-center gap-1">
+          {goals && logs.length > 0 && (
+            <Button variant="ghost" size="sm" className="h-8 text-xs gap-1 text-primary" onClick={() => setShowComplete(true)}>
+              <CheckCircle2 className="h-3.5 w-3.5" /> Complete Day
+            </Button>
+          )}
+          <Button variant="ghost" size="icon" onClick={() => setShowSettings(true)}>
+            <Settings className="h-4 w-4" />
+          </Button>
+        </div>
       </div>
 
       {/* Date nav */}
@@ -306,6 +313,18 @@ export default function FoodTracker() {
         onClose={() => setShowSettings(false)}
         onSaved={fetchData}
       />
+
+      {/* Complete day summary */}
+      {goals && (
+        <CompleteDaySummary
+          open={showComplete}
+          onClose={() => setShowComplete(false)}
+          totals={totals}
+          goals={goals}
+          waterMl={waterMl}
+          waterGoalMl={waterGoalMl}
+        />
+      )}
     </div>
   );
 }
