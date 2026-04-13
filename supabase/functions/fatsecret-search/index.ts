@@ -120,6 +120,8 @@ serve(async (req) => {
         method: "food.get.v4",
         food_id: data.food_id.value,
         format: "json",
+        region,
+        language,
       };
       const detailUrl = await buildOAuthUrl(baseUrl, detailParams);
       const detailRes = await fetch(detailUrl);
