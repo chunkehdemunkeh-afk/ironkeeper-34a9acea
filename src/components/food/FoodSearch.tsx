@@ -283,9 +283,7 @@ export default function FoodSearch({ open, onClose, mealType, date, onLogged }: 
           {mode === "scan" ? (
             <BarcodeScanner
               onFoodFound={(food) => {
-                setSelected(food);
-                setServings("1");
-                setServingGrams(100);
+                selectFood(food);
                 setMode("search");
               }}
             />
@@ -360,28 +358,79 @@ export default function FoodSearch({ open, onClose, mealType, date, onLogged }: 
                     const totalGrams = servingGrams * (parseFloat(servings) || 1);
                     return (
                       <>
+                        {/* Editable per-100g macros */}
+                        <div className="space-y-2">
+                          <p className="text-[10px] text-muted-foreground font-medium uppercase tracking-wide">Per 100g (tap to edit)</p>
+                          <div className="grid grid-cols-4 gap-2">
+                            <div>
+                              <label className="text-[10px] text-muted-foreground">kcal</label>
+                              <Input
+                                type="number"
+                                min="0"
+                                value={editCalories}
+                                onChange={(e) => setEditCalories(e.target.value)}
+                                className="h-9 text-sm text-center font-semibold"
+                              />
+                            </div>
+                            <div>
+                              <label className="text-[10px] text-muted-foreground">Protein</label>
+                              <Input
+                                type="number"
+                                min="0"
+                                step="0.1"
+                                value={editProtein}
+                                onChange={(e) => setEditProtein(e.target.value)}
+                                className="h-9 text-sm text-center font-semibold"
+                              />
+                            </div>
+                            <div>
+                              <label className="text-[10px] text-muted-foreground">Carbs</label>
+                              <Input
+                                type="number"
+                                min="0"
+                                step="0.1"
+                                value={editCarbs}
+                                onChange={(e) => setEditCarbs(e.target.value)}
+                                className="h-9 text-sm text-center font-semibold"
+                              />
+                            </div>
+                            <div>
+                              <label className="text-[10px] text-muted-foreground">Fat</label>
+                              <Input
+                                type="number"
+                                min="0"
+                                step="0.1"
+                                value={editFat}
+                                onChange={(e) => setEditFat(e.target.value)}
+                                className="h-9 text-sm text-center font-semibold"
+                              />
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* Computed totals preview */}
                         <div className="grid grid-cols-4 gap-2 text-center p-3 rounded-xl bg-secondary/50">
                           <div>
                             <div className="text-base font-bold text-primary">
-                              {Math.round(selected.calories * multiplier)}
+                              {Math.round(baseCal * multiplier)}
                             </div>
                             <div className="text-[10px] text-muted-foreground">kcal</div>
                           </div>
                           <div>
                             <div className="text-base font-bold text-blue-400">
-                              {(selected.protein * multiplier).toFixed(1)}g
+                              {(basePro * multiplier).toFixed(1)}g
                             </div>
                             <div className="text-[10px] text-muted-foreground">Protein</div>
                           </div>
                           <div>
                             <div className="text-base font-bold text-amber-400">
-                              {(selected.carbs * multiplier).toFixed(1)}g
+                              {(baseCarb * multiplier).toFixed(1)}g
                             </div>
                             <div className="text-[10px] text-muted-foreground">Carbs</div>
                           </div>
                           <div>
                             <div className="text-base font-bold text-rose-400">
-                              {(selected.fat * multiplier).toFixed(1)}g
+                              {(baseFat * multiplier).toFixed(1)}g
                             </div>
                             <div className="text-[10px] text-muted-foreground">Fat</div>
                           </div>
@@ -513,7 +562,7 @@ export default function FoodSearch({ open, onClose, mealType, date, onLogged }: 
                   {results.map((item, i) => (
                     <button
                       key={`${item.barcode}-${i}`}
-                      onClick={() => { setSelected(item); setServings("1"); setServingGrams(100); }}
+                      onClick={() => selectFood(item)}
                       className="w-full flex items-center gap-3 p-3 rounded-xl bg-card border border-border hover:border-primary/50 transition-colors text-left"
                     >
                       {item.imageUrl ? (
