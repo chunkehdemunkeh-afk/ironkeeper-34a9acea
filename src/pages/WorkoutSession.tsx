@@ -944,7 +944,8 @@ export default function WorkoutSession() {
                           className="w-full rounded-lg bg-muted/50 border border-border/50 px-2.5 py-1.5 text-xs text-foreground outline-none focus:ring-1 focus:ring-primary/50 placeholder:text-muted-foreground/40 resize-none"
                         />
                         {(() => {
-                          const showWeight = (override?.trackWeight ?? ex.trackWeight) !== false;
+                          const isBW = bodyweightExercises.has(ex.id);
+                          const showWeight = !isBW && (override?.trackWeight ?? ex.trackWeight) !== false;
                           const repLabel = override?.repLabel || ex.repLabel || "Reps";
                           const weightLabel = override?.weightLabel || ex.weightLabel || "Kg";
                           const isTimeBased = repLabel === "Sec";
@@ -1076,7 +1077,8 @@ export default function WorkoutSession() {
                                     className="w-full rounded-lg bg-muted/50 border border-border/50 px-2.5 py-1.5 text-xs text-foreground outline-none focus:ring-1 focus:ring-primary/50 placeholder:text-muted-foreground/40 resize-none"
                                   />
                                   {(() => {
-                                    const showWeight = (gOverride?.trackWeight ?? gEx.trackWeight) !== false;
+                                    const isBW = bodyweightExercises.has(gExId);
+                                    const showWeight = !isBW && (gOverride?.trackWeight ?? gEx.trackWeight) !== false;
                                     const repLabel = gOverride?.repLabel || gEx.repLabel || "Reps";
                                     const weightLabel = gOverride?.weightLabel || gEx.weightLabel || "Kg";
                                     const isTimeBased = repLabel === "Sec";
