@@ -13,6 +13,7 @@ import { hapticMedium, hapticSuccess } from "@/lib/haptics";
 import { EXERCISE_SUBSTITUTIONS, type SubstituteExercise } from "@/lib/exercise-substitutions";
 import { ACCESSORY_ROUTINES, ACCESSORY_SUBSTITUTIONS } from "@/lib/accessory-routines";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
+import { Switch } from "@/components/ui/switch";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -963,20 +964,36 @@ export default function WorkoutSession() {
                           return (
                             <>
                               {!isTimeBased && (override?.trackWeight ?? ex.trackWeight) !== false && (
-                                <label className="flex items-center gap-1.5 text-[11px] text-muted-foreground cursor-pointer select-none mb-1">
-                                  <input
-                                    type="checkbox"
-                                    checked={isBW}
-                                    onChange={() => setBodyweightExercises(prev => {
-                                      const next = new Set(prev);
-                                      if (next.has(ex.id)) next.delete(ex.id);
-                                      else next.add(ex.id);
-                                      return next;
-                                    })}
-                                    className="rounded border-border accent-primary h-3.5 w-3.5"
-                                  />
-                                  Bodyweight
-                                </label>
+                                <div className="flex items-center gap-3 mb-1">
+                                  <label className="flex items-center gap-1.5 text-[11px] text-muted-foreground cursor-pointer select-none">
+                                    <Switch
+                                      checked={isBW}
+                                      onCheckedChange={() => setBodyweightExercises(prev => {
+                                        const next = new Set(prev);
+                                        if (next.has(ex.id)) next.delete(ex.id);
+                                        else next.add(ex.id);
+                                        return next;
+                                      })}
+                                      className="h-4 w-7 data-[state=checked]:bg-primary [&>span]:h-3 [&>span]:w-3"
+                                    />
+                                    Bodyweight
+                                  </label>
+                                  {ex.id === "acc-grip1" && (
+                                    <label className="flex items-center gap-1.5 text-[11px] text-muted-foreground cursor-pointer select-none">
+                                      <Switch
+                                        checked={twoHandedExercises.has(ex.id)}
+                                        onCheckedChange={() => setTwoHandedExercises(prev => {
+                                          const next = new Set(prev);
+                                          if (next.has(ex.id)) next.delete(ex.id);
+                                          else next.add(ex.id);
+                                          return next;
+                                        })}
+                                        className="h-4 w-7 data-[state=checked]:bg-primary [&>span]:h-3 [&>span]:w-3"
+                                      />
+                                      2 Handed
+                                    </label>
+                                  )}
+                                </div>
                               )}
                               <div className={`grid ${isTimeBased ? "grid-cols-[28px_1fr_36px]" : showWeight ? "grid-cols-[28px_1fr_1fr_36px]" : "grid-cols-[28px_1fr_36px]"} gap-x-1.5 items-center text-[10px] text-muted-foreground font-medium uppercase tracking-wider`}>
                                 <span className="text-center">Set</span>
