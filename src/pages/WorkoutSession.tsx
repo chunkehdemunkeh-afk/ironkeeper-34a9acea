@@ -224,7 +224,7 @@ export default function WorkoutSession() {
     } catch (e) {
       console.warn("Failed to auto-save workout:", e);
     }
-  }, [autoSaveKey, started, finished, showFeedback, setLogs, exerciseNotes, exerciseOrder, exerciseOverrides, addedAccessories, elapsed, expandedExercise, weightUpSuggestions, weightDownSuggestions]);
+  }, [autoSaveKey, started, finished, showFeedback, setLogs, exerciseNotes, exerciseOrder, exerciseOverrides, addedAccessories, bodyweightExercises, elapsed, expandedExercise, weightUpSuggestions, weightDownSuggestions]);
 
   // Save on visibility change (user switching apps / leaving)
   useEffect(() => {
