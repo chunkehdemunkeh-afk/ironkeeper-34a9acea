@@ -39,6 +39,10 @@ export default function FoodSearch({ open, onClose, mealType, date, onLogged }: 
   const [results, setResults] = useState<FoodItem[]>([]);
   const [searching, setSearching] = useState(false);
   const [selected, setSelected] = useState<FoodItem | null>(null);
+  const [editCalories, setEditCalories] = useState("");
+  const [editProtein, setEditProtein] = useState("");
+  const [editCarbs, setEditCarbs] = useState("");
+  const [editFat, setEditFat] = useState("");
   const [servings, setServings] = useState("1");
   const [servingGrams, setServingGrams] = useState(100);
   const [saving, setSaving] = useState(false);
