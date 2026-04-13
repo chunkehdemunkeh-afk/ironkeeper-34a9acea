@@ -190,8 +190,9 @@ export default function WorkoutSession() {
   const [lastSubstitutions, setLastSubstitutions] = useState<Record<string, { subName: string; subId: string }>>({}); 
   // Get the effective exercise ID for data lookups (substitute ID if swapped, otherwise original)
   const getEffectiveExId = useCallback((originalId: string) => {
-    return exerciseOverrides[originalId]?.substituteId || originalId;
-  }, [exerciseOverrides]);
+    const base = exerciseOverrides[originalId]?.substituteId || originalId;
+    return twoHandedExercises.has(originalId) ? `${base}-2h` : base;
+  }, [exerciseOverrides, twoHandedExercises]);
   const [restTimerKey, setRestTimerKey] = useState(0);
   const [restDuration, setRestDuration] = useState(workout?.id === "power" ? 45 : 60);
   const [videoExercise, setVideoExercise] = useState<{ name: string; id: string } | null>(null);
