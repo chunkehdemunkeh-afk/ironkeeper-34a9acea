@@ -22,11 +22,12 @@ const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL;
 
 function parseFatSecretDescription(desc: string): { calories: number; fat: number; carbs: number; protein: number; servingSize: string } {
   // Format: "Per 100g - Calories: 110kcal | Fat: 1.24g | Carbs: 0.00g | Protein: 23.09g"
+  // Or:     "Per 1 serving (61g) - Calories: 170kcal | Fat: 3.00g | Carbs: 24.70g | Protein: 10.40g"
   const servingMatch = desc.match(/^Per\s+(.+?)\s*-/);
   const calMatch = desc.match(/Calories:\s*([\d.]+)/);
   const fatMatch = desc.match(/Fat:\s*([\d.]+)/);
   const carbMatch = desc.match(/Carbs:\s*([\d.]+)/);
-  const protMatch = desc.match(/Protein:\s*([\d.]+)/);
+  const protMatch = desc.match(/Prot(?:ein)?:\s*([\d.]+)/);
 
   return {
     servingSize: servingMatch?.[1] || "1 serving",
