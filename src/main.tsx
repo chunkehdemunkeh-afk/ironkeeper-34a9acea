@@ -40,11 +40,21 @@ if (isPreviewHost || isInIframe) {
     window.location.reload();
   };
 
-  // With autoUpdate + skipWaiting:true, the new SW takes control immediately
-  // and fires controllerchange — the most reliable cross-platform update signal.
+  // Strategy A: controllerchange fires when a new SW takes control.
+  // Works with registerType:"autoUpdate" + skipWaiting:true (future builds).
   navigator.serviceWorker?.addEventListener("controllerchange", () => {
     void applyUpdate();
   });
+
+  // Strategy B: Directly activate any waiting SW by sending SKIP_WAITING.
+  // Works with registerType:"prompt" (current deployed builds) and doesn't
+  // interfere with autoUpdate builds.
+  const activateWaitingSW = async () => {
+    const reg = await navigator.serviceWorker?.getRegistration();
+    if (reg?.waiting) {
+      reg.waiting.postMessage({ type: "SKIP_WAITING" });
+    }
+  };
 
   const checkPublishedVersion = async () => {
     try {
@@ -56,20 +66,31 @@ if (isPreviewHost || isInIframe) {
 
       const data = (await response.json()) as { version?: string };
       if (data.version && data.version !== __APP_VERSION__) {
-        // version.json changed — force the SW to check for an update
+        // version.json changed — force the SW to check for a new version
         const reg = await navigator.serviceWorker?.getRegistration();
         await reg?.update();
-        // Safety net: if the SW was already current, reload anyway after 2s
-        setTimeout(() => void applyUpdate(), 2000);
+        // Give the browser a moment to install the new SW, then activate it
+        setTimeout(() => void activateWaitingSW(), 1500);
+        // Safety net: if nothing else triggers applyUpdate, reload after 4s
+        setTimeout(() => void applyUpdate(), 4000);
       }
     } catch {
       // ignore transient network issues
     }
   };
 
-  // Check immediately on load, then every 60 seconds
+  // On load: check for updates immediately
   void checkPublishedVersion();
-  setInterval(() => {
+  void activateWaitingSW();
+
+  // Then poll every 60 seconds
+  setInterval(async () => {
+    // Force browser to re-fetch sw.js and check for changes
+    const reg = await navigator.serviceWorker?.getRegistration();
+    await reg?.update();
+    // Activate any SW that installed and is now waiting
+    await activateWaitingSW();
+    // Also verify via version.json
     void checkPublishedVersion();
   }, 60 * 1000);
 }
