@@ -27,6 +27,13 @@ interface FoodLog {
   protein_g: number;
   carbs_g: number;
   fat_g: number;
+  barcode?: string | null;
+}
+
+interface EditingLog {
+  id: string;
+  mealType: MealType;
+  log: FoodLog;
 }
 
 interface Goals {
@@ -52,6 +59,7 @@ export default function FoodTracker() {
   const [showSetup, setShowSetup] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
   const [searchMeal, setSearchMeal] = useState<MealType | null>(null);
+  const [editingLog, setEditingLog] = useState<EditingLog | null>(null);
   const [showComplete, setShowComplete] = useState(false);
   const [waterMl, setWaterMl] = useState(0);
   const [waterGoalMl, setWaterGoalMl] = useState(2500);
@@ -62,7 +70,7 @@ export default function FoodTracker() {
     const [logsRes, goalsRes, waterRes] = await Promise.all([
       supabase
         .from("food_logs")
-        .select("id, meal_type, food_name, brand, serving_qty, serving_size, calories, protein_g, carbs_g, fat_g")
+        .select("id, meal_type, food_name, brand, serving_qty, serving_size, calories, protein_g, carbs_g, fat_g, barcode")
         .eq("user_id", user.id)
         .eq("date", date)
         .order("created_at"),
@@ -288,7 +296,11 @@ export default function FoodTracker() {
                     {mealLogs.map((log) => (
                       <div
                         key={log.id}
-                        className="flex items-center justify-between px-3 py-2 border-b border-border/50 last:border-0"
+                        className="flex items-center justify-between px-3 py-2 border-b border-border/50 last:border-0 cursor-pointer active:bg-secondary/50 transition-colors"
+                        onClick={() => {
+                          setEditingLog({ id: log.id, mealType: meal.type, log });
+                          setSearchMeal(meal.type);
+                        }}
                       >
                         <div className="min-w-0 flex-1">
                           <p className="text-xs font-medium truncate">{log.food_name}</p>
@@ -298,7 +310,7 @@ export default function FoodTracker() {
                         </div>
                         <div className="flex items-center gap-2 shrink-0">
                           <span className="text-xs font-semibold text-primary">{Math.round(log.calories)}</span>
-                          <button onClick={() => deleteLog(log.id)} className="text-muted-foreground hover:text-destructive">
+                          <button onClick={(e) => { e.stopPropagation(); deleteLog(log.id); }} className="text-muted-foreground hover:text-destructive">
                             <Trash2 className="h-3 w-3" />
                           </button>
                         </div>
@@ -316,10 +328,22 @@ export default function FoodTracker() {
       {searchMeal && (
         <FoodSearch
           open={!!searchMeal}
-          onClose={() => setSearchMeal(null)}
+          onClose={() => { setSearchMeal(null); setEditingLog(null); }}
           mealType={searchMeal}
           date={date}
           onLogged={fetchData}
+          editingLog={editingLog ? {
+            id: editingLog.log.id,
+            food_name: editingLog.log.food_name,
+            brand: editingLog.log.brand,
+            serving_size: editingLog.log.serving_size,
+            serving_qty: editingLog.log.serving_qty,
+            calories: editingLog.log.calories,
+            protein_g: editingLog.log.protein_g,
+            carbs_g: editingLog.log.carbs_g,
+            fat_g: editingLog.log.fat_g,
+            barcode: editingLog.log.barcode || null,
+          } : null}
         />
       )}
 

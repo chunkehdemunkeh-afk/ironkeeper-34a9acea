@@ -25,15 +25,29 @@ interface SavedFood {
   barcode: string | null;
 }
 
+export interface EditingLog {
+  id: string;
+  food_name: string;
+  brand: string | null;
+  serving_size: string | null;
+  serving_qty: number;
+  calories: number;
+  protein_g: number;
+  carbs_g: number;
+  fat_g: number;
+  barcode: string | null;
+}
+
 interface Props {
   open: boolean;
   onClose: () => void;
   mealType: MealType;
   date: string;
   onLogged: () => void;
+  editingLog?: EditingLog | null;
 }
 
-export default function FoodSearch({ open, onClose, mealType, date, onLogged }: Props) {
+export default function FoodSearch({ open, onClose, mealType, date, onLogged, editingLog }: Props) {
   const { user } = useAuth();
   const [query, setQuery] = useState("");
   const [results, setResults] = useState<FoodItem[]>([]);
@@ -110,6 +124,32 @@ export default function FoodSearch({ open, onClose, mealType, date, onLogged }: 
     })();
   }, [open, user]);
 
+  // Pre-populate when editing an existing log
+  useEffect(() => {
+    if (!open || !editingLog) return;
+    const food: FoodItem = {
+      name: editingLog.food_name,
+      brand: editingLog.brand || undefined,
+      barcode: editingLog.barcode || undefined,
+      servingSize: editingLog.serving_size || "100g",
+      calories: editingLog.calories,
+      protein: editingLog.protein_g,
+      carbs: editingLog.carbs_g,
+      fat: editingLog.fat_g,
+    };
+    // Reverse-calculate per-100g values from stored totals
+    const storedGrams = parseInt(editingLog.serving_size || "100") || 100;
+    const storedQty = editingLog.serving_qty || 1;
+    const storedMultiplier = (storedGrams / 100) * storedQty;
+    setSelected(food);
+    setEditCalories(String(Math.round((editingLog.calories / storedMultiplier) * 10) / 10));
+    setEditProtein(String(Math.round((editingLog.protein_g / storedMultiplier) * 10) / 10));
+    setEditCarbs(String(Math.round((editingLog.carbs_g / storedMultiplier) * 10) / 10));
+    setEditFat(String(Math.round((editingLog.fat_g / storedMultiplier) * 10) / 10));
+    setServingGrams(storedGrams);
+    setServings(String(storedQty));
+  }, [open, editingLog]);
+
   const doSearch = useCallback(async (searchQuery?: string) => {
     const q = searchQuery ?? query;
     if (!q.trim()) return;
@@ -149,10 +189,7 @@ export default function FoodSearch({ open, onClose, mealType, date, onLogged }: 
     setSaving(true);
     const qty = Math.max(0.1, parseFloat(servings) || 1);
     const multiplier = (servingGrams / 100) * qty;
-    const { error } = await supabase.from("food_logs").insert({
-      user_id: user.id,
-      date,
-      meal_type: mealType,
+    const foodData = {
       food_name: selected.name,
       brand: selected.brand || null,
       serving_size: `${servingGrams}g`,
@@ -162,18 +199,34 @@ export default function FoodSearch({ open, onClose, mealType, date, onLogged }: 
       carbs_g: Math.round(baseCarb * multiplier * 10) / 10,
       fat_g: Math.round(baseFat * multiplier * 10) / 10,
       barcode: selected.barcode || null,
-    });
+    };
+
+    let error;
+    if (editingLog) {
+      // Update existing log
+      ({ error } = await supabase.from("food_logs").update(foodData).eq("id", editingLog.id));
+    } else {
+      // Insert new log
+      ({ error } = await supabase.from("food_logs").insert({
+        user_id: user.id,
+        date,
+        meal_type: mealType,
+        ...foodData,
+      }));
+    }
     setSaving(false);
     if (error) {
-      toast.error("Failed to log food");
+      toast.error(editingLog ? "Failed to update food" : "Failed to log food");
       return;
     }
-    toast.success(`${selected.name} logged to ${mealType}`);
+    toast.success(editingLog ? `${selected.name} updated` : `${selected.name} logged to ${mealType}`);
     setSelected(null);
-    setQuery("");
-    setResults([]);
     onLogged();
-    onClose();
+    if (editingLog) {
+      // Close after editing
+      onClose();
+    }
+    // Stay on search for new additions (don't close)
   };
 
   const quickAdd = async (food: SavedFood) => {
@@ -200,7 +253,7 @@ export default function FoodSearch({ open, onClose, mealType, date, onLogged }: 
     }
     toast.success(`${food.food_name} logged to ${mealType}`);
     onLogged();
-    onClose();
+    // Stay on search for more additions
   };
 
   const toggleFavourite = async (food: { name: string; brand?: string | null; servingSize?: string | null; calories: number; protein: number; carbs: number; fat: number; barcode?: string | null }) => {
@@ -243,7 +296,9 @@ export default function FoodSearch({ open, onClose, mealType, date, onLogged }: 
       <SheetContent side="bottom" className="h-[85vh] rounded-t-2xl p-0 overflow-hidden">
         <div className="flex flex-col h-full">
           <SheetHeader className="p-4 pb-2">
-            <SheetTitle className="capitalize text-left">Add to {mealType}</SheetTitle>
+            <SheetTitle className="capitalize text-left">
+              {editingLog ? `Edit ${mealType} item` : `Add to ${mealType}`}
+            </SheetTitle>
           </SheetHeader>
 
           {/* Mode tabs */}
@@ -474,7 +529,7 @@ export default function FoodSearch({ open, onClose, mealType, date, onLogged }: 
 
                   <Button onClick={handleLog} disabled={saving} className="w-full h-12 font-semibold">
                     <Plus className="h-4 w-4 mr-2" />
-                    {saving ? "Logging..." : "Log Food"}
+                    {saving ? (editingLog ? "Updating..." : "Logging...") : (editingLog ? "Update Food" : "Log Food")}
                   </Button>
                 </div>
               ) : (
@@ -583,6 +638,15 @@ export default function FoodSearch({ open, onClose, mealType, date, onLogged }: 
                 </div>
               )}
             </>
+          )}
+
+          {/* Finished button - always visible when not editing */}
+          {!editingLog && (
+            <div className="p-4 pt-2 border-t border-border shrink-0">
+              <Button variant="outline" onClick={onClose} className="w-full h-11 font-semibold">
+                Finished
+              </Button>
+            </div>
           )}
         </div>
       </SheetContent>
