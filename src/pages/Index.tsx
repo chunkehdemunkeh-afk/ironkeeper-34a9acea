@@ -6,6 +6,8 @@ import NextSessionCard from "@/components/NextSessionCard";
 import StatsBar from "@/components/StatsBar";
 import DailyStretchCard from "@/components/DailyStretchCard";
 import HomeDailySummary from "@/components/HomeDailySummary";
+import HomeWeightTracker from "@/components/HomeWeightTracker";
+import HomeCompleteDay from "@/components/HomeCompleteDay";
 import { isGKSplit } from "@/lib/user-preferences";
 
 import { motion } from "framer-motion";
@@ -80,8 +82,14 @@ const Index = () => {
         {/* Daily nutrition & water summary */}
         <HomeDailySummary />
 
+        {/* Body weight tracker */}
+        <HomeWeightTracker />
+
         {/* Pre-workout stretches — adapts to the user's next workout */}
         <DailyStretchCard />
+
+        {/* Complete Day */}
+        <HomeCompleteDay />
 
       </div>
     </div>
