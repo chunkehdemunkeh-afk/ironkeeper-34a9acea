@@ -1,7 +1,7 @@
 import { WORKOUTS } from "@/lib/workout-data";
 import { getAllCustomWorkouts } from "@/pages/WorkoutBuilder";
 import { useNavigate } from "react-router-dom";
-import { Play, Repeat2, ChevronDown, ChevronUp } from "lucide-react";
+import { Play, Repeat2, ChevronDown, ChevronUp, ChevronRight } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useAuth } from "@/hooks/useAuth";
 import { getUserPreferences, getNextSplitDay } from "@/lib/user-preferences";
@@ -42,9 +42,15 @@ export default function NextSessionCard() {
   if (!prefs || !prefs.schedule?.length) {
     return (
       <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}>
-        <p className="text-[11px] font-semibold uppercase tracking-widest text-muted-foreground mb-2">
-          Choose Your Session
-        </p>
+        <div
+          className="flex items-center justify-between mb-2 cursor-pointer active:opacity-70 transition-opacity"
+          onClick={() => navigate("/sessions")}
+        >
+          <p className="text-[11px] font-semibold uppercase tracking-widest text-muted-foreground">
+            Choose Your Session
+          </p>
+          <ChevronRight className="h-4 w-4 text-muted-foreground" />
+        </div>
         <div className="space-y-2.5">
           {allWorkouts.map((workout, i) => (
             <WorkoutButton key={workout.id} workout={workout} index={i} />
@@ -58,13 +64,19 @@ export default function NextSessionCard() {
   return (
     <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}>
       {/* Next up banner */}
-      <div className="flex items-center justify-between mb-2">
+      <div
+        className="flex items-center justify-between mb-2 cursor-pointer active:opacity-70 transition-opacity"
+        onClick={() => navigate("/sessions")}
+      >
         <p className="text-[11px] font-semibold uppercase tracking-widest text-muted-foreground">
           Next Up
         </p>
-        <span className="text-[10px] text-muted-foreground bg-muted/50 rounded-full px-2 py-0.5 font-medium">
-          {prefs.splitName}
-        </span>
+        <div className="flex items-center gap-1.5">
+          <span className="text-[10px] text-muted-foreground bg-muted/50 rounded-full px-2 py-0.5 font-medium">
+            {prefs.splitName}
+          </span>
+          <ChevronRight className="h-4 w-4 text-muted-foreground" />
+        </div>
       </div>
 
       {nextWorkout && (
