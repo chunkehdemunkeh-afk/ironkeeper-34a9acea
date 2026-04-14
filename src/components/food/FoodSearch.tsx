@@ -253,7 +253,7 @@ export default function FoodSearch({ open, onClose, mealType, date, onLogged, ed
     }
     toast.success(`${food.food_name} logged to ${mealType}`);
     onLogged();
-    onClose();
+    // Stay on search for more additions
   };
 
   const toggleFavourite = async (food: { name: string; brand?: string | null; servingSize?: string | null; calories: number; protein: number; carbs: number; fat: number; barcode?: string | null }) => {
