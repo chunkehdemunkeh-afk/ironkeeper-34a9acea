@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 
 export default function HomeDailySummary() {
   const { user } = useAuth();
+  const navigate = useNavigate();
   const today = format(new Date(), "yyyy-MM-dd");
   const [totals, setTotals] = useState({ calories: 0, protein: 0, carbs: 0, fat: 0 });
   const [goals, setGoals] = useState<{ calories: number; protein_g: number; carbs_g: number; fat_g: number; water_goal_ml?: number } | null>(null);
