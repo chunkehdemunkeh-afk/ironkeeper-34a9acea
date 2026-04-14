@@ -25,12 +25,26 @@ interface SavedFood {
   barcode: string | null;
 }
 
+export interface EditingLog {
+  id: string;
+  food_name: string;
+  brand: string | null;
+  serving_size: string | null;
+  serving_qty: number;
+  calories: number;
+  protein_g: number;
+  carbs_g: number;
+  fat_g: number;
+  barcode: string | null;
+}
+
 interface Props {
   open: boolean;
   onClose: () => void;
   mealType: MealType;
   date: string;
   onLogged: () => void;
+  editingLog?: EditingLog | null;
 }
 
 export default function FoodSearch({ open, onClose, mealType, date, onLogged }: Props) {
