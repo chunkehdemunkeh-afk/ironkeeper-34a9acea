@@ -46,6 +46,48 @@ export default function HomeWeightTracker() {
     fetchData();
   }, [user]);
 
+  // Weekly weight trend notification — show once per week
+  useEffect(() => {
+    if (!user || measurements.length < 2) return;
+    const now = new Date();
+    const weekKey = `weight-trend-notif-${user.id}-${format(startOfWeek(now, { weekStartsOn: 1 }), "yyyy-MM-dd")}`;
+    if (sessionStorage.getItem(weekKey)) return;
+
+    const last7 = measurements.filter((m) => m.date >= format(subDays(now, 7), "yyyy-MM-dd"));
+    const prev7Start = format(subDays(now, 14), "yyyy-MM-dd");
+    const prev7End = format(subDays(now, 7), "yyyy-MM-dd");
+    const prev7 = measurements.filter((m) => m.date >= prev7Start && m.date < prev7End);
+
+    if (last7.length < 2 || prev7.length < 1) return;
+
+    const avg = last7.reduce((s, m) => s + m.weight, 0) / last7.length;
+    const prevAvg = prev7.reduce((s, m) => s + m.weight, 0) / prev7.length;
+    const diff = avg - prevAvg;
+
+    sessionStorage.setItem(weekKey, "1");
+
+    const timer = setTimeout(() => {
+      if (Math.abs(diff) < 0.05) {
+        toast("⚖️ Weight holding steady", {
+          description: `Your 7-day avg is ${avg.toFixed(1)} kg — unchanged from last week. Consistency is key!`,
+          duration: 7000,
+        });
+      } else if (diff > 0) {
+        toast("📈 Weight trending up", {
+          description: `Your 7-day avg is ${avg.toFixed(1)} kg (+${diff.toFixed(1)} kg vs last week). ${diff > 0.5 ? "Check your calorie intake if this isn't planned." : "Small fluctuations are normal."}`,
+          duration: 7000,
+        });
+      } else {
+        toast("📉 Weight trending down", {
+          description: `Your 7-day avg is ${avg.toFixed(1)} kg (${diff.toFixed(1)} kg vs last week). ${diff < -0.5 ? "Great progress if cutting! Make sure you're fuelling training." : "Staying on track!"}`,
+          duration: 7000,
+        });
+      }
+    }, 3000);
+
+    return () => clearTimeout(timer);
+  }, [user, measurements]);
+
   const handleLog = async () => {
     if (!weight || !user) return;
     setSaving(true);
