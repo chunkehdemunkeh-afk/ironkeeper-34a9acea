@@ -59,6 +59,7 @@ export default function FoodTracker() {
   const [showSetup, setShowSetup] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
   const [searchMeal, setSearchMeal] = useState<MealType | null>(null);
+  const [editingLog, setEditingLog] = useState<EditingLog | null>(null);
   const [showComplete, setShowComplete] = useState(false);
   const [waterMl, setWaterMl] = useState(0);
   const [waterGoalMl, setWaterGoalMl] = useState(2500);
