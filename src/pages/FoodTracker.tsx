@@ -328,10 +328,22 @@ export default function FoodTracker() {
       {searchMeal && (
         <FoodSearch
           open={!!searchMeal}
-          onClose={() => setSearchMeal(null)}
+          onClose={() => { setSearchMeal(null); setEditingLog(null); }}
           mealType={searchMeal}
           date={date}
           onLogged={fetchData}
+          editingLog={editingLog ? {
+            id: editingLog.log.id,
+            food_name: editingLog.log.food_name,
+            brand: editingLog.log.brand,
+            serving_size: editingLog.log.serving_size,
+            serving_qty: editingLog.log.serving_qty,
+            calories: editingLog.log.calories,
+            protein_g: editingLog.log.protein_g,
+            carbs_g: editingLog.log.carbs_g,
+            fat_g: editingLog.log.fat_g,
+            barcode: editingLog.log.barcode || null,
+          } : null}
         />
       )}
 
