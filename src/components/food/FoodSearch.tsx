@@ -639,6 +639,15 @@ export default function FoodSearch({ open, onClose, mealType, date, onLogged, ed
               )}
             </>
           )}
+
+          {/* Finished button - always visible when not editing */}
+          {!editingLog && (
+            <div className="p-4 pt-2 border-t border-border shrink-0">
+              <Button variant="outline" onClick={onClose} className="w-full h-11 font-semibold">
+                Finished
+              </Button>
+            </div>
+          )}
         </div>
       </SheetContent>
     </Sheet>
