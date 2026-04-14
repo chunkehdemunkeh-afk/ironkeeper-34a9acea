@@ -82,8 +82,14 @@ const Index = () => {
         {/* Daily nutrition & water summary */}
         <HomeDailySummary />
 
+        {/* Body weight tracker */}
+        <HomeWeightTracker />
+
         {/* Pre-workout stretches — adapts to the user's next workout */}
         <DailyStretchCard />
+
+        {/* Complete Day */}
+        <HomeCompleteDay />
 
       </div>
     </div>
