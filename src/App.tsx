@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Route, Routes, Navigate, useLocation } from "react-router-dom";
 import { Toaster as Sonner } from "@/components/ui/sonner";
@@ -8,6 +8,9 @@ import { useUserRole } from "@/hooks/useUserRole";
 import { AnimatePresence, motion } from "framer-motion";
 import BottomNav from "@/components/BottomNav";
 import SplashScreen from "@/components/SplashScreen";
+import UpdateBanner from "@/components/UpdateBanner";
+import WhatsNewSheet from "@/components/WhatsNewSheet";
+import { getLatestChangelog, hasSeenVersion, markVersionSeen } from "@/lib/changelog";
 import Index from "./pages/Index";
 import Sessions from "./pages/Sessions";
 import WorkoutSession from "./pages/WorkoutSession";
@@ -131,18 +134,54 @@ const AppRoutes = () => {
 
 const App = () => {
   const [splashDone, setSplashDone] = useState(false);
+  const [updating, setUpdating] = useState(false);
+  const [showWhatsNew, setShowWhatsNew] = useState(false);
+
   const handleSplashComplete = useCallback(() => setSplashDone(true), []);
+
+  // Listen for update-in-progress signal from main.tsx
+  useEffect(() => {
+    const handler = () => setUpdating(true);
+    window.addEventListener("ik-updating", handler);
+    return () => window.removeEventListener("ik-updating", handler);
+  }, []);
+
+  // Show "What's New" after splash if there's an unseen changelog entry
+  useEffect(() => {
+    if (!splashDone) return;
+    const latest = getLatestChangelog();
+    if (latest && !hasSeenVersion(latest.version)) {
+      // Short delay so the home screen renders first
+      const timer = setTimeout(() => setShowWhatsNew(true), 800);
+      return () => clearTimeout(timer);
+    }
+  }, [splashDone]);
+
+  const latestEntry = getLatestChangelog();
+
+  const handleCloseWhatsNew = () => {
+    setShowWhatsNew(false);
+    if (latestEntry) markVersionSeen(latestEntry.version);
+  };
 
   return (
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
         <Sonner />
+        <UpdateBanner visible={updating} />
         {!splashDone && <SplashScreen onComplete={handleSplashComplete} />}
         <BrowserRouter>
           <AuthProvider>
             <AppRoutes />
           </AuthProvider>
         </BrowserRouter>
+        {latestEntry && (
+          <WhatsNewSheet
+            open={showWhatsNew}
+            onClose={handleCloseWhatsNew}
+            entry={latestEntry}
+          />
+        )}
       </TooltipProvider>
     </QueryClientProvider>
   );

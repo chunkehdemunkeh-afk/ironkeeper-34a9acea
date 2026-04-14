@@ -29,11 +29,19 @@ if (isPreviewHost || isInIframe) {
     if (updateInProgress) return;
     updateInProgress = true;
 
+    // Show the updating banner
+    window.dispatchEvent(new CustomEvent("ik-updating"));
+
+    // Small delay so user sees the banner
+    await new Promise((r) => setTimeout(r, 1200));
+
     try {
-      await navigator.serviceWorker?.getRegistration()?.then((registration) => registration?.update());
+      await navigator.serviceWorker
+        ?.getRegistration()
+        ?.then((registration) => registration?.update());
       await updateSW?.(true);
     } catch {
-      // ignore and fall back to reload
+      // fall back to reload
     } finally {
       window.location.reload();
     }
