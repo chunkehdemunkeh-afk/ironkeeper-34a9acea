@@ -1,5 +1,4 @@
 import { createRoot } from "react-dom/client";
-import { registerSW } from "virtual:pwa-register";
 import App from "./App.tsx";
 import "./index.css";
 
@@ -18,34 +17,34 @@ const isPreviewHost =
   window.location.hostname.includes("lovableproject.com");
 
 if (isPreviewHost || isInIframe) {
+  // Unregister any SW in preview/editor so stale caches don't interfere
   navigator.serviceWorker?.getRegistrations().then((registrations) => {
     registrations.forEach((registration) => registration.unregister());
   });
 } else {
-  let updateSW: ReturnType<typeof registerSW> | null = null;
   let updateInProgress = false;
 
   const applyUpdate = async () => {
     if (updateInProgress) return;
     updateInProgress = true;
 
+    // Show the update banner in the UI
+    window.dispatchEvent(new Event("ik-updating"));
+
     // Flag so the app shows "What's New" after reload
     try { localStorage.setItem("ik-just-updated", "1"); } catch {}
 
-    // Small delay so user sees the banner
+    // Small delay so user sees the banner before the reload
     await new Promise((r) => setTimeout(r, 1200));
 
-    try {
-      await navigator.serviceWorker
-        ?.getRegistration()
-        ?.then((registration) => registration?.update());
-      await updateSW?.(true);
-    } catch {
-      // fall back to reload
-    } finally {
-      window.location.reload();
-    }
+    window.location.reload();
   };
+
+  // With autoUpdate + skipWaiting:true, the new SW takes control immediately
+  // and fires controllerchange — the most reliable cross-platform update signal.
+  navigator.serviceWorker?.addEventListener("controllerchange", () => {
+    void applyUpdate();
+  });
 
   const checkPublishedVersion = async () => {
     try {
@@ -57,25 +56,20 @@ if (isPreviewHost || isInIframe) {
 
       const data = (await response.json()) as { version?: string };
       if (data.version && data.version !== __APP_VERSION__) {
-        await applyUpdate();
+        // version.json changed — force the SW to check for an update
+        const reg = await navigator.serviceWorker?.getRegistration();
+        await reg?.update();
+        // Safety net: if the SW was already current, reload anyway after 2s
+        setTimeout(() => void applyUpdate(), 2000);
       }
     } catch {
       // ignore transient network issues
     }
   };
 
-  updateSW = registerSW({
-    onNeedRefresh() {
-      void applyUpdate();
-    },
-    onOfflineReady() {
-      console.log("Iron Keeper is ready to work offline.");
-    },
-  });
-
+  // Check immediately on load, then every 60 seconds
   void checkPublishedVersion();
   setInterval(() => {
-    void updateSW?.();
     void checkPublishedVersion();
   }, 60 * 1000);
 }
