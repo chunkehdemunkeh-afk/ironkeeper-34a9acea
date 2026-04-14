@@ -11,6 +11,7 @@ import TDEESetup from "@/components/food/TDEESetup";
 import NutritionSettings from "@/components/food/NutritionSettings";
 import WaterIntake from "@/components/food/WaterIntake";
 import CompleteDaySummary from "@/components/food/CompleteDaySummary";
+import WeeklyNutritionChart from "@/components/food/WeeklyNutritionChart";
 import { toast } from "sonner";
 
 type MealType = "breakfast" | "lunch" | "dinner" | "snack";
@@ -243,6 +244,9 @@ export default function FoodTracker() {
           </div>
         </motion.div>
       )}
+
+      {/* Weekly nutrition chart */}
+      <WeeklyNutritionChart goals={goals} />
 
       {/* Water intake */}
       <div className="mt-4">
