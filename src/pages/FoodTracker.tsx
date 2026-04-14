@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { motion } from "framer-motion";
 import { format, addDays, subDays } from "date-fns";
-import { ChevronLeft, ChevronRight, Plus, Settings, Trash2, Flame, Beef, Wheat, Droplets, CheckCircle2 } from "lucide-react";
+import { ChevronLeft, ChevronRight, Plus, Settings, Trash2, Flame, Beef, Wheat, Droplets, CheckCircle2, Copy } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { supabase } from "@/integrations/supabase/client";
@@ -12,6 +12,7 @@ import NutritionSettings from "@/components/food/NutritionSettings";
 import WaterIntake from "@/components/food/WaterIntake";
 import CompleteDaySummary from "@/components/food/CompleteDaySummary";
 import WeeklyNutritionChart from "@/components/food/WeeklyNutritionChart";
+import CopyMeal from "@/components/food/CopyMeal";
 import { toast } from "sonner";
 
 type MealType = "breakfast" | "lunch" | "dinner" | "snack";
@@ -61,6 +62,7 @@ export default function FoodTracker() {
   const [searchMeal, setSearchMeal] = useState<MealType | null>(null);
   const [editingLog, setEditingLog] = useState<EditingLog | null>(null);
   const [showComplete, setShowComplete] = useState(false);
+  const [copyMeal, setCopyMeal] = useState<MealType | null>(null);
   const [waterMl, setWaterMl] = useState(0);
   const [waterGoalMl, setWaterGoalMl] = useState(2500);
 
@@ -281,14 +283,25 @@ export default function FoodTracker() {
                       <span className="text-xs text-muted-foreground">{Math.round(mealCals)} kcal</span>
                     )}
                   </div>
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    className="h-8 text-xs text-primary"
-                    onClick={() => setSearchMeal(meal.type)}
-                  >
-                    <Plus className="h-3 w-3 mr-1" /> Add
-                  </Button>
+                  <div className="flex items-center gap-1">
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      className="h-8 w-8 text-muted-foreground"
+                      onClick={() => setCopyMeal(meal.type)}
+                      title="Copy from another meal"
+                    >
+                      <Copy className="h-3.5 w-3.5" />
+                    </Button>
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      className="h-8 text-xs text-primary"
+                      onClick={() => setSearchMeal(meal.type)}
+                    >
+                      <Plus className="h-3 w-3 mr-1" /> Add
+                    </Button>
+                  </div>
                 </div>
 
                 {mealLogs.length > 0 && (
@@ -363,6 +376,17 @@ export default function FoodTracker() {
           goals={goals}
           waterMl={waterMl}
           waterGoalMl={waterGoalMl}
+        />
+      )}
+
+      {/* Copy meal sheet */}
+      {copyMeal && (
+        <CopyMeal
+          open={!!copyMeal}
+          onClose={() => setCopyMeal(null)}
+          targetDate={date}
+          targetMeal={copyMeal}
+          onCopied={fetchData}
         />
       )}
     </div>
