@@ -296,7 +296,9 @@ export default function FoodSearch({ open, onClose, mealType, date, onLogged, ed
       <SheetContent side="bottom" className="h-[85vh] rounded-t-2xl p-0 overflow-hidden">
         <div className="flex flex-col h-full">
           <SheetHeader className="p-4 pb-2">
-            <SheetTitle className="capitalize text-left">Add to {mealType}</SheetTitle>
+            <SheetTitle className="capitalize text-left">
+              {editingLog ? `Edit ${mealType} item` : `Add to ${mealType}`}
+            </SheetTitle>
           </SheetHeader>
 
           {/* Mode tabs */}
@@ -527,7 +529,7 @@ export default function FoodSearch({ open, onClose, mealType, date, onLogged, ed
 
                   <Button onClick={handleLog} disabled={saving} className="w-full h-12 font-semibold">
                     <Plus className="h-4 w-4 mr-2" />
-                    {saving ? "Logging..." : "Log Food"}
+                    {saving ? (editingLog ? "Updating..." : "Logging...") : (editingLog ? "Update Food" : "Log Food")}
                   </Button>
                 </div>
               ) : (
