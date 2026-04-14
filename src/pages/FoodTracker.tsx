@@ -283,14 +283,25 @@ export default function FoodTracker() {
                       <span className="text-xs text-muted-foreground">{Math.round(mealCals)} kcal</span>
                     )}
                   </div>
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    className="h-8 text-xs text-primary"
-                    onClick={() => setSearchMeal(meal.type)}
-                  >
-                    <Plus className="h-3 w-3 mr-1" /> Add
-                  </Button>
+                  <div className="flex items-center gap-1">
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      className="h-8 w-8 text-muted-foreground"
+                      onClick={() => setCopyMeal(meal.type)}
+                      title="Copy from another meal"
+                    >
+                      <Copy className="h-3.5 w-3.5" />
+                    </Button>
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      className="h-8 text-xs text-primary"
+                      onClick={() => setSearchMeal(meal.type)}
+                    >
+                      <Plus className="h-3 w-3 mr-1" /> Add
+                    </Button>
+                  </div>
                 </div>
 
                 {mealLogs.length > 0 && (
